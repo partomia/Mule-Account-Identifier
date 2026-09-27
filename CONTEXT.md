@@ -211,6 +211,16 @@ Progress so far:
   a fake-Impala-storage regression test — confirmed it actually catches the
   bug by stashing the fix and re-running it (fails on the old code, passes
   on the new). 70 tests pass now.
+- Retried after the fix (pushed as `126bc7e`, Ravi `git pull`led it):
+  **works end to end on the real environment.** Real Mitra-v2 on GPU, real
+  Impala context (8,000 rows, built in 39.6s, scored in 3.67s). The demo
+  what-if story plays out exactly as designed: the baseline account is
+  `T2_HOLD_MONITOR` (`p_mule_adj` 5.3e-05); simulating a new device login +
+  mobile change + pass-through to 92% moves it to `T1_FREEZE_REVIEW`
+  (`p_mule_adj` 0.0624) — same T2→T1 narrative validated locally with the
+  stub model back in Phase 5, now confirmed on the real production stack.
+  This closes out the CAI session-level validation; next is creating the
+  actual CAI Job / Model Deployment / Application resources.
 
 Still open in Phase 8: the `mule-daily-score` Job resource, the
 `mule-scorer` Model Deployment, the `Mule Investigator Console` Application,
