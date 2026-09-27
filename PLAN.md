@@ -146,14 +146,19 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
 - [x] **0. Scaffold + model spike** — layout, config, requirements (AutoGluon 1.6.3,
   torch 2.10), venv; full-context `MitraClassifier` path confirmed; CPU too slow for
   Mitra (see decision 5), so `family: auto`.
-- [ ] **1. Bronze** — generator for the five sources + ref tables, planted rings and
+- [x] **1. Bronze** — generator for the five sources + ref tables (incl.
+  `ref.bank_devices`: branch kiosks and BC-agent terminals), planted rings with a
+  seasoning phase before activation and complaint lags of days to weeks,
   look-alikes, prefix-stable, `--inject-bad-data`. Unit tests on the pure-Python simulator.
-- [ ] **2. Validate + silver** — gate (null keys, orphans, raw PAN regex in hash
-  columns, missing days); dedupe, key standardisation, salted SHA-256, identity
-  edges with `first_seen` and hub suppression.
-- [ ] **3. Identity graph + gold** — point-in-time connected components, 18 features,
-  90-day label, MERGE. Checked locally against an independent pandas computation
-  on a small book.
+- [x] **2. Validate + silver** — gate (null keys, orphans, raw PAN regex outside the
+  PAN column, missing days); dedupe, key standardisation, salted SHA-256, identity
+  edges with `first_seen`; the bank's own devices and identifiers on more than 25
+  customers are hubs, never edges.
+- [x] **3. Identity graph + gold** — point-in-time connected components, 18 features,
+  90-day label, MERGE. Checked locally at 20k customers: 138 of 148 fraud-frozen
+  accounts appear in gold before they are known (median 5 weekly rows), 0.03-0.09%
+  positives per snapshot, top rings 70-100% frozen mules, single-feature AUCs up
+  to 0.78 (ring size, new devices, VPA / mobile changes).
 - [ ] **4. Core logic** (`mule/`) — config, features contract, model wrappers
   (Mitra / TabICL / stub), calibration, reasons + tiers, holdout + gate, ring
   subgraph, MLflow tracking, Impala / parquet storage, daily pipeline, scoring. Unit tests.
