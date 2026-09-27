@@ -240,6 +240,9 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   the code. Fixed `daily_score.py`'s `if __name__ == "__main__"` block to
   only call `sys.exit()` on a real failure (falling off the end on success no
   longer raises `SystemExit` at all); verified both exit codes are still
-  correct for a plain subprocess (CI, a terminal). Still open: re-run the Job
-  to confirm the fix, then the `mule-scorer` Model Deployment, the
-  `Mule Investigator Console` Application, and the Airflow Variables.
+  correct for a plain subprocess (CI, a terminal). Re-ran the Job: now shows
+  **succeeded** (same gate-pass numbers, 1,064 rings this time — the small
+  run-to-run wobble in ring count across otherwise-identical gate numbers is
+  Mitra's stochastic context sampling/scoring, not a bug). Still open: the
+  `mule-scorer` Model Deployment, the `Mule Investigator Console`
+  Application, and the Airflow Variables.

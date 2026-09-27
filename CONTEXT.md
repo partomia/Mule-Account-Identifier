@@ -236,8 +236,11 @@ Progress so far:
   `SystemExit` entirely. Verified both exit codes still work correctly for a
   plain subprocess (CI's `--ignore-gate` / gate-enforced runs both still
   exit 0 / 1 as expected) — this fix only changes behavior under the
-  kernel-wrapped CAI Job runtime, which no local test can reach. Not yet
-  re-confirmed inside an actual CAI Job run (next step).
+  kernel-wrapped CAI Job runtime, which no local test can reach. **Re-ran
+  the Job after the fix: shows succeeded.** Same gate-pass numbers as every
+  prior run (1,064 rings this time vs 1,014/1,026 in the earlier runs — that
+  small wobble across otherwise-identical gate numbers is Mitra's stochastic
+  context sampling/scoring, not a bug worth chasing).
   **General lesson for this whole Phase 8 session**: two real, unrelated
   bugs so far, both invisible to every local test in Phases 4-7, both only
   found because Ravi ran the actual thing on the actual platform. Treat every
