@@ -116,4 +116,12 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # CAI Jobs run a script inside a Jupyter kernel wrapper (not a plain python
+    # subprocess): any SystemExit, even sys.exit(0), is caught as an unhandled
+    # exception there and the Job engine reports it as a failure regardless of
+    # the code (confirmed live: gate PASS, alerts published, then "Engine
+    # exited with status 1"). Only exit explicitly on real failure; falling
+    # off the end of the script on success reports correctly either way.
+    _rc = main()
+    if _rc:
+        sys.exit(_rc)

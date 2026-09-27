@@ -231,6 +231,15 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   numeric ones, so `prior_correct()` got a string rate and crashed. Fixed
   (only id/date fields are stringified now) with a regression test
   (`test_load_context_impala_keeps_rates_and_cutoffs_numeric`, a fake-Impala
-  fixture, confirmed to fail on the old code). Still open: the
-  `mule-daily-score` Job, the `mule-scorer` Model Deployment, the
+  fixture, confirmed to fail on the old code). Created the `mule-daily-score`
+  Job and ran it for real: gate passed, alerts published, MLflow logged — but
+  the CAI Job engine still reported "Engine exited with status 1", because
+  CAI Jobs run a script inside a Jupyter kernel wrapper, not a plain
+  subprocess, and that wrapper catches *any* `SystemExit` (including
+  `sys.exit(0)`) as an unhandled exception and reports failure regardless of
+  the code. Fixed `daily_score.py`'s `if __name__ == "__main__"` block to
+  only call `sys.exit()` on a real failure (falling off the end on success no
+  longer raises `SystemExit` at all); verified both exit codes are still
+  correct for a plain subprocess (CI, a terminal). Still open: re-run the Job
+  to confirm the fix, then the `mule-scorer` Model Deployment, the
   `Mule Investigator Console` Application, and the Airflow Variables.

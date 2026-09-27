@@ -221,6 +221,29 @@ Progress so far:
   stub model back in Phase 5, now confirmed on the real production stack.
   This closes out the CAI session-level validation; next is creating the
   actual CAI Job / Model Deployment / Application resources.
+- **A second real bug, found by creating and running the actual `mule-daily-score`
+  Job (not a session terminal)**: the run itself was perfect — gate PASS,
+  alerts published, MLflow run logged — but the CAI Job UI reported "Engine
+  exited with status 1" anyway. Root cause: CAI Jobs execute a script inside
+  a Jupyter kernel wrapper, unlike a session terminal's plain
+  `python script.py` subprocess. That wrapper treats *any* `SystemExit` —
+  including `sys.exit(0)` — as an unhandled exception (visible in the log as
+  "An exception has occurred... SystemExit: 0") and reports the job as
+  failed regardless of the actual code. `daily_score.py`'s
+  `sys.exit(main())` was calling `sys.exit()` unconditionally, even on
+  success. Fixed to only call `sys.exit()` when the return code is truthy
+  (a real failure); falling off the end of the script on success avoids
+  `SystemExit` entirely. Verified both exit codes still work correctly for a
+  plain subprocess (CI's `--ignore-gate` / gate-enforced runs both still
+  exit 0 / 1 as expected) — this fix only changes behavior under the
+  kernel-wrapped CAI Job runtime, which no local test can reach. Not yet
+  re-confirmed inside an actual CAI Job run (next step).
+  **General lesson for this whole Phase 8 session**: two real, unrelated
+  bugs so far, both invisible to every local test in Phases 4-7, both only
+  found because Ravi ran the actual thing on the actual platform. Treat every
+  "works locally" claim in this repo's history as "works locally"
+  specifically, not as "works on Cloudera" — Phase 8 is where that gap
+  closes, one real run at a time.
 
 Still open in Phase 8: the `mule-daily-score` Job resource, the
 `mule-scorer` Model Deployment, the `Mule Investigator Console` Application,
