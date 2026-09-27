@@ -10,12 +10,15 @@
 #   cde credential create --name my-github-pat --type basic --username <github-user>
 #   GIT_CREDENTIAL=my-github-pat ./cde/scripts/deploy_jobs.sh
 #
-# Resources: every job gets a 4-core / 16 GB driver and 4-16 executors (8 at
-# start) of 8 cores / 16 GB, up to 128 task slots. At ~200k customers the
+# Resources: a 4-core / 8 GB driver and executors of 8 cores / 12 GB, starting
+# at 4 and scaling to 16 (up to 128 task slots). At ~200k customers the
 # generator runs ~120 partitions and the graph job's label propagation
 # shuffles ~10M (snapshot, customer) labels per iteration; the vcluster
-# default (1 core / 1 GB) is far too small for either. Override with
-# EXECUTOR_CORES / EXECUTOR_MEMORY / MAX_EXECUTORS if the vcluster quota is lower.
+# default (1 core / 1 GB) is far too small for either.
+# The vcluster's YuniKorn queue must fit the driver plus the initial executors
+# up front (PySpark adds 40% memory overhead): 8 initial executors of 16 GB was
+# rejected ("queue ... cannot fit application"); 4 of 12 GB (~78 GiB) fits, and
+# dynamic allocation adds executors as capacity frees up.
 
 set -euo pipefail
 
@@ -26,9 +29,9 @@ PYTHON_ENV="${PYTHON_ENV:-rsingh-mule-acct-python-env}"
 JOB_PREFIX="${JOB_PREFIX:-rsingh-mule-acct}"
 DB_PREFIX="${DB_PREFIX:-rsingh_mule_acct}"
 REQUIREMENTS="$(cd "$(dirname "$0")/.." && pwd)/resources/requirements.txt"
-RESOURCES=(--driver-cores 4 --driver-memory 16g
-           --executor-cores "${EXECUTOR_CORES:-8}" --executor-memory "${EXECUTOR_MEMORY:-16g}"
-           --min-executors 4 --initial-executors 8 --max-executors "${MAX_EXECUTORS:-16}"
+RESOURCES=(--driver-cores 4 --driver-memory 8g
+           --executor-cores "${EXECUTOR_CORES:-8}" --executor-memory "${EXECUTOR_MEMORY:-12g}"
+           --min-executors 2 --initial-executors "${INITIAL_EXECUTORS:-4}" --max-executors "${MAX_EXECUTORS:-16}"
            --conf spark.sql.shuffle.partitions=256
            --conf spark.sql.adaptive.enabled=true
            --conf spark.sql.adaptive.coalescePartitions.enabled=true
