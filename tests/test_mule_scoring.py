@@ -88,3 +88,52 @@ def test_tier_from_cutoffs_skips_a_missing_cutoff():
     tiers = [{"code": "T1_FREEZE_REVIEW"}, {"code": "T2_HOLD_MONITOR"}]
     cutoffs = {"T1_FREEZE_REVIEW": None, "T2_HOLD_MONITOR": 0.7}
     assert tier_from_cutoffs(0.95, cutoffs, tiers)[0] == "T2_HOLD_MONITOR"
+
+
+class _FakeImpalaStorage:
+    """A pandas-native mule_model_run row, the shape ImpalaStorage.read() returns
+    (numeric columns as numpy floats, not the JSON-deserialised floats/strings the
+    file backend already gave us) - the impala context path only ever ran for
+    real for the first time on live CDW, where it hit exactly this bug."""
+
+    def read(self, key):
+        assert key == "mule_model_run"
+        return pd.DataFrame([{
+            "run_id": "20260925-abc123", "run_date": pd.Timestamp("2026-09-25"),
+            "run_ts": pd.Timestamp("2026-09-25 21:23:00"), "context_from": pd.Timestamp("2025-12-26"),
+            "context_to": pd.Timestamp("2026-06-26"), "source_snapshot_id": "591936169293103544",
+            "context_mules": 2000, "context_negatives": 6000, "context_mule_rate": 0.25,
+            "book_mule_rate": 0.0006970776360641925, "t1_cutoff": 0.001728, "t2_cutoff": 0.000249,
+            "t3_cutoff": 0.000132,
+        }])
+
+    def context(self, *, date_from, date_to, max_mules, negatives_per_mule, snapshot_id):
+        row = {c: 0.0 for c in FEATURES}
+        row.update(account_id="ACC-1", snapshot_date=date_to, cif="CIF-1", branch_code="B1",
+                   product_code="SAVINGS", person_cluster_id="PC-1", ring_id="R-1", is_mule_90d=1.0)
+        return pd.DataFrame([row])
+
+
+def test_load_context_impala_keeps_rates_and_cutoffs_numeric(monkeypatch):
+    """Regression: load_context's impala branch once ran every mule_model_run
+    field through str(), including context_mule_rate / book_mule_rate / the
+    tier cut-offs - prior_correct() then got a string and TypeError'd deep
+    inside odds_ratio's `0.0 < v < 1.0`. Only caught by a live Impala run
+    (the file-backed context path never had this bug, since json.loads
+    already gives back real floats)."""
+    import mule.storage as storage_mod
+    from mule.scoring import load_context
+
+    monkeypatch.setattr(storage_mod, "get_storage", lambda backend: _FakeImpalaStorage())
+    ctx, meta = load_context("impala")
+    assert len(ctx) == 1
+    assert isinstance(meta["context_mule_rate"], float) and meta["context_mule_rate"] == 0.25
+    assert isinstance(meta["book_mule_rate"], float)
+    assert isinstance(meta["t1_cutoff"], float)
+    assert meta["run_id"] == "20260925-abc123"       # ids/dates still come back as strings
+    assert meta["context_from"] == "2025-12-26 00:00:00"
+
+    clf = build_model(pd.DataFrame([{**{f: 0.0 for f in FEATURES}, "is_mule_90d": 0},
+                                    {**{f: 1.0 for f in FEATURES}, "is_mule_90d": 1}]), StubClassifier)
+    resp = score(EXAMPLE, clf, meta)   # would have raised the TypeError above the fix
+    assert 0 <= resp["scores"][0]["p_mule_adj"] <= 1

@@ -151,22 +151,85 @@ conversation). Asked to plan Phase 7, then implement it.
 - `pytest -q` still 69/69 after all of the above (no existing code changed
   this session, only new files).
 
-## Where things stand (2026-09-28, 02:02)
+### Claude Code session 3 (2026-09-27 evening, live with Ravi): Phase 8 begins
 
-- Branch `main` and `origin/main` in sync (check `git log --oneline -1` for
-  the true current HEAD - this file can't self-reference the commit that
-  contains its own last edit). Pushing this session's Phase 7 commits went
-  through directly on the first attempt, unlike every push in session 1,
-  which the auto-mode classifier blocked regardless of prior user approval,
-  needing `! git push origin main` from the user each time — so the block
-  isn't consistent across sessions; try pushing directly first and only fall
-  back to asking the user if it's actually blocked.
-- Phases 0-7 done. Only **Phase 8** remains: create the CAI project
-  (`mule-account-identifier`), the `mule-daily-score` job, the `mule-scorer`
-  model deployment, the `Mule Investigator Console` application, and the
-  Airflow Variables (`MULE_CAI_HOST`/`_PROJECT_ID`/`_JOB_ID`/`_API_KEY`) on
-  the actual Cloudera environment — this needs Ravi in the loop, it can't be
-  done from a laptop session.
+Started right after session 2 pushed Phase 7 (same calendar day pair,
+21:xx). **This session has no direct Cloudera access** — no CDP/CML CLI
+locally (only `cde`, which is Data Engineering, not CAI), no CAI API key, and
+the Chrome extension still not connected (checked again, same as session 2).
+So Phase 8 runs as a live back-and-forth: Ravi executes each step in the real
+Cloudera AI workbench and pastes the output back; I interpret it, catch
+problems, and keep the repo's docs in sync with what actually happened.
+`.env` on this laptop already had real `MULE_IMPALA_USER` / `_PASSWORD` and
+`MULE_CAI_HOST` recorded (from session 1) — treated as a secret, never
+echoed back into a message.
+
+Progress so far:
+
+- CAI project `mule-account-identifier` created from the GitHub repo, GPU
+  profile, `MULE_IMPALA_USER` / `MULE_IMPALA_PASSWORD` / `HF_HOME` set as
+  project environment variables.
+- Session sanity checks (README's CAI section, in order): `torch.cuda.is_available()`
+  → **True** (this workspace has a GPU, so `family: auto` resolves to
+  **Mitra-v2** here, not the TabICL/CPU path every earlier phase validated
+  against). Impala connectivity → confirmed, and the real CDW
+  `gold.mule_features` is **14,004,971 rows**, latest snapshot 2026-09-25 —
+  about 10x the ~1.4M-row local sample.
+- `daily_score.py --dry-run`: first real run against the full CDW book with
+  Mitra-v2 on GPU. Downloaded the checkpoint from Hugging Face
+  (`autogluon/mitra-classifier-2`, 303 MB) — cached after that. **Holdout AUC
+  1.000, capture top 1% 100% (rules alone 58%), precision top 0.2% 26.5%,
+  lift 1.73x — all three gates PASS**, comfortably (better precision/capture
+  than the local TabICL numbers, slightly lower lift since the rules-only
+  baseline is also stronger at this scale). Scored 200,380 active accounts in
+  ~7 min: 400 T1 / 1,603 T2 / 4,008 T3, 1,024 rings.
+- `test_endpoint.py --local --context impala` **failed the first time** —
+  expected, not a bug: `--dry-run` writes nothing, so `gold.mule_model_run`
+  didn't exist yet in CDW (`AnalysisException: Could not resolve table
+  reference`). Confirmed the fix was simply to run the job for real first.
+- Got explicit confirmation before the first real write to CDW (creating
+  tables + publishing a live alert queue is a real, shared-state action, not
+  a read-only check) via `AskUserQuestion`, then `daily_score.py` (no
+  `--dry-run`): same gate numbers, wrote `mule_model_run` (1 row),
+  `mule_holdout` (7), `mule_alerts` (**6,011** — matches 400+1,603+4,008
+  exactly), `mule_rings` (1,026). **MLflow logging worked too**: created the
+  `mule-account-identifier` experiment in CAI Experiments automatically
+  (`mlflow-cml-plugin` is indeed pre-installed on CAI, confirming the
+  requirements.txt comment from Phase 0/4 was correct not to add it there).
+- Retrying `test_endpoint.py --local --context impala` now that
+  `mule_model_run` exists **found a real bug**, first exercised live because
+  no earlier phase ever had a real Impala to test the endpoint's `impala`
+  context path against (only `file`): `mule/scoring.py`'s `load_context()`
+  ran *every* `mule_model_run` field through `str()` for the impala branch,
+  including `context_mule_rate` / `book_mule_rate` / the three tier
+  cut-offs. `mule/calibrate.py`'s `prior_correct()` then got a string where
+  it needed a float and `TypeError`'d inside `odds_ratio`'s `0.0 < v < 1.0`.
+  The `file` context path never had this bug (`json.loads` already returns
+  real floats for numbers). Fixed by only stringifying the id/date fields
+  and keeping the five numeric ones as `float`; added
+  `tests/test_mule_scoring.py::test_load_context_impala_keeps_rates_and_cutoffs_numeric`,
+  a fake-Impala-storage regression test — confirmed it actually catches the
+  bug by stashing the fix and re-running it (fails on the old code, passes
+  on the new). 70 tests pass now.
+
+Still open in Phase 8: the `mule-daily-score` Job resource, the
+`mule-scorer` Model Deployment, the `Mule Investigator Console` Application,
+and the Airflow Variables (`MULE_CAI_HOST`/`_PROJECT_ID`/`_JOB_ID`/`_API_KEY`)
+— all from `README.md`'s CAI section, which was written in session 1 as a
+forward-looking runbook and is now being executed against for real.
+
+## Where things stand (2026-09-27, ~21:23, mid-Phase-8)
+
+- Branch `main` and `origin/main` in sync as of Phase 7 (check
+  `git log --oneline -1` for true current HEAD - self-reference problem, see
+  above). No repo code changed in session 3 yet, only `PLAN.md` / `CONTEXT.md`
+  bookkeeping of what happened live on Cloudera.
+- Phases 0-7 done. **Phase 8 in progress** (see session 3 above): CAI project
+  exists, GPU confirmed, real CDW data confirmed, first real production run
+  done and gates passed, gold tables written for real, MLflow logging
+  confirmed working. Remaining: Job, Model Deployment, Application, Airflow
+  Variables — then the DAG itself can finally be registered
+  (`deploy_dag.sh`) and run for real.
 - 69 tests pass (`pytest -q` from repo root).
 
 ## How to recover context fast

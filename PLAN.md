@@ -212,3 +212,25 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   table/column name against `mule/schema.py` and `config/mule.yaml`.
 - [ ] **8. On Cloudera** — CDE jobs on the vcluster, CDW checks; then with Ravi:
   CAI project, job, model deployment, application, Airflow variables.
+  In progress with Ravi (2026-09-27/28): CAI project `mule-account-identifier`
+  created from the GitHub repo, GPU profile, `MULE_IMPALA_USER`/`_PASSWORD` /
+  `HF_HOME` set. Session sanity checks all passed against the real CDW book
+  (14,004,971 rows in `gold.mule_features`, latest snapshot 2026-09-25 — about
+  10x the ~1.4M-row local sample every earlier phase validated against).
+  **First real production run, Mitra-v2 on GPU** (`daily_score.py`, no
+  `--dry-run`): holdout AUC 1.000, capture top 1% 100% (rules alone 58%),
+  precision top 0.2% 26.5%, lift 1.73x — all three gates pass with more margin
+  than the local TabICL/CPU numbers. Scored 200,380 active accounts in ~7 min:
+  400 T1 / 1,603 T2 / 4,008 T3 (6,011 alerts), 1,026 rings. Wrote the four gold
+  tables for real for the first time (`mule_model_run`, `mule_holdout`,
+  `mule_alerts`, `mule_rings`) and logged to MLflow (CAI Experiments created
+  the `mule-account-identifier` experiment automatically). Found a real bug
+  the first time the endpoint's `impala` context path ran against a live
+  Impala (only `file` had ever been tested before): `mule/scoring.py`'s
+  `load_context()` stringified every `mule_model_run` field including the
+  numeric ones, so `prior_correct()` got a string rate and crashed. Fixed
+  (only id/date fields are stringified now) with a regression test
+  (`test_load_context_impala_keeps_rates_and_cutoffs_numeric`, a fake-Impala
+  fixture, confirmed to fail on the old code). Still open: the
+  `mule-daily-score` Job, the `mule-scorer` Model Deployment, the
+  `Mule Investigator Console` Application, and the Airflow Variables.

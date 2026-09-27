@@ -155,7 +155,14 @@ def load_context(source: str = "auto") -> tuple[pd.DataFrame, dict]:
         ctx = storage.context(date_from=pd.Timestamp(run["context_from"]).date(),
                               date_to=pd.Timestamp(run["context_to"]).date(), max_mules=n_mules,
                               negatives_per_mule=neg_per_mule, snapshot_id=run["source_snapshot_id"] or None)
-        meta = {k: (str(run[k]) if run[k] is not None and not pd.isna(run[k]) else None) for k in META_KEYS}
+        numeric = {"context_mule_rate", "book_mule_rate", "t1_cutoff", "t2_cutoff", "t3_cutoff"}
+        meta = {}
+        for k in META_KEYS:
+            v = run[k]
+            if v is None or pd.isna(v):
+                meta[k] = None
+            else:
+                meta[k] = float(v) if k in numeric else str(v)
         meta["source"] = "impala"
     else:
         if not CONTEXT_FILE.exists():
