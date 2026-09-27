@@ -108,27 +108,63 @@ out of tokens and the user opening Claude Code.
   regenerate it with `scripts/run_cde_local.py all --as-of 2026-09-25`
   (README has the full command).
 
-## Where things stand (2026-09-27, 23:02)
+### Claude Code session 2 (2026-09-28, ~01:30 - 02:02): Phase 7
 
-- Branch `main`, `origin/main` up to date at `13547ca`. Working tree clean.
-- Phases 0-6 done (see `PLAN.md` for the phase-by-phase detail and the exact
-  measured numbers). Phase 7 (Airflow DAG, GitHub Actions CI, Hue SQL,
-  README's demo runbook) is next, and was about to be planned when this file
-  was written. Phase 8 (create the CAI project/job/model/app on the actual
-  Cloudera environment) needs Ravi and hasn't started.
-- 69 tests pass (`pytest -q` from repo root): the original generator/CDE
-  contract tests, the 6 new `mule/` unit test files, and the headless app
-  test.
-- Sibling repos worth re-consulting for Phase 7 patterns (same author, same
-  platform, already used above): `partomia/Collections-Delinquency-Roll-Forward-Prediction`
-  has committed versions of most of what Phase 7 needs — `cde/dags/collections_dag.py`,
-  `cde/scripts/deploy_dag.sh`, `sql/reports.sql`, `docs/DEMO_RUNBOOK.md` — in
-  the same style already matched in Phases 4-6, but **no `.github/workflows/`
-  of its own**. For the GitHub Actions CI pattern, use
-  `partomia/Cloudera-AI-MLOps-Workshop-Iceberg`'s `.github/workflows/retrain.yml`
-  instead (train → validate-against-KPI-gate → exit non-zero on push to
-  main); `PLAN.md`'s platform-mapping section already names this repo as the
-  source for "MLflow tracking, a KPI gate and GitHub Actions CI".
+A separate session (new calendar day, fresh context — recovered entirely
+from this file, `PLAN.md` and `README.md`, no continuity with session 1's
+conversation). Asked to plan Phase 7, then implement it.
+
+- **Planning**: used `EnterPlanMode` rather than diving straight in, even
+  though the shape of the work was already well fixed by `PLAN.md` (exact
+  names, schedule, CI scope — decision 10 spells out what CI does almost
+  verbatim). Re-fetched all five Collections-repo reference files this time
+  (`collections_dag.py`, `deploy_dag.sh`, `backfill_drill.sh`, `reports.sql`,
+  `DEMO_RUNBOOK.md`) plus the Iceberg workshop's `retrain.yml`, and confirmed
+  by grepping every CDE job's `argparse` block that only `generate_mule_bronze`
+  takes `--as-of` — the rest derive it from the data, so the DAG only
+  overrides one task's arguments. Plan approved as written, no changes needed.
+- **Built**: `cde/dags/mule_dag.py` (5 CDE tasks + a `PythonOperator` CAI
+  trigger, simplified from Collections' 7-task version since this project
+  never added Collections' 3-layer Great Expectations `dq_check.py` — `PLAN.md`
+  never asked for it), `deploy_dag.sh`, `backfill_drill.sh`,
+  `.github/workflows/ci.yml`, `sql/reports.sql`, `docs/DEMO_RUNBOOK.md`, plus
+  README/PLAN.md updates replacing every "Phase 7, not yet built" marker.
+- **Caught by actually running it, not by reasoning about it**: the CI
+  workflow's daily-scoring step (`daily_score.py --backend parquet --stub`)
+  was written first without `--ignore-gate`, matching decision 10's literal
+  wording ("...then the daily job with the stub model and the gate"). Running
+  it locally at 5,000 customers (redirected to a scratch warehouse/parquet
+  dir — **never point `run_cde_local.py` at the default `data/warehouse` /
+  `data/parquet` for an experiment; that's the real ~200k-customer data every
+  earlier phase's numbers depend on**) showed the gate genuinely fails at
+  that scale (holdout AUC ~0.494, ~3 mules in the window — too few for
+  capture/precision to mean anything), which would make CI permanently red
+  regardless of code correctness. Fixed with `--ignore-gate` (a flag already
+  built into `daily_score.py` in Phase 5 for exactly this) and amended
+  decision 10 in `PLAN.md` to say so, rather than silently diverging from what
+  it said.
+- Verification that *couldn't* be done for real, and the plan said so up
+  front rather than pretending otherwise: the DAG needs a live CDE Airflow
+  environment, `sql/reports.sql` needs a live Impala — both are Phase 8.
+  Checked instead by `ast.parse`-ing the DAG and cross-referencing every
+  table/column name in the SQL against `mule/schema.py`.
+- `pytest -q` still 69/69 after all of the above (no existing code changed
+  this session, only new files).
+
+## Where things stand (2026-09-28, 02:02)
+
+- Branch `main` at `d2e91a0` locally; see git log for whether it's reached
+  `origin/main` — session 1's `git push` was blocked by the auto-mode
+  classifier every time regardless of prior user approval, needing
+  `! git push origin main` from the user each time. Try it directly first,
+  fall back to asking only if it's blocked the same way.
+- Phases 0-7 done. Only **Phase 8** remains: create the CAI project
+  (`mule-account-identifier`), the `mule-daily-score` job, the `mule-scorer`
+  model deployment, the `Mule Investigator Console` application, and the
+  Airflow Variables (`MULE_CAI_HOST`/`_PROJECT_ID`/`_JOB_ID`/`_API_KEY`) on
+  the actual Cloudera environment — this needs Ravi in the loop, it can't be
+  done from a laptop session.
+- 69 tests pass (`pytest -q` from repo root).
 
 ## How to recover context fast
 
