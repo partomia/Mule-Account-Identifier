@@ -10,11 +10,12 @@
 #   cde credential create --name my-github-pat --type basic --username <github-user>
 #   GIT_CREDENTIAL=my-github-pat ./cde/scripts/deploy_jobs.sh
 #
-# Resources: every job gets a 4-core / 8 GB driver and 2-8 executors (4 at
-# start) of 4 cores / 8 GB. At ~200k customers the generator runs ~45
-# partitions and the graph job's label propagation shuffles ~10M
-# (snapshot, customer) labels per iteration; the vcluster default (1 core /
-# 1 GB) is far too small for either.
+# Resources: every job gets a 4-core / 16 GB driver and 4-16 executors (8 at
+# start) of 8 cores / 16 GB, up to 128 task slots. At ~200k customers the
+# generator runs ~120 partitions and the graph job's label propagation
+# shuffles ~10M (snapshot, customer) labels per iteration; the vcluster
+# default (1 core / 1 GB) is far too small for either. Override with
+# EXECUTOR_CORES / EXECUTOR_MEMORY / MAX_EXECUTORS if the vcluster quota is lower.
 
 set -euo pipefail
 
@@ -25,9 +26,13 @@ PYTHON_ENV="${PYTHON_ENV:-rsingh-mule-acct-python-env}"
 JOB_PREFIX="${JOB_PREFIX:-rsingh-mule-acct}"
 DB_PREFIX="${DB_PREFIX:-rsingh_mule_acct}"
 REQUIREMENTS="$(cd "$(dirname "$0")/.." && pwd)/resources/requirements.txt"
-RESOURCES=(--driver-cores 4 --driver-memory 8g --executor-cores 4 --executor-memory 8g
-           --min-executors 2 --initial-executors 4 --max-executors 8
-           --conf spark.sql.shuffle.partitions=64)
+RESOURCES=(--driver-cores 4 --driver-memory 16g
+           --executor-cores "${EXECUTOR_CORES:-8}" --executor-memory "${EXECUTOR_MEMORY:-16g}"
+           --min-executors 4 --initial-executors 8 --max-executors "${MAX_EXECUTORS:-16}"
+           --conf spark.sql.shuffle.partitions=256
+           --conf spark.sql.adaptive.enabled=true
+           --conf spark.sql.adaptive.coalescePartitions.enabled=true
+           --conf spark.driver.maxResultSize=4g)
 
 echo "==> Repository: ${REPO_NAME}"
 if cde repository describe --name "${REPO_NAME}" &>/dev/null; then

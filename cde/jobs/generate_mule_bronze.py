@@ -851,7 +851,7 @@ def run(spark, args: argparse.Namespace) -> None:
     logger.info("Simulating %d units (~%d customers), events %s -> %s (world to %s), seed %d",
                 n_units, args.customers, HISTORY_START, as_of, WORLD_END, args.seed)
 
-    parts = max(8, n_units // 4000)
+    parts = max(8, n_units // 1500)
     sim = spark.range(n_units, numPartitions=parts).rdd.mapPartitions(_simulate_partition(args.seed))
     world = spark.createDataFrame(sim, _schema()).cache()
     cut = F.lit(as_of).cast("date")
