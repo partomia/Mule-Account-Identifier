@@ -196,6 +196,12 @@ def run_daily(storage, factory=None, run_date: date | None = None, triggered_by:
     tier_codes = [t["code"] for t in tiers_from_policy()]
     publish = passed or publish_on_fail
     now = datetime.now(timezone.utc).replace(microsecond=0, tzinfo=None)
+    if save_context_file:
+        # rewrite the sidecar with the cut-offs: the endpoint's file backend has no
+        # mule_model_run table to read them from, only this context and its metadata.
+        ctx_meta.update(gate_passed=passed, alerts_published=publish,
+                        **{f"t{i + 1}_cutoff": cutoffs.get(code) for i, code in enumerate(tier_codes[:3])})
+        CONTEXT_FILE.with_suffix(".json").write_text(json.dumps(ctx_meta, default=str, indent=2))
     model_run = pd.DataFrame([{
         "run_date": run_date, "run_id": run_id, "run_ts": now, "model_family": fam, "model_id": model_id(fam),
         "model_version": model_version(fam), "device": device_name(clf), "snapshot_date": run_date,

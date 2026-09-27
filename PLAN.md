@@ -168,8 +168,16 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   rules 1.85x — all three gates pass against the current `config/policy.yaml`
   thresholds. Book run: 20,133 accounts scored, 604 alerts (40 T1 / 161 T2 /
   403 T3), 164 rings with an alert.
-- [ ] **5. CAI jobs + endpoint** — `daily_score.py` (gate exit code, MLflow),
-  `backfill_history.py`, `predict.py` with what-if, `test_endpoint.py`.
+- [x] **5. CAI jobs + endpoint** — `daily_score.py` (gate exit code, MLflow),
+  `backfill_history.py`, `predict.py` with what-if, `test_endpoint.py`. Request
+  handling (`mule/scoring.py`, `mule/client.py`) mirrors the Collections repo:
+  the endpoint rebuilds the daily run's context (Impala or the saved parquet
+  file) and tiers a request from that run's recorded `p_mule_adj` cut-offs,
+  since a single request has no book to rank against. Smoke-tested locally:
+  `daily_score.py --dry-run` and `--stub` runs, `backfill_history.py`,
+  `test_endpoint.py --local` (file context) and `predict.py`'s `predict()`
+  directly all score correctly end to end; the what-if (new device + mobile
+  change + high pass-through) moves the demo account from T2 to T1.
 - [ ] **6. Investigator console** — 7 tabs (queue, linked identity, ring view,
   what-if, holdout & trust, decisions, lineage), CAI launcher, Dockerfile,
   headless app test.
