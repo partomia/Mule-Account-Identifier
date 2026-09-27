@@ -178,9 +178,16 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   `test_endpoint.py --local` (file context) and `predict.py`'s `predict()`
   directly all score correctly end to end; the what-if (new device + mobile
   change + high pass-through) moves the demo account from T2 to T1.
-- [ ] **6. Investigator console** — 7 tabs (queue, linked identity, ring view,
-  what-if, holdout & trust, decisions, lineage), CAI launcher, Dockerfile,
-  headless app test.
+- [x] **6. Investigator console** — 7 tabs (queue, linked identities, ring view
+  with a networkx/plotly graph of identity + money-flow edges, what-if,
+  holdout & trust, decisions written to `bronze.investigator_decisions`,
+  lineage), CAI launcher (`app/run.py`), Dockerfile, headless app test
+  (`tests/test_app.py`, Streamlit's `AppTest` harness — no browser extension
+  was available in this environment, so this is the verification in place of
+  a manual browser check). Caught and fixed a real bug this way: `alerts.
+  set_index("cif")` isn't safe since one CIF can have several alerted
+  accounts. Also hardened the app against a cold start (gate fails on the
+  very first run, so `mule_alerts` never existed) instead of hard-crashing.
 - [ ] **7. Orchestration + CI + docs** — daily Airflow DAG, CDE deploy / backfill
   scripts, GitHub Actions workflow, Hue SQL, README, demo runbook.
 - [ ] **8. On Cloudera** — CDE jobs on the vcluster, CDW checks; then with Ravi:
