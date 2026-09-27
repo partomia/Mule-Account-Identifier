@@ -1,0 +1,52 @@
+# Settings a head of fraud / FRM owns, not the model: context size, alert tiers,
+# KPI gate and the rule thresholds behind reason codes. Changing tiers re-tiers
+# the book without re-scoring.
+
+label:
+  horizon_days: 90          # confirmed mule (freeze after complaint / registry / FRM, or CONFIRMED_MULE) within 90 days
+
+context:
+  lookback_weeks: 26        # labelled snapshots used as context, never older than this
+  max_mules: 2000           # every labelled mule row in the window, up to this many
+  negatives_per_mule: 3     # plus this many non-mule rows per mule (context mule share 25%)
+  book_mule_rate: 0.008     # fallback only; the run measures the labelled rate of the scored population
+
+holdout:
+  test_weeks: 4             # latest labelled weekly snapshots scored as the test set
+  # Context snapshots end this many days before the first test snapshot, so no
+  # context label was observed after the test date (as if deployed then).
+  gap_days: 90
+  negative_sample: 0.05     # share of non-mule test rows scored (weighted back up); all mules are scored
+
+gate:
+  # The workshop's "accuracy lies" lesson: at a 0.8% mule rate a model that
+  # flags nobody is 99.2% accurate, so the gate measures capture and precision.
+  min_capture_top1pct: 0.40     # share of actual mules in the top 1% of the book
+  min_alert_precision: 0.20     # share of the top 1% that are mules
+  min_lift_over_rules: 1.2      # capture at top 1% vs the rules-only baseline
+
+tiers:
+  # Percentile of p_mule_adj across today's scored book (0 = highest). Upper bounds, applied in order.
+  - code: T1_FREEZE_REVIEW
+    upto_pct: 0.002
+    action: "Debit freeze pending video re-KYC (maker-checker)"
+  - code: T2_HOLD_MONITOR
+    upto_pct: 0.010
+    action: "Hold outward credits above INR 50,000; enhanced monitoring"
+  - code: T3_WATCHLIST
+    upto_pct: 0.030
+    action: "Watchlist; review at next login or large credit"
+
+rules:
+  # Thresholds behind the plain-language reason codes (business rules on the inputs,
+  # not an explanation of the model's score).
+  shared_device_accounts: 3
+  shared_mobile_cifs: 2
+  pass_through_ratio: 0.8
+  hold_hours: 6
+  inflow_multiple: 5
+  distinct_senders_7d: 15
+  new_account_days: 60
+  night_share: 0.3
+  device_or_mobile_changes: 1
+  ring_size: 5

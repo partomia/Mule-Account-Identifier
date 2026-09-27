@@ -1,0 +1,71 @@
+# Single source of truth for names and runtime settings used by the CAI side
+# (daily scoring job, model endpoint, Streamlit app). The CDE Spark jobs are
+# self-contained: they take the same prefix via `--db-prefix` (default
+# rsingh_mule_acct) and use the same table names.
+#
+# Every key can be overridden with an env var: MULE_<SECTION>_<KEY>,
+# e.g. MULE_STORAGE_BACKEND=parquet, MULE_IMPALA_PASSWORD=... .
+
+databases:
+  prefix: rsingh_mule_acct
+  bronze: "{prefix}_bronze"
+  silver: "{prefix}_silver"
+  gold: "{prefix}_gold"
+  ref: "{prefix}_ref"
+
+tables:
+  kyc_onboarding: "{bronze}.kyc_onboarding"
+  cbs_accounts: "{bronze}.cbs_accounts"
+  upi_transactions: "{bronze}.upi_transactions"
+  digital_sessions: "{bronze}.digital_sessions"
+  fraud_reports: "{bronze}.fraud_reports"
+  investigator_decisions: "{bronze}.investigator_decisions"
+  branch_map: "{ref}.branch_map"
+  product_map: "{ref}.product_map"
+  customer: "{silver}.customer"
+  account: "{silver}.account"
+  identity_edges: "{silver}.identity_edges"
+  graph_edges: "{silver}.graph_edges"
+  identity_clusters: "{silver}.identity_clusters"
+  mule_features: "{gold}.mule_features"
+  mule_alerts: "{gold}.mule_alerts"
+  mule_rings: "{gold}.mule_rings"
+  mule_holdout: "{gold}.mule_holdout"
+  mule_model_run: "{gold}.mule_model_run"
+
+storage:
+  # impala  -> Cloudera Data Warehouse (CDW) Impala over HTTPS (CAI job, endpoint, app on CAI)
+  # parquet -> local folder of parquet files, one per table (laptop / Docker / offline demo / CI)
+  backend: impala
+  parquet_dir: data/parquet
+
+impala:
+  host: coordinator-default-impala-aws.dw-go01-demo-aws.ylcu-atmi.cloudera.site  # MULE_IMPALA_HOST
+  port: 443
+  http_path: cliservice
+  use_ssl: true
+  use_http_transport: true
+  auth_mechanism: LDAP              # workload user/password; the JDBC URL's browser SSO (AuthMech=12) is interactive only
+  kerberos_service_name: impala
+  user: ""                          # MULE_IMPALA_USER
+  password: ""                      # MULE_IMPALA_PASSWORD (never commit)
+
+model:
+  # auto = Mitra-v2 on a CUDA GPU, TabICL v2 on CPU. Mitra on CPU scores ~5 rows/s at a
+  # 2,000-row context (measured), too slow for a ~160k-account book or an endpoint.
+  family: auto                      # auto | mitra | tabicl | stub
+  hf_model: autogluon/mitra-classifier-2   # always explicit: MitraClassifier defaults to the v1 weights
+  device: ""                        # "" = cuda if available, else cpu; mps is not used (bfloat16 gave AUC 0.5)
+  n_estimators: 1
+  batch_rows: 4096                  # rows scored per predict_proba call
+  # TabICL fallback (same pinned checkpoint as the Collections demo)
+  tabicl_checkpoint: tabicl-classifier-v2-20260212.ckpt
+
+endpoint:
+  url: ""                           # CAI model deployment URL (MULE_ENDPOINT_URL)
+  access_key: ""                    # MULE_ENDPOINT_ACCESS_KEY
+  api_key: ""                       # MULE_ENDPOINT_API_KEY (Bearer token when auth is enabled)
+
+tracking:
+  experiment: mule-account-identifier   # CAI Experiments (MLflow); skipped when mlflow is absent
+  enabled: true

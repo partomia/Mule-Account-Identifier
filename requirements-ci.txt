@@ -1,0 +1,12 @@
+# GitHub Actions: no torch; CI runs the Spark jobs small and scores with the logistic stub.
+numpy
+pandas
+pyarrow
+pyyaml
+networkx
+scikit-learn
+streamlit
+plotly
+requests
+pyspark==4.0.1
+pytest

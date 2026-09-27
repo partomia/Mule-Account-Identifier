@@ -1,0 +1,9 @@
+.git
+.venv
+.idea
+.hf_cache
+models
+mlruns
+data/warehouse
+logs
+**/__pycache__

@@ -1,0 +1,16 @@
+# CAI runtime (Python 3.11): daily scoring job, model endpoint, Streamlit app.
+# The default Linux torch wheel includes CUDA, so the same file serves GPU sessions and jobs.
+# mlflow is pre-installed in Cloudera AI via mlflow-cml-plugin: do not add it here.
+autogluon.tabular[mitra]>=1.6,<1.7
+tabicl==2.2.0
+huggingface_hub
+scikit-learn
+numpy
+pandas
+pyarrow
+pyyaml
+impyla
+networkx
+streamlit
+plotly
+requests
