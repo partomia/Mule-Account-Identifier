@@ -153,11 +153,14 @@ conversation). Asked to plan Phase 7, then implement it.
 
 ## Where things stand (2026-09-28, 02:02)
 
-- Branch `main` at `d2e91a0` locally; see git log for whether it's reached
-  `origin/main` — session 1's `git push` was blocked by the auto-mode
-  classifier every time regardless of prior user approval, needing
-  `! git push origin main` from the user each time. Try it directly first,
-  fall back to asking only if it's blocked the same way.
+- Branch `main` and `origin/main` in sync (check `git log --oneline -1` for
+  the true current HEAD - this file can't self-reference the commit that
+  contains its own last edit). Pushing this session's Phase 7 commits went
+  through directly on the first attempt, unlike every push in session 1,
+  which the auto-mode classifier blocked regardless of prior user approval,
+  needing `! git push origin main` from the user each time — so the block
+  isn't consistent across sessions; try pushing directly first and only fall
+  back to asking the user if it's actually blocked.
 - Phases 0-7 done. Only **Phase 8** remains: create the CAI project
   (`mule-account-identifier`), the `mule-daily-score` job, the `mule-scorer`
   model deployment, the `Mule Investigator Console` application, and the
