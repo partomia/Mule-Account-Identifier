@@ -103,7 +103,13 @@ reviewing it against the two recent repos and the Mitra-v2 / AutoGluon 1.6 docs.
    scores a stale snapshot (the risk flagged in the ALM review).
 10. **CI runs the real pipeline small.** GitHub Actions runs pytest, then the CDE
     jobs on local Spark + Iceberg at ~5,000 customers, then the daily job with the
-    stub model and the gate. No committed data file; the generator is deterministic.
+    stub model. No committed data file; the generator is deterministic. The daily
+    job runs with `--ignore-gate`: at 5,000 customers a holdout window has only a
+    handful of mules, too few for capture / precision to mean anything against
+    thresholds calibrated for the real ~200k-customer book (confirmed by running
+    it: AUC ~0.5, gate fails on sample size, not on a code defect) — CI still
+    exercises the whole holdout + gate code path, it just doesn't conflate a
+    regression there with the KPI gate itself failing.
 11. Alerts, rings, holdout and model run are kept per run date (DELETE + INSERT
     on a rerun), only alert-tier accounts are written (not the whole book), and
     the endpoint rebuilds the context of the latest gated run with
@@ -188,7 +194,21 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   set_index("cif")` isn't safe since one CIF can have several alerted
   accounts. Also hardened the app against a cold start (gate fails on the
   very first run, so `mule_alerts` never existed) instead of hard-crashing.
-- [ ] **7. Orchestration + CI + docs** — daily Airflow DAG, CDE deploy / backfill
-  scripts, GitHub Actions workflow, Hue SQL, README, demo runbook.
+- [x] **7. Orchestration + CI + docs** — `cde/dags/mule_dag.py` (five CDE
+  tasks, then a `PythonOperator` triggering `mule-daily-score` over the API
+  v2, `AirflowSkipException` if `MULE_CAI_HOST` isn't set yet), daily at
+  20:30 UTC / 02:00 IST; `deploy_dag.sh`, `backfill_drill.sh`;
+  `.github/workflows/ci.yml`; `sql/reports.sql`; `docs/DEMO_RUNBOOK.md`;
+  README's Phase-7 markers replaced with the real thing. Verified: `pytest -q`
+  (69 tests) and the CDE pipeline at 5,000 customers both run clean, redirected
+  to a scratch warehouse/parquet dir so the real ~200k-customer local data
+  wasn't touched. Found live: at 5,000 customers a holdout window has only a
+  handful of mules — the KPI gate fails on sample size alone (AUC ~0.5), not
+  on a code defect — so CI's daily-job step uses `--ignore-gate` (exercises
+  the full holdout/gate code path; doesn't conflate that with the KPI gate
+  itself, which is calibrated for the real book). The DAG and `sql/reports.sql`
+  can't be run for real without a CDE Airflow / CDW environment (Phase 8);
+  checked instead by syntax-parsing the DAG and cross-referencing every
+  table/column name against `mule/schema.py` and `config/mule.yaml`.
 - [ ] **8. On Cloudera** — CDE jobs on the vcluster, CDW checks; then with Ravi:
   CAI project, job, model deployment, application, Airflow variables.

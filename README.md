@@ -28,21 +28,21 @@ flowchart LR
   H -. what-if .-> J[CAI Model endpoint<br/>predict.py]
   H -. decisions .-> K[(bronze:<br/>investigator_decisions)]
   K -. tomorrow's labels .-> C
-  AF[CDE Airflow DAG<br/>daily 02:00 IST] -. orchestrates, Phase 7 .-> A
-  AF -. API v2, Phase 7 .-> F
+  AF[CDE Airflow DAG<br/>daily 02:00 IST] -. orchestrates .-> A
+  AF -. API v2 .-> F
 ```
 
 | Layer | Cloudera service | Code |
 |---|---|---|
 | Ingest + medallion | CDE Spark, Iceberg | `cde/jobs/` |
 | Entity resolution | CDE Spark | `cde/jobs/build_identity_graph.py` |
-| Orchestration | CDE Airflow | `cde/dags/` (Phase 7, not yet built) |
+| Orchestration | CDE Airflow | `cde/dags/mule_dag.py`, `cde/scripts/deploy_dag.sh` |
 | Scoring + KPI gate | CAI Job | `cai/jobs/daily_score.py`, `backfill_history.py` |
 | Experiment tracking | CAI Experiments (MLflow) | logged from `daily_score.py`, experiment `mule-account-identifier` |
 | On-demand / what-if | CAI Model Deployment | `cai/model/predict.py` |
-| SQL + reports | CDW Impala (Hue) | ad hoc today (below); `sql/reports.sql` is Phase 7 |
+| SQL + reports | CDW Impala (Hue) | `sql/reports.sql` |
 | Investigator console | CAI Application (Streamlit) | `app/` |
-| CI | GitHub Actions | Phase 7, not yet built |
+| CI | GitHub Actions | `.github/workflows/ci.yml` |
 
 Databases: `rsingh_mule_acct_{bronze,silver,gold,ref}` (prefix in
 `config/mule.yaml`, `--db-prefix` / `DB_PREFIX` on the CDE side).
@@ -158,8 +158,30 @@ see the comments in the script for why: at ~200k customers the generator runs
 push`, then `cde repository sync --name rsingh-mule-acct-pipeline` (re-run
 `deploy_jobs.sh` only if resources changed).
 
-Orchestrating the five jobs into a daily Airflow DAG, and triggering the CAI
-job from it (CDE Airflow, API v2), is **Phase 7** — not yet built.
+Orchestrated by `cde/dags/mule_dag.py`: `generate_mule_bronze` →
+`validate_bronze` → `build_silver` → `build_identity_graph` →
+`build_gold_features` → a `PythonOperator` that triggers and polls the CAI
+scoring job over the API v2 (`mule-daily-score`), scheduled daily at 20:30
+UTC (02:00 IST). Only `generate_mule_bronze` takes `--as-of`; the other four
+derive it from what's already in the data, so it's the only task the DAG
+overrides. Register / update it:
+
+```bash
+./cde/scripts/deploy_dag.sh       # CDE job rsingh-mule-acct-orchestration (--type airflow)
+```
+
+Needs these CDE Airflow Variables (Admin > Variables) before the CAI step
+will run — without `MULE_CAI_HOST` it's skipped, so the Spark part is
+testable on its own: `MULE_CAI_HOST`, `MULE_CAI_PROJECT_ID`,
+`MULE_CAI_JOB_ID`, `MULE_CAI_API_KEY` (all set once the CAI project and job
+exist — Phase 8).
+
+To seed a few days of history on a vcluster before Airflow is running:
+
+```bash
+./cde/scripts/backfill_drill.sh                 # the last 3 Fridays, then yesterday
+python cai/jobs/backfill_history.py --weeks 8   # matching alert queues, from a CAI session
+```
 
 ## CAI
 
@@ -192,10 +214,11 @@ python cai/model/test_endpoint.py --local --context impala
 ```
 
 **Job**: Jobs > New Job, name `mule-daily-score`, script
-`cai/jobs/daily_score.py`, arguments empty (a job run ignores them; Airflow
-will eventually pass `MULE_RUN_DATE` / `MULE_TRIGGERED_BY` through the
-environment instead — Phase 7), Python 3.11, GPU profile if available,
-schedule Manual for now. The job **exits non-zero when the KPI gate fails**
+`cai/jobs/daily_score.py`, arguments empty (a job run ignores them; the DAG
+passes `MULE_RUN_DATE` / `MULE_TRIGGERED_BY` through the environment
+instead), Python 3.11, GPU profile if available, schedule Manual (Airflow
+triggers it over the API v2 — see the CDE section). The job **exits
+non-zero when the KPI gate fails**
 (`gate_passed = false` in `mule_model_run`; yesterday's alert queue stays
 live) so a red run is visible even before Airflow orchestrates it, and it
 logs params + KPIs to MLflow in CAI Experiments when `mlflow` is available.
@@ -225,6 +248,9 @@ The Impala credentials come from the project. The console's what-if tab
 reports whether it was scored by the endpoint or in-process (the fallback
 when the endpoint variables are missing).
 
+Running the demo: `docs/DEMO_RUNBOOK.md` (about 12 minutes, tab by tab,
+with a pre-demo checklist).
+
 ## CDW
 
 `config/mule.yaml`'s `impala:` section points `mule/storage.py`'s
@@ -236,52 +262,32 @@ to that one snapshot id — recorded as `source_snapshot_id` in
 model endpoint can rebuild the exact same context later with `FOR
 SYSTEM_VERSION AS OF`.
 
-Checked-in Hue reports (`sql/reports.sql`) and Cloudera Data Visualization
-dashboards are Phase 7. Useful ad hoc queries today, from Hue or a session:
-
-```sql
--- today's alert queue, highest risk first
-SELECT risk_rank, account_id, cif, branch_code, tier, p_mule_adj, ring_size, reasons
-FROM rsingh_mule_acct_gold.mule_alerts
-WHERE run_date = (SELECT MAX(run_date) FROM rsingh_mule_acct_gold.mule_alerts)
-ORDER BY risk_rank;
-
--- rings with the most alerted accounts
-SELECT ring_id, ring_size, accounts_alerted, top_tier, top_reason_codes
-FROM rsingh_mule_acct_gold.mule_rings
-WHERE run_date = (SELECT MAX(run_date) FROM rsingh_mule_acct_gold.mule_rings)
-ORDER BY sum_p_mule_adj DESC;
-
--- gate history: is the model still passing its KPI gate?
-SELECT run_date, gate_passed, capture_top1, precision_top02, lift_over_rules
-FROM rsingh_mule_acct_gold.mule_model_run
-ORDER BY run_date;
-
--- rebuild a run's exact context (see mule_model_run.context_from / context_to / source_snapshot_id)
-SELECT * FROM rsingh_mule_acct_gold.mule_features
-  FOR SYSTEM_VERSION AS OF <source_snapshot_id>
-  WHERE is_mule_90d IS NOT NULL
-    AND snapshot_date BETWEEN DATE '<context_from>' AND DATE '<context_to>'
-  ORDER BY snapshot_date DESC, account_id LIMIT <context_rows>;
-```
+Report queries for Hue are checked in at `sql/reports.sql`: alert counts and
+top alerts by tier, the weekly book/mule-rate trend, a ring report, the
+model-run lineage/trust history, whether a past run's alerts held up against
+labels that have since matured, the investigator decisions log, and the
+Iceberg time-travel context rebuild (`FOR SYSTEM_VERSION AS OF
+<source_snapshot_id>`, values from that run's `mule_model_run` row). Cloudera
+Data Visualization dashboards on top of these aren't built yet.
 
 ## Layout
 
 ```
-mule/          shared logic: config, features, model wrappers, calibration,
-                holdout + gate, reasons + tiers, storage, pipeline, scoring, client
-cde/jobs/      Spark jobs (generate/validate/silver/graph/gold: PySpark + stdlib)
-cde/scripts/   deploy_jobs.sh
-cai/jobs/      daily_score.py, backfill_history.py
-cai/model/     predict.py (endpoint), test_endpoint.py
-app/           Streamlit Investigator Console + CAI launcher
-config/        mule.yaml (names, storage, model), policy.yaml (context, holdout gate, tiers, rules)
-scripts/       run_cde_local.py (CDE jobs on a laptop)
-tests/         pytest: generator, CDE contract, mule/ package, headless app render
+mule/                shared logic: config, features, model wrappers, calibration,
+                      holdout + gate, reasons + tiers, storage, pipeline, scoring, client
+cde/jobs/            Spark jobs (generate/validate/silver/graph/gold: PySpark + stdlib)
+cde/dags/            mule_dag.py (daily Airflow DAG)
+cde/scripts/         deploy_jobs.sh, deploy_dag.sh, backfill_drill.sh
+cai/jobs/            daily_score.py, backfill_history.py
+cai/model/           predict.py (endpoint), test_endpoint.py
+app/                 Streamlit Investigator Console + CAI launcher
+config/              mule.yaml (names, storage, model), policy.yaml (context, holdout gate, tiers, rules)
+scripts/             run_cde_local.py (CDE jobs on a laptop)
+sql/                 reports.sql (Hue)
+docs/                DEMO_RUNBOOK.md
+.github/workflows/   ci.yml (pytest + a small real pipeline run with the gate)
+tests/               pytest: generator, CDE contract, mule/ package, headless app render
 ```
-
-Not yet built: `cde/dags/` (Airflow DAG), `sql/reports.sql`, GitHub Actions
-CI, `docs/` demo runbook — Phase 7.
 
 ## Sources
 

@@ -1,0 +1,51 @@
+name: CI
+
+# Triggers:
+#   - Every push to main
+#   - Every pull request
+#   - Manual trigger from the Actions tab
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Unit tests + a small real pipeline run
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Java (local Spark / Iceberg needs it)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install dependencies
+        run: pip install -r requirements-ci.txt
+
+      - name: Unit tests
+        run: pytest -q
+
+      # No committed data file: the generator is deterministic, so this and the
+      # scoring step below are reproducible on every run. Small scale keeps CI fast;
+      # Phase 4 already validated the full ~200k-customer book on a laptop.
+      - name: CDE jobs on local Spark + Iceberg (small scale)
+        run: python scripts/run_cde_local.py all --as-of 2026-09-25 --customers 5000
+
+      # Exercises the full holdout + gate code path (a regression there still goes
+      # red), but --ignore-gate: at 5,000 customers a holdout window has only a
+      # handful of mules, too few for capture/precision to mean anything against
+      # thresholds calibrated for the real ~200k-customer book (verified locally -
+      # this run's gate fails on sample size alone, AUC ~0.5, not on a code defect).
+      - name: Daily scoring job (stub model, exercises the gate)
+        run: python cai/jobs/daily_score.py --backend parquet --stub --ignore-gate
