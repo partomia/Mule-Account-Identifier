@@ -7,9 +7,10 @@ label:
 
 context:
   lookback_weeks: 26        # labelled snapshots used as context, never older than this
-  max_mules: 2000           # every labelled mule row in the window, up to this many
+  max_mules: 2000           # every labelled mule row in the window, up to this many (GPU / Mitra: 8,000-row context)
+  max_mules_cpu: 500        # on CPU (TabICL) scoring cost grows with the context, so a quarter of it
   negatives_per_mule: 3     # plus this many non-mule rows per mule (context mule share 25%)
-  book_mule_rate: 0.008     # fallback only; the run measures the labelled rate of the scored population
+  book_mule_rate: 0.0007    # fallback only; the run measures the labelled rate of the scored population
 
 holdout:
   test_weeks: 4             # latest labelled weekly snapshots scored as the test set
@@ -19,10 +20,12 @@ holdout:
   negative_sample: 0.05     # share of non-mule test rows scored (weighted back up); all mules are scored
 
 gate:
-  # The workshop's "accuracy lies" lesson: at a 0.8% mule rate a model that
-  # flags nobody is 99.2% accurate, so the gate measures capture and precision.
+  # The workshop's "accuracy lies" lesson: at a ~0.07% weekly mule rate a model
+  # that flags nobody is 99.9% accurate, so the gate measures capture and precision.
+  # Precision is read at the T1 queue (top 0.2%): at this base rate even a perfect
+  # model is at most ~7% precise over the top 1%.
   min_capture_top1pct: 0.40     # share of actual mules in the top 1% of the book
-  min_alert_precision: 0.20     # share of the top 1% that are mules
+  min_precision_top02pct: 0.10  # share of the top 0.2% (T1 queue) that are mules
   min_lift_over_rules: 1.2      # capture at top 1% vs the rules-only baseline
 
 tiers:

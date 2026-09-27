@@ -159,9 +159,15 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   accounts appear in gold before they are known (median 5 weekly rows), 0.03-0.09%
   positives per snapshot, top rings 70-100% frozen mules, single-feature AUCs up
   to 0.78 (ring size, new devices, VPA / mobile changes).
-- [ ] **4. Core logic** (`mule/`) — config, features contract, model wrappers
+- [x] **4. Core logic** (`mule/`) — config, features contract, model wrappers
   (Mitra / TabICL / stub), calibration, reasons + tiers, holdout + gate, ring
-  subgraph, MLflow tracking, Impala / parquet storage, daily pipeline, scoring. Unit tests.
+  rollup, Impala / parquet storage, daily pipeline, scoring. Unit tests.
+  Local run against the real gold book (parquet backend, TabICL on CPU,
+  2026-09-25 snapshot, book mule rate 0.065%): holdout AUC 1.000, PR-AUC 0.909,
+  capture top 1% 100% (rules alone 54%), precision top 0.2% 16.7%, lift over
+  rules 1.85x — all three gates pass against the current `config/policy.yaml`
+  thresholds. Book run: 20,133 accounts scored, 604 alerts (40 T1 / 161 T2 /
+  403 T3), 164 rings with an alert.
 - [ ] **5. CAI jobs + endpoint** — `daily_score.py` (gate exit code, MLflow),
   `backfill_history.py`, `predict.py` with what-if, `test_endpoint.py`.
 - [ ] **6. Investigator console** — 7 tabs (queue, linked identity, ring view,

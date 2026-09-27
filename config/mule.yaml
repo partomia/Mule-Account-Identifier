@@ -60,6 +60,8 @@ model:
   batch_rows: 4096                  # rows scored per predict_proba call
   # TabICL fallback (same pinned checkpoint as the Collections demo)
   tabicl_checkpoint: tabicl-classifier-v2-20260212.ckpt
+  tabicl_n_estimators: 4
+  endpoint_kv_cache: false          # TabICL only: encode the context once at endpoint startup
 
 endpoint:
   url: ""                           # CAI model deployment URL (MULE_ENDPOINT_URL)
