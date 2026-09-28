@@ -292,28 +292,69 @@ Progress so far:
   state) are different fields — check `paused` specifically, don't assume
   `--schedule-enabled false` did anything just because it ran without error.
 
-Still open in Phase 8: set the Airflow Variables
-(`MULE_CAI_HOST`/`_PROJECT_ID`/`_JOB_ID`/`_API_KEY`) in the CDE Airflow UI
-(no CLI equivalent found), do one manual DAG run to confirm the whole chain
-end to end including the CAI trigger step, then unpause for daily scheduling.
+Ravi set the four Airflow Variables in the CDE Airflow UI (values matched
+what `cmlapi` had returned earlier). Tried `cde job run --name
+rsingh-mule-acct-orchestration --wait` to do the manual end-to-end test —
+**it refused**: `"job ... is paused, resume the schedule before triggering
+the run"`. CDE will not manually trigger a paused Airflow job at all, which
+neither of us had anticipated (pausing was meant purely as a
+before-the-schedule-fires safety measure, not something that would also
+block a deliberate manual run). Since the variables were now correctly set,
+unpausing was safe and was also the actual end goal anyway — did that
+first (`cde job schedule unpause`, user ran it directly since the auto-mode
+classifier blocked me doing it even after an explicit prior approval to
+"trigger the DAG"; a one-time-action approval didn't cover this related but
+distinct action), then triggered the run myself.
 
-## Where things stand (2026-09-28, ~03:00, Phase 8 nearly done)
+**Result: `succeeded`. All six tasks, ~27 minutes** (`cde run describe --id
+2304`: started `03:09:08Z`, ended `03:35:52Z`). `cde run fg-status` isn't
+available on this vcluster ("fine-grained job status service not
+initialized"), so task-level detail came from `cde run logs --type
+cai_daily_score/attempt_1` instead — showed the Airflow → CAI trigger
+working exactly as designed: started CAI job run `s55yl2sn75k5ctsq` with
+`MULE_TRIGGERED_BY=airflow`, `MULE_RUN_DATE=2026-09-27` (yesterday, from the
+DAG's `AS_OF` Jinja macro), polled every 30s through `scheduling → running →
+succeeded` (~10 minutes, matching the earlier-measured Mitra-v2 GPU scoring
+time), and the Airflow task itself ended with return code 0 — the
+`sys.exit()` fix holds under the Airflow `PythonOperator` path too, not just
+a bare CAI Job run (those go through different code paths in
+`cai/jobs/daily_score.py`'s `__main__` block, so this was worth confirming
+separately rather than assuming the earlier fix covered it).
+
+**This closes Phase 8.** The daily 20:30 UTC / 02:00 IST schedule is live
+and unpaused: the entire pipeline (5 CDE Spark jobs, gated by
+`validate_bronze`, then the CAI scoring job with its own KPI gate) now runs
+unattended, for real, every night.
+
+## Where things stand (2026-09-28, ~03:36, Phase 8 complete)
 
 - Branch `main` and `origin/main` in sync (check `git log --oneline -1` for
   true current HEAD - self-reference problem, see above).
-- Phases 0-7 done. **Phase 8**: CDE (jobs + repository) and all four CAI
-  resources (project, `mule-daily-score` Job, `mule-scorer` Model Deployment,
-  `Mule Investigator Console` Application) exist and are confirmed working
-  against the real ~200k-account / 14M-row book. The
-  `rsingh-mule-acct-orchestration` Airflow DAG job is registered but
-  deliberately **paused**. Only remaining: Airflow Variables (UI-only step,
-  needs Ravi), one manual end-to-end DAG run, then unpause.
-- Two real bugs found and fixed this session, both invisible to every local
-  test in Phases 4-7 because neither a live Impala nor the CAI Job/kernel
-  runtime could be reached locally: `mule/scoring.py`'s impala context path
-  stringifying numeric fields, and `daily_score.py`'s unconditional
-  `sys.exit()` reading as failure under CAI's kernel wrapper. Both have
-  regression tests or verified-safe fixes; 70 tests pass (`pytest -q`).
+- **All 8 phases done.** CDE (repository + five Spark jobs), all four CAI
+  resources (project, `mule-daily-score` Job, `mule-scorer` Model
+  Deployment, `Mule Investigator Console` Application), and the
+  `rsingh-mule-acct-orchestration` Airflow DAG are all live and have each
+  been confirmed working for real against the actual ~200k-account /
+  14M-row book — culminating in one full unattended end-to-end run
+  (Run 2304) that chained all six tasks successfully, including the real
+  Airflow → CAI API v2 trigger. The project is in normal daily operation
+  from here.
+- Three real bugs found and fixed this session (Phase 8), all invisible to
+  every local test in Phases 4-7 because none of the environments they need
+  — a live Impala, the CAI Job/Jupyter-kernel runtime, a real CDE Airflow —
+  were reachable from a laptop: `mule/scoring.py`'s impala context path
+  stringifying numeric fields; `daily_score.py`'s unconditional `sys.exit()`
+  reading as failure under CAI's kernel wrapper; and the operational
+  discovery (not a code bug, but worth remembering) that CDE refuses to
+  manually trigger a paused Airflow job. First two have regression tests or
+  verified-safe fixes; 70 tests pass (`pytest -q`).
+- **General lesson, worth carrying into whatever comes after Phase 8**: this
+  whole phase was "works locally" vs. "works on the real platform" made
+  concrete, repeatedly. Every one of the three real bugs above shipped
+  clean through Phases 4-7's local tests and CI, and only surfaced because
+  Ravi ran the actual thing on the actual infrastructure. If a future
+  change touches Impala-specific code, the CAI Job/endpoint runtime, or the
+  Airflow DAG, treat "tests pass locally" as necessary, not sufficient.
 
 ## How to recover context fast
 

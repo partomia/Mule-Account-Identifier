@@ -210,7 +210,7 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   can't be run for real without a CDE Airflow / CDW environment (Phase 8);
   checked instead by syntax-parsing the DAG and cross-referencing every
   table/column name against `mule/schema.py` and `config/mule.yaml`.
-- [ ] **8. On Cloudera** — CDE jobs on the vcluster, CDW checks; then with Ravi:
+- [x] **8. On Cloudera** — CDE jobs on the vcluster, CDW checks; then with Ravi:
   CAI project, job, model deployment, application, Airflow variables.
   In progress with Ravi (2026-09-27/28): CAI project `mule-account-identifier`
   created from the GitHub repo, GPU profile, `MULE_IMPALA_USER`/`_PASSWORD` /
@@ -264,7 +264,23 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   deploy) — meaning it could have fired unattended at the next 20:30 UTC
   before the Airflow Variables were ever set or a manual run tested. Paused
   it immediately with `cde job schedule pause` (confirmed via `cde job
-  describe`: `"paused": true`) as a safety measure. Still open: set the
-  Airflow Variables (`MULE_CAI_HOST`/`_PROJECT_ID`/`_JOB_ID`/`_API_KEY`) in
-  the CDE Airflow UI, do one manual DAG run to confirm the whole chain end
-  to end, then unpause for daily scheduling.
+  describe`: `"paused": true`) as a safety measure. Ravi set the four
+  Airflow Variables in the CDE Airflow UI (confirmed matching the values
+  pulled via `cmlapi` above); `cde job run` then refused to trigger a
+  **paused** job at all ("resume the schedule before triggering the run") —
+  a real constraint neither of us expected, since pausing had been the
+  safety measure. Unpaused (`cde job schedule unpause`) and triggered a
+  manual run (`cde job run --name rsingh-mule-acct-orchestration --wait`).
+
+  **Result: `succeeded`, all six tasks, ~27 minutes end to end** (`cde run
+  describe --id 2304`). `cde run fg-status` isn't available on this
+  vcluster, but `cde run logs --type cai_daily_score/attempt_1` shows the
+  Airflow → CAI trigger worked exactly as designed: started CAI job run
+  `s55yl2sn75k5ctsq` with `MULE_TRIGGERED_BY=airflow`,
+  `MULE_RUN_DATE=2026-09-27` (yesterday, from the DAG's `AS_OF` macro),
+  polled every 30s through `scheduling → running → succeeded` (~10 minutes,
+  matching the Mitra-v2 GPU scoring time measured earlier), and the Airflow
+  task itself exited with return code 0 — confirming the `sys.exit()` fix
+  holds under the Airflow PythonOperator path too, not just a bare CAI Job
+  run. The daily 20:30 UTC / 02:00 IST schedule is now live and unpaused:
+  the pipeline runs unattended from here on.
