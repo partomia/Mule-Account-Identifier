@@ -326,35 +326,90 @@ and unpaused: the entire pipeline (5 CDE Spark jobs, gated by
 `validate_bronze`, then the CAI scoring job with its own KPI gate) now runs
 unattended, for real, every night.
 
-## Where things stand (2026-09-28, ~03:36, Phase 8 complete)
+### Session 4 (2026-09-28, ~08:00 - 10:04): demo runbook, real screenshots
 
-- Branch `main` and `origin/main` in sync (check `git log --oneline -1` for
-  true current HEAD - self-reference problem, see above).
-- **All 8 phases done.** CDE (repository + five Spark jobs), all four CAI
-  resources (project, `mule-daily-score` Job, `mule-scorer` Model
-  Deployment, `Mule Investigator Console` Application), and the
-  `rsingh-mule-acct-orchestration` Airflow DAG are all live and have each
-  been confirmed working for real against the actual ~200k-account /
-  14M-row book — culminating in one full unattended end-to-end run
-  (Run 2304) that chained all six tasks successfully, including the real
-  Airflow → CAI API v2 trigger. The project is in normal daily operation
-  from here.
-- Three real bugs found and fixed this session (Phase 8), all invisible to
-  every local test in Phases 4-7 because none of the environments they need
-  — a live Impala, the CAI Job/Jupyter-kernel runtime, a real CDE Airflow —
-  were reachable from a laptop: `mule/scoring.py`'s impala context path
-  stringifying numeric fields; `daily_score.py`'s unconditional `sys.exit()`
-  reading as failure under CAI's kernel wrapper; and the operational
-  discovery (not a code bug, but worth remembering) that CDE refuses to
-  manually trigger a paused Airflow job. First two have regression tests or
-  verified-safe fixes; 70 tests pass (`pytest -q`).
-- **General lesson, worth carrying into whatever comes after Phase 8**: this
-  whole phase was "works locally" vs. "works on the real platform" made
-  concrete, repeatedly. Every one of the three real bugs above shipped
-  clean through Phases 4-7's local tests and CI, and only surfaced because
-  Ravi ran the actual thing on the actual infrastructure. If a future
-  change touches Impala-specific code, the CAI Job/endpoint runtime, or the
-  Airflow DAG, treat "tests pass locally" as necessary, not sufficient.
+Asked to rewrite `docs/DEMO_RUNBOOK.md` so it's "systematic and real, copy
+paste" and to add the screenshots shared earlier in session 3, with an
+explicit instruction to close the whole activity out afterward.
+
+- **Rewrote `docs/DEMO_RUNBOOK.md`** with a new "Setup (one-time)" section
+  ahead of the existing demo script: every command in it is exactly what
+  session 3 ran (CDE deploy, CAI project/job/model/app creation, the
+  `cmlapi` one-liner, Airflow Variables, the paused-DAG gotcha, the first
+  end-to-end run), with the real hostnames/IDs/measured numbers for this
+  project rather than a generic template. Updated the demo script's own
+  numbers to the real Cloudera/Mitra-v2 run (200,380 accounts, 6,011
+  alerts, capture 100% vs. rules 58%, lift 1.73×, precision 26.5%) instead
+  of the earlier local-laptop TabICL numbers, and softened the what-if
+  talking point (probability jump is reliable; an exact T2→T1 tier
+  crossing is not guaranteed every run, since cut-offs move with each
+  day's book — this repo now has direct evidence of that from two
+  back-to-back real runs landing differently).
+- **The six screenshots from session 3 were gone from `~/Desktop`** by the
+  time this session started (likely auto-cleared after paste). Searching
+  Desktop/Trash/`/private/var/folders` turned up nothing — but Claude Code
+  keeps its own per-session cache of pasted images at
+  `~/.claude/image-cache/<session-id>/<N>.png` (`N` = the image's `#`
+  number from the conversation, e.g. `10.png` for "Image #10"). **Worth
+  remembering directly**: if a user's own screenshot file is gone, check
+  that cache before concluding the image is unrecoverable.
+- **This repo is public on GitHub** (`gh repo view ... --json visibility`
+  confirmed it) — checked before embedding anything, since two of the six
+  screenshots showed real secrets in plaintext: `MULE_IMPALA_PASSWORD`,
+  `HF_TOKEN`, and the `mule-scorer` deployment's `accessKey`. Handled by
+  category rather than a blanket yes/no:
+  - One screenshot (the fully-unmasked project-env-vars view) was **skipped
+    entirely** — a masked duplicate of the same content already existed and
+    covered the illustration need, so there was no reason to touch the
+    unmasked one at all.
+  - Two screenshots had a real secret alongside otherwise-useful content
+    (the model Test-tab result, with an `accessKey` baked into its sample
+    curl and internal resource CRNs; the Airflow Variables list, which also
+    exposed the *other* pipelines' — CASA, Collections — host/job/project
+    IDs alongside this one's). For these, redacted with `PIL`
+    (`ImageDraw.rectangle` blackout / cover boxes with a small explanatory
+    label) rather than skipping, then **re-viewed the redacted output with
+    the Read tool before it ever touched the repo**, specifically to
+    confirm no partial/edge-of-box leakage — never trust a guessed pixel
+    rectangle on a real credential without checking the result.
+  - Two screenshots (masked env vars, the model deployment's resource
+    counts) and the app screenshot (synthetic data only, always safe) went
+    in unmodified.
+  - Net: 5 of 7 candidate images used, all committed to `docs/images/`,
+    referenced from the runbook with `![alt](images/foo.png)`.
+
+## Where things stand (2026-09-28, ~10:04)
+
+- Branch `main`, `origin/main` in sync at `5763175` (check `git log
+  --oneline -1` for true current HEAD if this file has since been edited
+  again — self-reference problem, see above).
+- **All 8 phases done and the project is in normal daily operation**: CDE
+  (repository + five Spark jobs), all four CAI resources, and the
+  `rsingh-mule-acct-orchestration` Airflow DAG are all live and confirmed
+  working against the real ~200k-account / 14M-row book (session 3), and
+  `docs/DEMO_RUNBOOK.md` is now a real, screenshotted, copy-paste record of
+  exactly how that was done (session 4). The user considers this activity
+  closed as of this entry — a future session picking this repo back up is
+  most likely starting **new** work, not continuing Phase 8.
+- Three real platform-specific bugs found and fixed in session 3, all
+  invisible to every local test in Phases 4-7 because none of the
+  environments they need — a live Impala, the CAI Job/Jupyter-kernel
+  runtime, a real CDE Airflow — were reachable from a laptop:
+  `mule/scoring.py`'s impala context path stringifying numeric fields;
+  `daily_score.py`'s unconditional `sys.exit()` reading as failure under
+  CAI's kernel wrapper; and the operational discovery (not a code bug) that
+  CDE refuses to manually trigger a paused Airflow job. 70 tests pass
+  (`pytest -q`); no code changed in session 4, only `docs/`.
+- **General lesson, worth carrying into whatever comes next**: session 3
+  was "works locally" vs. "works on the real platform" made concrete,
+  repeatedly — three real bugs, all shipped clean through local tests and
+  CI, all only surfaced by running the actual thing on the actual
+  infrastructure. If a future change touches Impala-specific code, the CAI
+  Job/endpoint runtime, or the Airflow DAG, treat "tests pass locally" as
+  necessary, not sufficient. Session 4 adds a second one: **check whether a
+  repo is public before embedding anything a user shares** (screenshots,
+  logs, config dumps) — the content that's fine to paste into a private
+  chat is not automatically fine to commit.
 
 ## How to recover context fast
 
