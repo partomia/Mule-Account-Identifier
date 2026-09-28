@@ -44,6 +44,8 @@ profile if available. Project Settings > Advanced > Environment Variables:
 | `MULE_IMPALA_USER` | your workload username |
 | `MULE_IMPALA_PASSWORD` | your workload password — type it directly into the UI, never into a file that gets committed |
 
+![Project Settings > Advanced > Environment Variables, values masked](images/project-env-vars.png)
+
 ### 3. Session sanity checks
 
 Open a Session (Python 3.11, same GPU profile), then:
@@ -108,7 +110,11 @@ Real result once deployed (1 replica, 2 GPUs, 2 vCPU, 4 GiB): a Test-tab
 call returns real scores + a what-if comparison built from the latest Job
 run's context (8,000 rows). Confirm the replica actually has GPU resources
 via **Deployments** tab (not just Overview, which can show a stale `0 GPU`
-reading right after a build).
+reading right after a build):
+
+![Model Overview Test tab: a real scored request, with an accessKey and resource CRNs redacted](images/model-deployment-test.png)
+
+![Model Deployments tab: 1 replica, 2 GPUs, confirming the stale 0-GPU reading above was just a snapshot](images/model-deployment-resources.png)
 
 ### 6. Application: `Mule Investigator Console`
 
@@ -136,6 +142,8 @@ application's Model API key):
 - `MULE_CAI_PROJECT_ID`
 - `MULE_CAI_JOB_ID`
 - `MULE_CAI_API_KEY`
+
+![CDE Airflow Admin > Variables: the four MULE_CAI_* values set (other pipelines' rows hidden)](images/airflow-variables.png)
 
 ### 8. First end-to-end run
 
@@ -209,6 +217,8 @@ freeze today, which get held and watched, and which just go on a watchlist?
   as it matures: each load is one Iceberg snapshot.
 
 ## 3. Alert queue (2 min): app, first tab
+
+![Investigator Console, Alert queue tab: 200,380 accounts scored, 6,011 alerts, KPI gate PASS, top-11 T1 accounts ranked by P(mule)](images/investigator-console-alert-queue.png)
 
 - Accounts scored, alert count and share of the book, rings with an alert,
   the measured book mule rate (real run, 2026-09-25 snapshot, Mitra-v2 on
