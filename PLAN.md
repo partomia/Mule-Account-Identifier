@@ -243,6 +243,28 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   correct for a plain subprocess (CI, a terminal). Re-ran the Job: now shows
   **succeeded** (same gate-pass numbers, 1,064 rings this time — the small
   run-to-run wobble in ring count across otherwise-identical gate numbers is
-  Mitra's stochastic context sampling/scoring, not a bug). Still open: the
-  `mule-scorer` Model Deployment, the `Mule Investigator Console`
-  Application, and the Airflow Variables.
+  Mitra's stochastic context sampling/scoring, not a bug). Created the
+  `mule-scorer` Model Deployment (GPU, 2 GPUs / 2 vCPU / 4 GiB, 1 replica)
+  and the `Mule Investigator Console` Application — both confirmed working
+  against the real 200,380-account book: the endpoint's what-if moved
+  `p_mule_adj` by ~80x live, and the app renders all 7 tabs correctly with
+  the real gate-pass numbers. The Impala credentials plus
+  `MULE_ENDPOINT_URL`/`_ACCESS_KEY`/`_API_KEY` were promoted to project-level
+  environment variables (re-set `_ACCESS_KEY` if the model is ever
+  redeployed — a new deployment can get a new one).
+
+  Also found: this laptop's `cde` CLI is live against the real vcluster
+  (`cde repository list` / `cde job list` work). The CDE side (repository
+  `rsingh-mule-acct-pipeline`, all five Spark jobs) was already deployed
+  before this session started, explaining the pre-existing 14M-row gold
+  table. Registered `rsingh-mule-acct-orchestration` (the Airflow DAG job)
+  via `cde job create --type airflow` after confirming the repo was synced
+  to the latest push. **Its schedule came back enabled with a past start
+  date** (`is_paused_upon_creation=False` in the DAG, by design for a normal
+  deploy) — meaning it could have fired unattended at the next 20:30 UTC
+  before the Airflow Variables were ever set or a manual run tested. Paused
+  it immediately with `cde job schedule pause` (confirmed via `cde job
+  describe`: `"paused": true`) as a safety measure. Still open: set the
+  Airflow Variables (`MULE_CAI_HOST`/`_PROJECT_ID`/`_JOB_ID`/`_API_KEY`) in
+  the CDE Airflow UI, do one manual DAG run to confirm the whole chain end
+  to end, then unpause for daily scheduling.

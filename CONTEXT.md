@@ -248,25 +248,72 @@ Progress so far:
   specifically, not as "works on Cloudera" — Phase 8 is where that gap
   closes, one real run at a time.
 
-Still open in Phase 8: the `mule-daily-score` Job resource, the
-`mule-scorer` Model Deployment, the `Mule Investigator Console` Application,
-and the Airflow Variables (`MULE_CAI_HOST`/`_PROJECT_ID`/`_JOB_ID`/`_API_KEY`)
-— all from `README.md`'s CAI section, which was written in session 1 as a
-forward-looking runbook and is now being executed against for real.
+- **Model Deployment (`mule-scorer`) and Application (`Mule Investigator
+  Console`) created next, both confirmed working against the real
+  200,380-account book**: the deployment's Test tab returned a correct
+  scored + what-if response (context rebuilt from the latest Job run,
+  `p_mule_adj` moved ~80x on the what-if this time, landing just short of
+  the T1 cut-off rather than crossing it — expected variability, not a bug,
+  see the tier-boundary note above); a first screenshot of the deployment's
+  Overview showed "Total GPU: 0" which looked alarming, but the Deployments
+  tab confirmed 1 replica / 2 GPUs / 2 vCPU / 4 GiB — the first reading was
+  just stale, not a misconfiguration. The app renders all 7 tabs correctly
+  with the real gate-pass numbers (200,380 scored, 6,011 alerts, KPI gate
+  PASS). Ravi promoted the endpoint env vars to project level (will reset
+  `MULE_ENDPOINT_ACCESS_KEY` if the model is ever redeployed).
+- **Discovered this laptop's `cde` CLI is live against the real vcluster**
+  (`~/.cde/` already had working credentials — `cde repository list` / `cde
+  job list` succeed). This revealed the CDE side (repository
+  `rsingh-mule-acct-pipeline`, all five Spark jobs) was *already* deployed
+  before this session even started — explains the pre-existing 14M-row gold
+  table found back in step 2. Sibling projects' orchestration DAGs
+  (`rsingh-coll-dlq-orchestration`, `rsingh-casa-alb-orchestration`) already
+  existed on the same cluster; `rsingh-mule-acct-orchestration` did not.
+- **Registered the Airflow DAG myself**, with explicit confirmation first
+  (`AskUserQuestion` — creating a job resource on a shared cluster, same bar
+  as the earlier CDW write): `cde repository sync` (confirmed synced to
+  `9e5a755`, the exact last-pushed commit), then `cde job create --type
+  airflow --dag-file cde/dags/mule_dag.py --mount-1-resource
+  rsingh-mule-acct-pipeline`. CDE parsed it immediately: `dagID
+  mule_account_identifier_pipeline`, cron `30 20 * * *` — matches the DAG
+  file exactly.
+- **Caught a real operational risk immediately after creating it**: the
+  schedule came back `"enabled": true` with `start` already in the past
+  (`27 Sep 2026 20:30 GMT`) — `is_paused_upon_creation=False` is normal/by
+  design for a first deploy, but it meant the DAG could fire unattended at
+  the next 20:30 UTC (that same evening), running the real five-Spark-job
+  chain for the first time ever with no Airflow Variables set yet and no
+  manual test run done. `cde job update --schedule-enabled false` did
+  *not* change anything (`enabled` stayed `true` — that field just means "a
+  schedule is configured," not "it's active"). The actual control is `cde
+  job schedule pause --name rsingh-mule-acct-orchestration`; confirmed via
+  `cde job describe`: `"paused": true`. **Lesson for next time**: on CDE,
+  "schedule enabled" (a static DAG property) and "paused" (Airflow's runtime
+  state) are different fields — check `paused` specifically, don't assume
+  `--schedule-enabled false` did anything just because it ran without error.
 
-## Where things stand (2026-09-27, ~21:23, mid-Phase-8)
+Still open in Phase 8: set the Airflow Variables
+(`MULE_CAI_HOST`/`_PROJECT_ID`/`_JOB_ID`/`_API_KEY`) in the CDE Airflow UI
+(no CLI equivalent found), do one manual DAG run to confirm the whole chain
+end to end including the CAI trigger step, then unpause for daily scheduling.
 
-- Branch `main` and `origin/main` in sync as of Phase 7 (check
-  `git log --oneline -1` for true current HEAD - self-reference problem, see
-  above). No repo code changed in session 3 yet, only `PLAN.md` / `CONTEXT.md`
-  bookkeeping of what happened live on Cloudera.
-- Phases 0-7 done. **Phase 8 in progress** (see session 3 above): CAI project
-  exists, GPU confirmed, real CDW data confirmed, first real production run
-  done and gates passed, gold tables written for real, MLflow logging
-  confirmed working. Remaining: Job, Model Deployment, Application, Airflow
-  Variables — then the DAG itself can finally be registered
-  (`deploy_dag.sh`) and run for real.
-- 69 tests pass (`pytest -q` from repo root).
+## Where things stand (2026-09-28, ~03:00, Phase 8 nearly done)
+
+- Branch `main` and `origin/main` in sync (check `git log --oneline -1` for
+  true current HEAD - self-reference problem, see above).
+- Phases 0-7 done. **Phase 8**: CDE (jobs + repository) and all four CAI
+  resources (project, `mule-daily-score` Job, `mule-scorer` Model Deployment,
+  `Mule Investigator Console` Application) exist and are confirmed working
+  against the real ~200k-account / 14M-row book. The
+  `rsingh-mule-acct-orchestration` Airflow DAG job is registered but
+  deliberately **paused**. Only remaining: Airflow Variables (UI-only step,
+  needs Ravi), one manual end-to-end DAG run, then unpause.
+- Two real bugs found and fixed this session, both invisible to every local
+  test in Phases 4-7 because neither a live Impala nor the CAI Job/kernel
+  runtime could be reached locally: `mule/scoring.py`'s impala context path
+  stringifying numeric fields, and `daily_score.py`'s unconditional
+  `sys.exit()` reading as failure under CAI's kernel wrapper. Both have
+  regression tests or verified-safe fixes; 70 tests pass (`pytest -q`).
 
 ## How to recover context fast
 
