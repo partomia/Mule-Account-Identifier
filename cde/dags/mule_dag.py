@@ -14,7 +14,7 @@ The CAI step triggers the Cloudera AI job `cai/jobs/daily_score.py` and waits
 for it, so one DAG run goes from the overnight extracts to a scored,
 gate-checked alert queue. It needs these Airflow Variables (CDE Airflow UI >
 Admin > Variables):
-  MULE_CAI_HOST        https://ml-xxxx.<env>.cloudera.site  (CAI workbench URL)
+  MULE_CAI_HOST        https://federal-cml.federal.dp5i-5vkq.cloudera.site  (CAI workbench URL)
   MULE_CAI_PROJECT_ID  project id (from the project URL or API)
   MULE_CAI_JOB_ID      id of the daily scoring job (mule-daily-score)
   MULE_CAI_API_KEY     CAI API v2 key (User settings > API keys)

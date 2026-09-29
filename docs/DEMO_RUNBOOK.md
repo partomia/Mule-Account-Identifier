@@ -91,7 +91,7 @@ python3 -c "import os, cmlapi; c = cmlapi.default_client(); pid = os.environ['CD
 Real values for this project:
 
 ```
-MULE_CAI_HOST       = https://ml-dbfc64d1-783.go01-dem.ylcu-atmi.cloudera.site
+MULE_CAI_HOST       = https://federal-cml.federal.dp5i-5vkq.cloudera.site
 MULE_CAI_PROJECT_ID = jxyu-tt5i-g9s7-93jd
 MULE_CAI_JOB_ID     = g9qt-ic8o-e7lr-moxt
 ```

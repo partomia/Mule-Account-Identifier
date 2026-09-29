@@ -13,10 +13,20 @@ fraud model. It ranks accounts for human review; it never freezes one on its own
 
 ## Platform mapping
 
-Same CDP environment as `partomia/Collections-Delinquency-Roll-Forward-Prediction`
-and `partomia/ALM-IRRBB-CASA-Behavioural-Forecasting` (same CDE vcluster, CDW
-Impala VW, CAI workbench). Adds MLflow tracking, a KPI gate and GitHub Actions CI
-from `partomia/Cloudera-AI-MLOps-Workshop-Iceberg`.
+Built first on the go01 environment shared with
+`partomia/Collections-Delinquency-Roll-Forward-Prediction` and
+`partomia/ALM-IRRBB-CASA-Behavioural-Forecasting`; moved on 2026-09-29 to the
+"federal" environment, rebuilt from empty (decision 12). Adds MLflow tracking, a
+KPI gate and GitHub Actions CI from `partomia/Cloudera-AI-MLOps-Workshop-Iceberg`.
+
+Environment (federal):
+
+| Service | Endpoint |
+|---|---|
+| CDE virtual cluster | `https://bxjjm2cr.cde-lzjl69mv.federal.dp5i-5vkq.cloudera.site/dex/api/v1` |
+| CDW Impala | `coordinator-federal-impala-1.dw-federal-cdp-env.dp5i-5vkq.cloudera.site:443` (HTTP transport, `cliservice`, SSL, LDAP workload user) |
+| CAI workbench | `https://federal-cml.federal.dp5i-5vkq.cloudera.site` |
+| CAI runtime | `docker.repository.cloudera.com/cloudera/cdsw/ml-runtime-pbj-jupyterlab-python3.11-standard:2026.08.1-b5` |
 
 | Layer | Service | What runs there |
 |---|---|---|
@@ -114,6 +124,12 @@ reviewing it against the two recent repos and the Mitra-v2 / AutoGluon 1.6 docs.
     on a rerun), only alert-tier accounts are written (not the whole book), and
     the endpoint rebuilds the context of the latest gated run with
     `FOR SYSTEM_VERSION AS OF`, as in Collections.
+12. **Moved to the federal environment, rebuilt from empty (2026-09-29).** No
+    tables, models or runs carry over from go01: the CDE jobs regenerate the
+    book, the first CAI run publishes the first alert queue. The committed
+    hosts (`config/mule.yaml`, `.env.example`, the DAG docstring, the
+    environment table above) point at federal; credentials stay in the
+    gitignored `.env`, the CAI project environment and Airflow Variables.
 
 ## Method (demo policy, see `config/policy.yaml`)
 

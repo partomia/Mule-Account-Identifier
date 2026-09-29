@@ -40,7 +40,7 @@ storage:
   parquet_dir: data/parquet
 
 impala:
-  host: coordinator-default-impala-aws.dw-go01-demo-aws.ylcu-atmi.cloudera.site  # MULE_IMPALA_HOST
+  host: coordinator-federal-impala-1.dw-federal-cdp-env.dp5i-5vkq.cloudera.site  # MULE_IMPALA_HOST
   port: 443
   http_path: cliservice
   use_ssl: true
