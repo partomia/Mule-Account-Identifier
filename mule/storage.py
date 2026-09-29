@@ -312,7 +312,7 @@ class ImpalaStorage:
         if key in self._ensured:
             return
         full = table(key)
-        cols = ", ".join(f"{c} {t}" for c, t in TABLE_COLUMNS[key])
+        cols = ", ".join(f"`{c}` {t}" for c, t in TABLE_COLUMNS[key])
         self.execute(f"CREATE DATABASE IF NOT EXISTS {full.split('.')[0]}")
         self.execute(f"CREATE TABLE IF NOT EXISTS {full} ({cols}) PARTITIONED BY SPEC ({PARTITION[key]}) "
                      f"STORED AS ICEBERG TBLPROPERTIES ('format-version'='2')")
@@ -326,7 +326,7 @@ class ImpalaStorage:
             values = ",\n".join(
                 "(" + ", ".join(_sql_literal(r[c], t) for c, t in cols) + ")"
                 for r in records[i:i + self.INSERT_CHUNK])
-            self.execute(f"INSERT INTO {full} ({', '.join(c for c, _ in cols)}) VALUES {values}")
+            self.execute(f"INSERT INTO {full} ({', '.join(f'`{c}`' for c, _ in cols)}) VALUES {values}")
 
     def replace_run(self, key: str, df: pd.DataFrame, run_date: date) -> None:
         self.ensure_table(key)

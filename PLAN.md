@@ -48,8 +48,12 @@ Names:
 - Python package `mule/`, env var prefix `MULE_<SECTION>_<KEY>`.
 - CDE resources: `rsingh-mule-acct-*` (repository `rsingh-mule-acct-pipeline`,
   DAG job `rsingh-mule-acct-orchestration`).
-- CAI project `mule-account-identifier`; job `mule-daily-score`; model `mule-scorer`;
-  application `Mule Investigator Console`; MLflow experiment `mule-account-identifier`.
+- CAI (federal, `ci/cai_jobs.py`): project `rsingh-mule-acct`; jobs
+  `rsingh-mule-acct-sync-code` and `rsingh-mule-acct-daily-score`; model
+  `rsingh-mule-acct-scorer`; application `Mule Investigator Console` (subdomain
+  `rsingh-mule-acct-console`); MLflow experiment `mule-account-identifier`. On
+  go01 they were `mule-account-identifier`, `mule-daily-score` and `mule-scorer`.
+- Airflow Variables: `MULE_CAI_{HOST,PROJECT_ID,SYNC_JOB_ID,JOB_ID,API_KEY}`.
 
 ## Data flow
 
@@ -130,6 +134,25 @@ reviewing it against the two recent repos and the Mitra-v2 / AutoGluon 1.6 docs.
     hosts (`config/mule.yaml`, `.env.example`, the DAG docstring, the
     environment table above) point at federal; credentials stay in the
     gitignored `.env`, the CAI project environment and Airflow Variables.
+13. **CAI is set up over the API v2, not by hand.** `ci/setup_cai.py` creates
+    the project from Git, its environment, the jobs (resizing existing ones),
+    the model and the app, idempotently, following Spend-Analytics.
+    `cai/jobs/sync_code.py` resets the project to origin/main and pip-installs
+    `requirements.txt` when its hash changes, at 2 vCPU / 8 GB (pip is killed
+    at 2 GB while installing torch). The DAG runs it before scoring, so the
+    CAI project follows the pushed code without a manual `git pull`.
+    `ci/run_cai_job.py` starts one job and polls it (API v2 has no run-log
+    endpoint); `cde/scripts/set_airflow_variables.py` sets only the
+    `MULE_CAI_*` Variables through the vcluster's Airflow API.
+14. **DAG registered paused, first interval = the migration date.**
+    `cde job create --schedule-paused` is rejected for Airflow jobs, and with
+    `catchup=False` and a past `start_date` an unpaused DAG runs the latest
+    closed interval at once, so the DAG sets `is_paused_upon_creation=True`
+    and `start_date` 2026-09-28 20:30 UTC (first scheduled run: as_of
+    2026-09-28, the date the chain is run for by hand).
+15. **Impala identifiers are backtick-quoted** in the DDL and inserts
+    `ImpalaStorage` generates; a test checks the output columns against
+    Impala's 409 reserved words (none collide today).
 
 ## Method (demo policy, see `config/policy.yaml`)
 
