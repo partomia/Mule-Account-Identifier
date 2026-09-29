@@ -17,7 +17,7 @@ SCORE_JOB = "rsingh-mule-acct-daily-score"
 JOBS = [
     # sync-code pip-installs torch + CUDA wheels on a change of requirements.txt: killed below 8 GB
     {"name": SYNC_JOB, "script": "cai/jobs/sync_code.py", "cpu": 2, "memory": 8},
-    {"name": SCORE_JOB, "script": "cai/jobs/daily_score.py", "cpu": 8, "memory": 32},
+    {"name": SCORE_JOB, "script": "cai/jobs/daily_score.py", "cpu": 4, "memory": 16},
 ]
 BY_NAME = {j["name"]: j for j in JOBS}
 
