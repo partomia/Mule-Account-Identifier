@@ -39,6 +39,7 @@ Environment (federal):
 | On-demand / what-if | CAI Model Deployment | `predict.py`, score an account, what-if on graph features |
 | SQL + reports | CDW Impala (Hue) | alert reports, ring reports, Iceberg time travel |
 | Investigator console | CAI Application (Streamlit) | queue, linked identity, ring graph, what-if, trust, decisions, lineage |
+| Reporting dashboard | CAI Application (Cloudera Data Visualization) | Mule Investigation Command Centre over the `rsingh_mule_acct_report` views |
 | CI | GitHub Actions | pytest + small end-to-end run with the gate on every push |
 
 Names:
@@ -51,7 +52,9 @@ Names:
 - CAI (federal, `ci/cai_jobs.py`): project `rsingh-mule-acct`; jobs
   `rsingh-mule-acct-sync-code` and `rsingh-mule-acct-daily-score`; model
   `rsingh-mule-acct-scorer`; application `Mule Investigator Console` (subdomain
-  `rsingh-mule-acct-console`); MLflow experiment `mule-account-identifier`. On
+  `rsingh-mule-acct-console`); application `Mule Data Visualization` (subdomain
+  `rsingh-mule-acct-dataviz`, connection `rsingh-mule-acct-impala`, reporting
+  database `rsingh_mule_acct_report`); MLflow experiment `mule-account-identifier`. On
   go01 they were `mule-account-identifier`, `mule-daily-score` and `mule-scorer`.
 - Airflow Variables: `MULE_CAI_{HOST,PROJECT_ID,SYNC_JOB_ID,JOB_ID,API_KEY}`.
 
@@ -162,6 +165,19 @@ reviewing it against the two recent repos and the Mitra-v2 / AutoGluon 1.6 docs.
     1,149 s of scoring inside a 1,273 s job, the same gate result as Mitra
     on the go01 GPU (capture top 1% 100%, lift 1.73x; precision top 0.2%
     25.6% vs 26.5%); the endpoint answers in ~14 s per call.
+17. **Reporting dashboard as code, in this project's own Data Visualization
+    app, over views.** The dashboard is declared in
+    `dataviz/build_dashboard.py` and imported as an export file with uuid5
+    UUIDs, so a rebuild updates it in place and the file reviews like code.
+    It runs as a CAI application in `rsingh-mule-acct` (one per CAI project)
+    because the CDW Data Visualization instance's connections use a
+    cluster-internal host CAI cannot reach and belong to other users. The
+    datasets read flat views in a separate `rsingh_mule_acct_report` database
+    with `is_latest` flags instead of subquery filters; nothing in the
+    pipeline reads them. There is no data-quality results table in this
+    project (`validate_bronze` fails the batch instead), so `v_dq` computes
+    the reconciliation and integrity checks live on each query. Top-N tables
+    filter on a rank column, since table visuals sort by dimensions only.
 
 ## Method (demo policy, see `config/policy.yaml`)
 
@@ -343,3 +359,10 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   on 2026-09-30. Its first run (CDE run 50, 45 min) succeeded end to end
   and republished 2026-09-28 with `triggered_by = airflow` and the same
   results; daily at 20:30 UTC / 02:00 IST from here.
+- [x] **10. Reporting dashboard** (2026-10-01, decision 17) — 7 views in
+  `rsingh_mule_acct_report`; CAI application `Mule Data Visualization`
+  (running 102 s after creation); the "Mule Investigation Command Centre"
+  (7 datasets, 34 visuals, 5 sheets) imported and re-imported in place; all
+  34 visuals answer through the application's own Impala connection and the
+  16 KPI tiles equal the same numbers queried in Impala. See
+  `docs/DATAVIZ.md` and `docs/PROJECT_LOG.md`.

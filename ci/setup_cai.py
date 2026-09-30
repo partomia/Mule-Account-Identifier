@@ -14,6 +14,7 @@ first and only creates what is missing.
      It serves the latest published run, so a new cluster needs one first
      (--skip-serving until then).
   5. Application Mule Investigator Console, once MULE_ENDPOINT_API_KEY is set.
+  6. With --dataviz: the Cloudera Data Visualization application (docs/DATAVIZ.md).
 
 Prints the project and job IDs. Standard library only.
 
@@ -32,7 +33,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from ci.cai_api import Workbench, find_project, job_ids  # noqa: E402
-from ci.cai_jobs import APP, CAI_PROJECT_NAME, GIT_URL, JOB_VARIABLES, JOBS, MODEL, RUNTIME  # noqa: E402
+from ci.cai_jobs import APP, CAI_PROJECT_NAME, DATAVIZ, GIT_URL, JOB_VARIABLES, JOBS, MODEL, RUNTIME  # noqa: E402
 
 PROJECT_ENV_FROM_CALLER = ("MULE_IMPALA_USER", "MULE_IMPALA_PASSWORD")
 PROJECT_ENV = {"HF_HOME": "/home/cdsw/.hf_cache"}
@@ -161,11 +162,30 @@ def ensure_app(wb: Workbench, project: dict, ready: bool, dry_run: bool) -> None
         print(f"application {APP['name']}: created ({app['id']}), subdomain {APP['subdomain']}")
 
 
+def ensure_dataviz(wb: Workbench, project: dict, dry_run: bool) -> None:
+    pid = project["id"]
+    apps = wb("GET", f"/projects/{pid}/applications", params={"page_size": 100}).get("applications", [])
+    app = next((a for a in apps if a["name"] == DATAVIZ["name"]), None)
+    if app:
+        print(f"application {DATAVIZ['name']}: exists ({app['id']}, {app.get('status', '').lower()})")
+    elif dry_run:
+        print(f"application {DATAVIZ['name']}: would create ({DATAVIZ['runtime'].rsplit('/', 1)[-1]}, "
+              f"{DATAVIZ['cpu']} vCPU / {DATAVIZ['memory']} GB, subdomain {DATAVIZ['subdomain']})")
+    else:
+        app = wb("POST", f"/projects/{pid}/applications", body={
+            "project_id": pid, "name": DATAVIZ["name"], "subdomain": DATAVIZ["subdomain"],
+            "script": DATAVIZ["script"], "cpu": DATAVIZ["cpu"], "memory": DATAVIZ["memory"],
+            "runtime_identifier": DATAVIZ["runtime"], "description": DATAVIZ["description"]})
+        print(f"application {DATAVIZ['name']}: created ({app['id']}), subdomain {DATAVIZ['subdomain']}")
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--skip-serving", action="store_true",
                    help="no model or application yet (they serve the published run, so a new cluster needs one first)")
+    p.add_argument("--dataviz", action="store_true",
+                   help=f"also the {DATAVIZ['name']} application (docs/DATAVIZ.md)")
     args, _ = p.parse_known_args()
     wb = Workbench(os.environ["MULE_CAI_HOST"], os.environ["MULE_CAI_API_KEY"])
     project = ensure_project(wb, args.dry_run)
@@ -177,6 +197,8 @@ def main() -> int:
     ensure_env(wb, project, args.dry_run, endpoint)
     if not args.skip_serving:
         ensure_app(wb, project, "MULE_ENDPOINT_API_KEY" in endpoint, args.dry_run)
+    if args.dataviz:
+        ensure_dataviz(wb, project, args.dry_run)
     ids = job_ids(wb, project["id"])
     print(f"\nMULE_CAI_PROJECT_ID = {project['id']}")
     for var, name in JOB_VARIABLES.items():

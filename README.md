@@ -277,8 +277,14 @@ to 21 are analytics views: a one-row run briefing, branch and product/KYC
 hotspots, reason codes on the freeze queue, mule rate by hops to a known mule
 and by pass-through band, the riskiest rings, UPI money forwarded through
 alerted accounts, the holdout capture curve against rules, the complaint
-trend, days from opening to first report, and Iceberg history. Cloudera
-Data Visualization dashboards on top of these aren't built yet.
+trend, days from opening to first report, and Iceberg history.
+
+The **Mule Investigation Command Centre** is a five-sheet Cloudera Data
+Visualization dashboard (alert queue, rings and network, trends, model trust,
+data quality), built as code: flat views in `rsingh_mule_acct_report`
+(`sql/dataviz_views.sql`), the CAI application from `ci/setup_cai.py
+--dataviz`, and `dataviz/build_dashboard.py`, which writes and imports the
+export file. See [docs/DATAVIZ.md](docs/DATAVIZ.md).
 
 ## Layout
 
@@ -292,9 +298,11 @@ cai/jobs/            daily_score.py, backfill_history.py
 cai/model/           predict.py (endpoint), test_endpoint.py
 app/                 Streamlit Investigator Console + CAI launcher
 config/              mule.yaml (names, storage, model), policy.yaml (context, holdout gate, tiers, rules)
-scripts/             run_cde_local.py (CDE jobs on a laptop)
-sql/                 reports.sql (Hue)
-docs/                DEMO_RUNBOOK.md
+scripts/             run_cde_local.py (CDE jobs on a laptop), run_impala_sql.py (a .sql file on CDW)
+sql/                 reports.sql (Hue), dataviz_views.sql (dashboard views)
+dataviz/             build_dashboard.py, mule_command_centre.json (Data Visualization export)
+ci/                  CAI setup over the API v2 (project, jobs, model, apps), run_cai_job.py
+docs/                DEMO_RUNBOOK.md, PROJECT_LOG.md, DATAVIZ.md
 .github/workflows/   ci.yml (pytest + a small real pipeline run with the gate)
 tests/               pytest: generator, CDE contract, mule/ package, headless app render
 ```

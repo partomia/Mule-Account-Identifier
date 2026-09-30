@@ -1,0 +1,907 @@
+{
+ "segments": [],
+ "staticasset": [],
+ "dashboards": [
+  {
+   "model": "reports.report",
+   "pk": 7000,
+   "fields": {
+    "report_name": "Mule Investigation Command Centre",
+    "report_description": "docs/DATAVIZ.md",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "dashboard",
+    "report_mode": null,
+    "dashboard_url_name": "",
+    "report_data": "{\"report_title\": \"Mule Investigation Command Centre\", \"numColumns\": 64, \"report_subtitle\": \"Daily mule alert queue, rings, trends, model trust and data quality (federal CDW)\", \"dashboard_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-1-widget-7201\"}, {\"col\": 14, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-2-widget-7202\"}, {\"col\": 27, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-3-widget-7203\"}, {\"col\": 40, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-4-widget-7204\"}, {\"col\": 53, \"row\": 1, \"size_x\": 12, \"size_y\": 10, \"id\": \"uri-5-widget-7205\"}, {\"col\": 1, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-6-widget-7206\"}, {\"col\": 33, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-7-widget-7207\"}, {\"col\": 1, \"row\": 33, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-8-widget-7208\"}, {\"col\": 33, \"row\": 33, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-9-widget-7209\"}, {\"col\": 1, \"row\": 55, \"size_x\": 64, \"size_y\": 26, \"id\": \"uri-10-widget-7210\"}], \"dashboard_sheets\": [{\"sheet_id\": 1, \"order\": 1, \"sheet_handle_title\": \"Alert queue\", \"behaviors\": {}, \"visual_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-1-widget-7201\"}, {\"col\": 14, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-2-widget-7202\"}, {\"col\": 27, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-3-widget-7203\"}, {\"col\": 40, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-4-widget-7204\"}, {\"col\": 53, \"row\": 1, \"size_x\": 12, \"size_y\": 10, \"id\": \"uri-5-widget-7205\"}, {\"col\": 1, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-6-widget-7206\"}, {\"col\": 33, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-7-widget-7207\"}, {\"col\": 1, \"row\": 33, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-8-widget-7208\"}, {\"col\": 33, \"row\": 33, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-9-widget-7209\"}, {\"col\": 1, \"row\": 55, \"size_x\": 64, \"size_y\": 26, \"id\": \"uri-10-widget-7210\"}], \"control_widgets\": []}, {\"sheet_id\": 2, \"order\": 2, \"sheet_handle_title\": \"Rings and network\", \"behaviors\": {}, \"visual_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 21, \"size_y\": 10, \"id\": \"uri-1-widget-7211\"}, {\"col\": 22, \"row\": 1, \"size_x\": 21, \"size_y\": 10, \"id\": \"uri-2-widget-7212\"}, {\"col\": 43, \"row\": 1, \"size_x\": 22, \"size_y\": 10, \"id\": \"uri-3-widget-7213\"}, {\"col\": 1, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-4-widget-7214\"}, {\"col\": 33, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-5-widget-7215\"}, {\"col\": 1, \"row\": 33, \"size_x\": 64, \"size_y\": 22, \"id\": \"uri-6-widget-7216\"}], \"control_widgets\": []}, {\"sheet_id\": 3, \"order\": 3, \"sheet_handle_title\": \"Trends\", \"behaviors\": {}, \"visual_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 32, \"size_y\": 24, \"id\": \"uri-1-widget-7217\"}, {\"col\": 33, \"row\": 1, \"size_x\": 32, \"size_y\": 24, \"id\": \"uri-2-widget-7218\"}, {\"col\": 1, \"row\": 25, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-3-widget-7219\"}, {\"col\": 33, \"row\": 25, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-4-widget-7220\"}], \"control_widgets\": []}, {\"sheet_id\": 4, \"order\": 4, \"sheet_handle_title\": \"Model trust\", \"behaviors\": {}, \"visual_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-1-widget-7221\"}, {\"col\": 14, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-2-widget-7222\"}, {\"col\": 27, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-3-widget-7223\"}, {\"col\": 40, \"row\": 1, \"size_x\": 13, \"size_y\": 10, \"id\": \"uri-4-widget-7224\"}, {\"col\": 53, \"row\": 1, \"size_x\": 12, \"size_y\": 10, \"id\": \"uri-5-widget-7225\"}, {\"col\": 1, \"row\": 11, \"size_x\": 32, \"size_y\": 24, \"id\": \"uri-6-widget-7226\"}, {\"col\": 33, \"row\": 11, \"size_x\": 32, \"size_y\": 24, \"id\": \"uri-7-widget-7227\"}, {\"col\": 1, \"row\": 35, \"size_x\": 64, \"size_y\": 20, \"id\": \"uri-8-widget-7228\"}], \"control_widgets\": []}, {\"sheet_id\": 5, \"order\": 5, \"sheet_handle_title\": \"Data quality\", \"behaviors\": {}, \"visual_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 21, \"size_y\": 10, \"id\": \"uri-1-widget-7229\"}, {\"col\": 22, \"row\": 1, \"size_x\": 21, \"size_y\": 10, \"id\": \"uri-2-widget-7230\"}, {\"col\": 43, \"row\": 1, \"size_x\": 22, \"size_y\": 10, \"id\": \"uri-3-widget-7231\"}, {\"col\": 1, \"row\": 11, \"size_x\": 24, \"size_y\": 22, \"id\": \"uri-4-widget-7232\"}, {\"col\": 25, \"row\": 11, \"size_x\": 40, \"size_y\": 22, \"id\": \"uri-5-widget-7233\"}, {\"col\": 1, \"row\": 33, \"size_x\": 64, \"size_y\": 26, \"id\": \"uri-6-widget-7234\"}], \"control_widgets\": []}], \"user_settings\": {\"dashboard_width\": \"1280\", \"display_filters\": \"true\", \"permit_csv_download_dashboard\": \"true\"}, \"global_control_widgets\": [], \"control_widgets\": [], \"click_behavior\": {}}",
+    "shared_visual_dashboards": "[]",
+    "parent_report": null,
+    "uuid": "b12c41dd-296d-5bc8-8270-2e98ef07b74b",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": null
+   }
+  }
+ ],
+ "appgroupmembership": [],
+ "reportannotation": [],
+ "events": [],
+ "customcss": [],
+ "reportimage": [],
+ "dateranges": [],
+ "visuals": [
+  {
+   "model": "reports.report",
+   "pk": 7201,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Alerts on today's queue\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Alerts\", \"dataset_colname\": \"Alerts\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(1) as 'sub:Alerts'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "bbc7450f-362f-59dc-9f00-9ea604fb7be1",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7202,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Freeze reviews (T1)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(case when [tier] = 'T1_FREEZE_REVIEW' then 1 else 0 end)\", \"expression_for_trigger\": \"sum(case when [tier] = 'T1_FREEZE_REVIEW' then 1 else 0 end)\", \"expr_hasagg\": true, \"col_alias\": \"T1 freeze reviews\", \"dataset_colname\": \"T1 freeze reviews\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(case when [tier] = 'T1_FREEZE_REVIEW' then 1 else 0 end) as 'sub:T1 freeze reviews'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "5e3ccc36-f85a-5cdf-a7f7-fd442bedda16",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7203,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Rings touched\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"count(distinct case when [in_ring] = 1 then [ring_id] end)\", \"expression_for_trigger\": \"count(distinct case when [in_ring] = 1 then [ring_id] end)\", \"expr_hasagg\": true, \"col_alias\": \"Rings\", \"dataset_colname\": \"Rings\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"count(distinct case when [in_ring] = 1 then [ring_id] end) as 'sub:Rings'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "318403b6-2e8e-5bdb-85a8-508650a9c7a6",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7204,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Expected mules on the queue\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"round(sum([p_mule_adj]), 0)\", \"expression_for_trigger\": \"round(sum([p_mule_adj]), 0)\", \"expr_hasagg\": true, \"col_alias\": \"Expected mules\", \"dataset_colname\": \"Expected mules\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"round(sum([p_mule_adj]), 0) as 'sub:Expected mules'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "0673b2c0-6053-5cda-a9ef-a399133cdfde",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7205,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Alerts one hop from a known mule\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum([near_known_mule])\", \"expression_for_trigger\": \"sum([near_known_mule])\", \"expr_hasagg\": true, \"col_alias\": \"Near a known mule\", \"dataset_colname\": \"Near a known mule\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum([near_known_mule]) as 'sub:Near a known mule'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "6d308ae7-e36d-5e31-b7ad-b9249840b85b",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7206,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Alerts by region and tier\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"region\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[region]\", \"col_alias\": \"Region\"}], \"y_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Alerts\", \"dataset_colname\": \"Alerts\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"tier\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[tier]\", \"col_alias\": \"Tier\"}], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[region] as 'sub:Region'\": \"x_shelf\", \"sum(1) as 'sub:Alerts'\": \"y_shelf\", \"[tier] as 'sub:Tier'\": \"color_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "898faf5f-70ec-5c75-b7ec-e0540edc83f9",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7207,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Top 10 branches by alerts\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 10, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"branch_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[branch_name]\", \"col_alias\": \"Branch\"}], \"y_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Alerts\", \"dataset_colname\": \"Alerts\", \"dataset_coltype\": \"DOUBLE\", \"order\": {\"priority\": 1, \"ascending\": false}}], \"color_shelf\": [{\"dataset_colname\": \"region\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[region]\", \"col_alias\": \"Region\"}], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[branch_name] as 'sub:Branch'\": \"x_shelf\", \"sum(1) as 'sub:Alerts'\": \"y_shelf\", \"[region] as 'sub:Region'\": \"color_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "a98ed375-9edd-5f11-968d-021f663bc6c7",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7208,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7101,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Why accounts are flagged: alerts per reason code\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"reason_code\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[reason_code]\", \"col_alias\": \"Reason code\"}], \"y_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Alerts\", \"dataset_colname\": \"Alerts\", \"dataset_coltype\": \"DOUBLE\", \"order\": {\"priority\": 1, \"ascending\": false}}], \"color_shelf\": [{\"dataset_colname\": \"tier\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[tier]\", \"col_alias\": \"Tier\"}], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[reason_code] as 'sub:Reason code'\": \"x_shelf\", \"sum(1) as 'sub:Alerts'\": \"y_shelf\", \"[tier] as 'sub:Tier'\": \"color_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "542b0ec6-ee1d-5f7b-924d-86fce28c23da",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7209,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Alerts by product and KYC type\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"product_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[product_name]\", \"col_alias\": \"Product\"}], \"y_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Alerts\", \"dataset_colname\": \"Alerts\", \"dataset_coltype\": \"DOUBLE\", \"order\": {\"priority\": 1, \"ascending\": false}}], \"color_shelf\": [{\"dataset_colname\": \"kyc_type\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[kyc_type]\", \"col_alias\": \"KYC\"}], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[product_name] as 'sub:Product'\": \"x_shelf\", \"sum(1) as 'sub:Alerts'\": \"y_shelf\", \"[kyc_type] as 'sub:KYC'\": \"color_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "9b9756bb-3e98-5dd7-a094-0e01d1ba3a8c",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7210,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Alert queue",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"The morning's top 25 accounts to investigate\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 25, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"risk_rank\", \"dataset_coltype\": \"INT\", \"expression_for_trigger\": \"[risk_rank]\", \"col_alias\": \"Rank\", \"order\": {\"priority\": 1, \"ascending\": true}}, {\"dataset_colname\": \"account_id\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[account_id]\", \"col_alias\": \"Account\"}, {\"dataset_colname\": \"branch_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[branch_name]\", \"col_alias\": \"Branch\"}, {\"dataset_colname\": \"product_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[product_name]\", \"col_alias\": \"Product\"}, {\"dataset_colname\": \"tier\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[tier]\", \"col_alias\": \"Tier\"}, {\"dataset_colname\": \"action\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[action]\", \"col_alias\": \"Action\"}, {\"dataset_colname\": \"reasons\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[reasons]\", \"col_alias\": \"Reasons\"}, {\"dataset_colname\": \"ring_size\", \"dataset_coltype\": \"INT\", \"expression_for_trigger\": \"[ring_size]\", \"col_alias\": \"Ring size\"}, {\"dataset_colname\": \"hops_to_known_mule\", \"dataset_coltype\": \"INT\", \"expression_for_trigger\": \"[hops_to_known_mule]\", \"col_alias\": \"Hops to known mule\"}], \"aggregates_shelf\": [{\"custom_expr\": \"round(max([p_mule_adj]), 4)\", \"expression_for_trigger\": \"round(max([p_mule_adj]), 4)\", \"expr_hasagg\": true, \"col_alias\": \"p(mule)\", \"dataset_colname\": \"p(mule)\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}, {\"custom_expr\": \"[risk_rank] <= 25\", \"expression_for_trigger\": \"[risk_rank] <= 25\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[risk_rank] as 'sub:Rank'\": \"dimensions_shelf\", \"[account_id] as 'sub:Account'\": \"dimensions_shelf\", \"[branch_name] as 'sub:Branch'\": \"dimensions_shelf\", \"[product_name] as 'sub:Product'\": \"dimensions_shelf\", \"[tier] as 'sub:Tier'\": \"dimensions_shelf\", \"[action] as 'sub:Action'\": \"dimensions_shelf\", \"[reasons] as 'sub:Reasons'\": \"dimensions_shelf\", \"[ring_size] as 'sub:Ring size'\": \"dimensions_shelf\", \"[hops_to_known_mule] as 'sub:Hops to known mule'\": \"dimensions_shelf\", \"round(max([p_mule_adj]), 4) as 'sub:p(mule)'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\", \"[risk_rank] <= 25\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "7b5dec97-b7ab-5a43-a105-cd4c7e625ea4",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7211,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Rings and network",
+    "dataset": 7102,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Rings with alerts\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Rings\", \"dataset_colname\": \"Rings\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(1) as 'sub:Rings'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "e758745f-5f26-5fc6-b631-9df8ce583ecd",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7212,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Rings and network",
+    "dataset": 7102,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Largest alerted ring (customers)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"max([ring_size])\", \"expression_for_trigger\": \"max([ring_size])\", \"expr_hasagg\": true, \"col_alias\": \"Largest ring\", \"dataset_colname\": \"Largest ring\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"max([ring_size]) as 'sub:Largest ring'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "f0891293-6d1e-50f2-9069-993c4ab1a5bb",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7213,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Rings and network",
+    "dataset": 7102,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Alerted accounts in rings\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum([accounts_alerted])\", \"expression_for_trigger\": \"sum([accounts_alerted])\", \"expr_hasagg\": true, \"col_alias\": \"Accounts\", \"dataset_colname\": \"Accounts\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum([accounts_alerted]) as 'sub:Accounts'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "f2f47467-3c03-5380-813d-c981c89618eb",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7214,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Rings and network",
+    "dataset": 7103,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"90-day mule rate by distance to a known mule\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"hops_band\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[hops_band]\", \"col_alias\": \"Distance\"}], \"y_shelf\": [{\"custom_expr\": \"sum([mules]) / sum([labelled])\", \"expression_for_trigger\": \"sum([mules]) / sum([labelled])\", \"expr_hasagg\": true, \"col_alias\": \"Mule rate\", \"dataset_colname\": \"Mule rate\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[labelled] > 0\", \"expression_for_trigger\": \"[labelled] > 0\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[hops_band] as 'sub:Distance'\": \"x_shelf\", \"sum([mules]) / sum([labelled]) as 'sub:Mule rate'\": \"y_shelf\", \"[labelled] > 0\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "71c5be73-c8c0-500b-bee7-d63552ca945b",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7215,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Rings and network",
+    "dataset": 7103,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"90-day mule rate by pass-through (credits forwarded in 24h)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"pass_through_band\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[pass_through_band]\", \"col_alias\": \"Pass-through\"}], \"y_shelf\": [{\"custom_expr\": \"sum([mules]) / sum([labelled])\", \"expression_for_trigger\": \"sum([mules]) / sum([labelled])\", \"expr_hasagg\": true, \"col_alias\": \"Mule rate\", \"dataset_colname\": \"Mule rate\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[labelled] > 0\", \"expression_for_trigger\": \"[labelled] > 0\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[pass_through_band] as 'sub:Pass-through'\": \"x_shelf\", \"sum([mules]) / sum([labelled]) as 'sub:Mule rate'\": \"y_shelf\", \"[labelled] > 0\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "ed87209f-853f-55c9-ba9f-55dc27ff6481",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7216,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Rings and network",
+    "dataset": 7102,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Top 15 rings to investigate first\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 15, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"ring_rank\", \"dataset_coltype\": \"BIGINT\", \"expression_for_trigger\": \"[ring_rank]\", \"col_alias\": \"Rank\", \"order\": {\"priority\": 1, \"ascending\": true}}, {\"dataset_colname\": \"ring_id\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[ring_id]\", \"col_alias\": \"Ring\"}, {\"dataset_colname\": \"top_tier\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[top_tier]\", \"col_alias\": \"Top tier\"}, {\"dataset_colname\": \"min_hops_to_known_mule\", \"dataset_coltype\": \"INT\", \"expression_for_trigger\": \"[min_hops_to_known_mule]\", \"col_alias\": \"Hops to known mule\"}, {\"dataset_colname\": \"top_reason_codes\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[top_reason_codes]\", \"col_alias\": \"Top reasons\"}], \"aggregates_shelf\": [{\"custom_expr\": \"round(max([ring_risk]), 3)\", \"expression_for_trigger\": \"round(max([ring_risk]), 3)\", \"expr_hasagg\": true, \"col_alias\": \"Ring risk\", \"dataset_colname\": \"Ring risk\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"max([ring_size])\", \"expression_for_trigger\": \"max([ring_size])\", \"expr_hasagg\": true, \"col_alias\": \"Customers\", \"dataset_colname\": \"Customers\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([accounts_scored])\", \"expression_for_trigger\": \"sum([accounts_scored])\", \"expr_hasagg\": true, \"col_alias\": \"Accounts scored\", \"dataset_colname\": \"Accounts scored\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([accounts_alerted])\", \"expression_for_trigger\": \"sum([accounts_alerted])\", \"expr_hasagg\": true, \"col_alias\": \"Alerted\", \"dataset_colname\": \"Alerted\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"round(max([alerted_share]), 2)\", \"expression_for_trigger\": \"round(max([alerted_share]), 2)\", \"expr_hasagg\": true, \"col_alias\": \"Alerted share\", \"dataset_colname\": \"Alerted share\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}, {\"custom_expr\": \"[ring_rank] <= 15\", \"expression_for_trigger\": \"[ring_rank] <= 15\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[ring_rank] as 'sub:Rank'\": \"dimensions_shelf\", \"[ring_id] as 'sub:Ring'\": \"dimensions_shelf\", \"[top_tier] as 'sub:Top tier'\": \"dimensions_shelf\", \"[min_hops_to_known_mule] as 'sub:Hops to known mule'\": \"dimensions_shelf\", \"[top_reason_codes] as 'sub:Top reasons'\": \"dimensions_shelf\", \"round(max([ring_risk]), 3) as 'sub:Ring risk'\": \"aggregates_shelf\", \"max([ring_size]) as 'sub:Customers'\": \"aggregates_shelf\", \"sum([accounts_scored]) as 'sub:Accounts scored'\": \"aggregates_shelf\", \"sum([accounts_alerted]) as 'sub:Alerted'\": \"aggregates_shelf\", \"round(max([alerted_share]), 2) as 'sub:Alerted share'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\", \"[ring_rank] <= 15\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "2d05d013-d289-5d69-930d-0d2b1f6d4666",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7217,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Trends",
+    "dataset": 7103,
+    "workspace": 1,
+    "report_type": "trellis-lines",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Active book by region (accounts per snapshot)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"snapshot_date\", \"dataset_coltype\": \"DATE\", \"expression_for_trigger\": \"[snapshot_date]\", \"col_alias\": \"Snapshot\"}], \"y_shelf\": [{\"custom_expr\": \"sum([accounts])\", \"expression_for_trigger\": \"sum([accounts])\", \"expr_hasagg\": true, \"col_alias\": \"Accounts\", \"dataset_colname\": \"Accounts\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"region\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[region]\", \"col_alias\": \"Region\"}], \"tooltip_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"trellis-lines\", \"saved_shelf_sources\": {\"[snapshot_date] as 'sub:Snapshot'\": \"x_shelf\", \"sum([accounts]) as 'sub:Accounts'\": \"y_shelf\", \"[region] as 'sub:Region'\": \"color_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-lines\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "ac6a4c11-8b77-5b33-956c-9db4be1344f6",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7218,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Trends",
+    "dataset": 7103,
+    "workspace": 1,
+    "report_type": "trellis-lines",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"90-day mule rate by region\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"snapshot_date\", \"dataset_coltype\": \"DATE\", \"expression_for_trigger\": \"[snapshot_date]\", \"col_alias\": \"Snapshot\"}], \"y_shelf\": [{\"custom_expr\": \"sum([mules]) / sum([labelled])\", \"expression_for_trigger\": \"sum([mules]) / sum([labelled])\", \"expr_hasagg\": true, \"col_alias\": \"Mule rate\", \"dataset_colname\": \"Mule rate\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"region\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[region]\", \"col_alias\": \"Region\"}], \"tooltip_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[labelled] > 0\", \"expression_for_trigger\": \"[labelled] > 0\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-lines\", \"saved_shelf_sources\": {\"[snapshot_date] as 'sub:Snapshot'\": \"x_shelf\", \"sum([mules]) / sum([labelled]) as 'sub:Mule rate'\": \"y_shelf\", \"[region] as 'sub:Region'\": \"color_shelf\", \"[labelled] > 0\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-lines\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "16f92c8b-c9b8-56cb-b89b-746e5db8f698",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7219,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Trends",
+    "dataset": 7103,
+    "workspace": 1,
+    "report_type": "trellis-lines",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Mules per snapshot by product\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"snapshot_date\", \"dataset_coltype\": \"DATE\", \"expression_for_trigger\": \"[snapshot_date]\", \"col_alias\": \"Snapshot\"}], \"y_shelf\": [{\"custom_expr\": \"sum([mules])\", \"expression_for_trigger\": \"sum([mules])\", \"expr_hasagg\": true, \"col_alias\": \"Mules\", \"dataset_colname\": \"Mules\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"product_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[product_name]\", \"col_alias\": \"Product\"}], \"tooltip_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[labelled] > 0\", \"expression_for_trigger\": \"[labelled] > 0\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-lines\", \"saved_shelf_sources\": {\"[snapshot_date] as 'sub:Snapshot'\": \"x_shelf\", \"sum([mules]) as 'sub:Mules'\": \"y_shelf\", \"[product_name] as 'sub:Product'\": \"color_shelf\", \"[labelled] > 0\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-lines\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "61887785-8289-527b-92b5-d21e56b72c19",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7220,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Trends",
+    "dataset": 7100,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Published alerts per run date, by tier\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"run_date\", \"dataset_coltype\": \"DATE\", \"expression_for_trigger\": \"[run_date]\", \"col_alias\": \"Run date\"}], \"y_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Alerts\", \"dataset_colname\": \"Alerts\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"tier\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[tier]\", \"col_alias\": \"Tier\"}], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[run_date] as 'sub:Run date'\": \"x_shelf\", \"sum(1) as 'sub:Alerts'\": \"y_shelf\", \"[tier] as 'sub:Tier'\": \"color_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "4f3cc869-ebe3-58ab-a073-93a83999ca48",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7221,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Model trust",
+    "dataset": 7104,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Holdout AUC\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"max([holdout_auc])\", \"expression_for_trigger\": \"max([holdout_auc])\", \"expr_hasagg\": true, \"col_alias\": \"AUC\", \"dataset_colname\": \"AUC\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"max([holdout_auc]) as 'sub:AUC'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "97f9590c-8527-54e3-b98c-105f793ebba1",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7222,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Model trust",
+    "dataset": 7104,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Mules caught in the top 1% (model)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"max([capture_top1])\", \"expression_for_trigger\": \"max([capture_top1])\", \"expr_hasagg\": true, \"col_alias\": \"Capture top 1%\", \"dataset_colname\": \"Capture top 1%\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"max([capture_top1]) as 'sub:Capture top 1%'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "2bfd793b-8698-5f00-af0c-75bdc1951f21",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7223,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Model trust",
+    "dataset": 7104,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Mules caught in the top 1% (rules only)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"max([rules_capture_top1])\", \"expression_for_trigger\": \"max([rules_capture_top1])\", \"expr_hasagg\": true, \"col_alias\": \"Rules capture top 1%\", \"dataset_colname\": \"Rules capture top 1%\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"max([rules_capture_top1]) as 'sub:Rules capture top 1%'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "ae310d69-5b77-5482-9141-b8a87cc98efa",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7224,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Model trust",
+    "dataset": 7104,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Precision of the T1 band (top 0.2%)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"max([precision_top02])\", \"expression_for_trigger\": \"max([precision_top02])\", \"expr_hasagg\": true, \"col_alias\": \"Precision top 0.2%\", \"dataset_colname\": \"Precision top 0.2%\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"max([precision_top02]) as 'sub:Precision top 0.2%'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "f39f4416-bb06-5afd-80a0-7d16b1c5c391",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7225,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Model trust",
+    "dataset": 7104,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Lift over rules\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"max([lift_over_rules])\", \"expression_for_trigger\": \"max([lift_over_rules])\", \"expr_hasagg\": true, \"col_alias\": \"Lift\", \"dataset_colname\": \"Lift\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"max([lift_over_rules]) as 'sub:Lift'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "75a8497d-f3c7-5a07-8a37-ec833c523d15",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7226,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Model trust",
+    "dataset": 7105,
+    "workspace": 1,
+    "report_type": "trellis-lines",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Holdout: share of mules caught, model against rules\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"band_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[band_label]\", \"col_alias\": \"Risk band\"}], \"y_shelf\": [{\"custom_expr\": \"max([model_cum_capture])\", \"expression_for_trigger\": \"max([model_cum_capture])\", \"expr_hasagg\": true, \"col_alias\": \"Model\", \"dataset_colname\": \"Model\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"max([rules_cum_capture])\", \"expression_for_trigger\": \"max([rules_cum_capture])\", \"expr_hasagg\": true, \"col_alias\": \"Rules only\", \"dataset_colname\": \"Rules only\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [], \"tooltip_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-lines\", \"saved_shelf_sources\": {\"[band_label] as 'sub:Risk band'\": \"x_shelf\", \"max([model_cum_capture]) as 'sub:Model'\": \"y_shelf\", \"max([rules_cum_capture]) as 'sub:Rules only'\": \"y_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-lines\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "45cfcaa6-be4b-5e48-9e35-e4de037c2197",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7227,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Model trust",
+    "dataset": 7105,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Holdout: mule rate in each risk band\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"band_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[band_label]\", \"col_alias\": \"Risk band\"}], \"y_shelf\": [{\"custom_expr\": \"max([mule_rate])\", \"expression_for_trigger\": \"max([mule_rate])\", \"expr_hasagg\": true, \"col_alias\": \"Mule rate\", \"dataset_colname\": \"Mule rate\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[band_label] as 'sub:Risk band'\": \"x_shelf\", \"max([mule_rate]) as 'sub:Mule rate'\": \"y_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "bdbbdf1d-53c2-5456-b06e-6e3f27753ce6",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7228,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Model trust",
+    "dataset": 7104,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Daily runs: trust numbers and the KPI gate\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"run_date\", \"dataset_coltype\": \"DATE\", \"expression_for_trigger\": \"[run_date]\", \"col_alias\": \"Run date\", \"order\": {\"priority\": 1, \"ascending\": false}}, {\"dataset_colname\": \"model_family\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[model_family]\", \"col_alias\": \"Model\"}, {\"dataset_colname\": \"device\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[device]\", \"col_alias\": \"Device\"}, {\"dataset_colname\": \"triggered_by\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[triggered_by]\", \"col_alias\": \"Triggered by\"}, {\"dataset_colname\": \"gate_passed\", \"dataset_coltype\": \"INT\", \"expression_for_trigger\": \"[gate_passed]\", \"col_alias\": \"Gate passed\"}, {\"dataset_colname\": \"alerts_published\", \"dataset_coltype\": \"INT\", \"expression_for_trigger\": \"[alerts_published]\", \"col_alias\": \"Published\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([scored_accounts])\", \"expression_for_trigger\": \"sum([scored_accounts])\", \"expr_hasagg\": true, \"col_alias\": \"Scored\", \"dataset_colname\": \"Scored\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([alerts_total])\", \"expression_for_trigger\": \"sum([alerts_total])\", \"expr_hasagg\": true, \"col_alias\": \"Alerts\", \"dataset_colname\": \"Alerts\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"max([holdout_auc])\", \"expression_for_trigger\": \"max([holdout_auc])\", \"expr_hasagg\": true, \"col_alias\": \"AUC\", \"dataset_colname\": \"AUC\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"max([capture_top1])\", \"expression_for_trigger\": \"max([capture_top1])\", \"expr_hasagg\": true, \"col_alias\": \"Capture top 1%\", \"dataset_colname\": \"Capture top 1%\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"max([precision_top02])\", \"expression_for_trigger\": \"max([precision_top02])\", \"expr_hasagg\": true, \"col_alias\": \"Precision top 0.2%\", \"dataset_colname\": \"Precision top 0.2%\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"max([lift_over_rules])\", \"expression_for_trigger\": \"max([lift_over_rules])\", \"expr_hasagg\": true, \"col_alias\": \"Lift\", \"dataset_colname\": \"Lift\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"round(max([duration_s]), 0)\", \"expression_for_trigger\": \"round(max([duration_s]), 0)\", \"expr_hasagg\": true, \"col_alias\": \"Seconds\", \"dataset_colname\": \"Seconds\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[run_date] as 'sub:Run date'\": \"dimensions_shelf\", \"[model_family] as 'sub:Model'\": \"dimensions_shelf\", \"[device] as 'sub:Device'\": \"dimensions_shelf\", \"[triggered_by] as 'sub:Triggered by'\": \"dimensions_shelf\", \"[gate_passed] as 'sub:Gate passed'\": \"dimensions_shelf\", \"[alerts_published] as 'sub:Published'\": \"dimensions_shelf\", \"sum([scored_accounts]) as 'sub:Scored'\": \"aggregates_shelf\", \"sum([alerts_total]) as 'sub:Alerts'\": \"aggregates_shelf\", \"max([holdout_auc]) as 'sub:AUC'\": \"aggregates_shelf\", \"max([capture_top1]) as 'sub:Capture top 1%'\": \"aggregates_shelf\", \"max([precision_top02]) as 'sub:Precision top 0.2%'\": \"aggregates_shelf\", \"max([lift_over_rules]) as 'sub:Lift'\": \"aggregates_shelf\", \"round(max([duration_s]), 0) as 'sub:Seconds'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "49fc30fd-8c6e-5b8d-9555-e829918936da",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7229,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Data quality",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Checks\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Checks\", \"dataset_colname\": \"Checks\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(1) as 'sub:Checks'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "6c16c23d-8839-51be-a5b4-8038ebfae23b",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7230,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Data quality",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Failed checks\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum([failed])\", \"expression_for_trigger\": \"sum([failed])\", \"expr_hasagg\": true, \"col_alias\": \"Failed\", \"dataset_colname\": \"Failed\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum([failed]) as 'sub:Failed'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "c86a0912-3081-546f-8fb8-465cafce995b",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7231,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Data quality",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Critical failures\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expression_for_trigger\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expr_hasagg\": true, \"col_alias\": \"Critical failures\", \"dataset_colname\": \"Critical failures\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(case when [severity] = 'critical' then [failed] else 0 end) as 'sub:Critical failures'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "b201658b-5588-5b0a-b0ad-471b9d120bbc",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7232,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Data quality",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Checks passed and failed by layer\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"layer\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer]\", \"col_alias\": \"Layer\"}], \"y_shelf\": [{\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([failed])\", \"expression_for_trigger\": \"sum([failed])\", \"expr_hasagg\": true, \"col_alias\": \"Failed\", \"dataset_colname\": \"Failed\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[layer] as 'sub:Layer'\": \"x_shelf\", \"sum([passed]) as 'sub:Passed'\": \"y_shelf\", \"sum([failed]) as 'sub:Failed'\": \"y_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "40340434-e375-5edd-992a-674ad2915f07",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7233,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Data quality",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Failed checks (empty on a healthy pipeline)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"layer\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer]\", \"col_alias\": \"Layer\"}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([expected])\", \"expression_for_trigger\": \"sum([expected])\", \"expr_hasagg\": true, \"col_alias\": \"Expected\", \"dataset_colname\": \"Expected\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([actual])\", \"expression_for_trigger\": \"sum([actual])\", \"expr_hasagg\": true, \"col_alias\": \"Actual\", \"dataset_colname\": \"Actual\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([diff])\", \"expression_for_trigger\": \"sum([diff])\", \"expr_hasagg\": true, \"col_alias\": \"Diff\", \"dataset_colname\": \"Diff\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[failed] = 1\", \"expression_for_trigger\": \"[failed] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[layer] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"sum([expected]) as 'sub:Expected'\": \"aggregates_shelf\", \"sum([actual]) as 'sub:Actual'\": \"aggregates_shelf\", \"sum([diff]) as 'sub:Diff'\": \"aggregates_shelf\", \"[failed] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "aa1e7b70-cc34-511c-a57f-1ef3f8a92615",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7234,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Investigation Command Centre / Data quality",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Every check: reconciliation against source counts and integrity\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"layer\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer]\", \"col_alias\": \"Layer\", \"order\": {\"priority\": 1, \"ascending\": true}}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}, {\"dataset_colname\": \"rule\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[rule]\", \"col_alias\": \"Rule\"}, {\"dataset_colname\": \"note\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[note]\", \"col_alias\": \"Note\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([expected])\", \"expression_for_trigger\": \"sum([expected])\", \"expr_hasagg\": true, \"col_alias\": \"Expected\", \"dataset_colname\": \"Expected\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([actual])\", \"expression_for_trigger\": \"sum([actual])\", \"expr_hasagg\": true, \"col_alias\": \"Actual\", \"dataset_colname\": \"Actual\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[layer] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"[rule] as 'sub:Rule'\": \"dimensions_shelf\", \"[note] as 'sub:Note'\": \"dimensions_shelf\", \"sum([expected]) as 'sub:Expected'\": \"aggregates_shelf\", \"sum([actual]) as 'sub:Actual'\": \"aggregates_shelf\", \"sum([passed]) as 'sub:Passed'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "9fba3343-e35d-5042-85ca-b2525822c375",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  }
+ ],
+ "colorpalette": [],
+ "appgroups": [],
+ "datasets": [
+  {
+   "model": "datasets.dataset",
+   "pk": 7100,
+   "fields": {
+    "dataconnection": 2,
+    "dataset_name": "Mule - Alerts",
+    "dataset_type": "singletable",
+    "dataset_detail": "rsingh_mule_acct_report.v_alerts",
+    "dataset_description": "rsingh_mule_acct_report.v_alerts (sql/dataviz_views.sql)",
+    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_alerts\", \"columns\": [{\"alias\": \"run_date\", \"type\": \"DATE\", \"name\": \"run_date\", \"isdim\": true}, {\"alias\": \"is_latest\", \"type\": \"TINYINT\", \"name\": \"is_latest\", \"isdim\": true}, {\"alias\": \"run_id\", \"type\": \"STRING\", \"name\": \"run_id\", \"isdim\": true}, {\"alias\": \"risk_rank\", \"type\": \"INT\", \"name\": \"risk_rank\", \"isdim\": true}, {\"alias\": \"account_id\", \"type\": \"STRING\", \"name\": \"account_id\", \"isdim\": true}, {\"alias\": \"cif\", \"type\": \"STRING\", \"name\": \"cif\", \"isdim\": true}, {\"alias\": \"tier\", \"type\": \"STRING\", \"name\": \"tier\", \"isdim\": true}, {\"alias\": \"action\", \"type\": \"STRING\", \"name\": \"action\", \"isdim\": true}, {\"alias\": \"branch_code\", \"type\": \"STRING\", \"name\": \"branch_code\", \"isdim\": true}, {\"alias\": \"branch_name\", \"type\": \"STRING\", \"name\": \"branch_name\", \"isdim\": true}, {\"alias\": \"city\", \"type\": \"STRING\", \"name\": \"city\", \"isdim\": true}, {\"alias\": \"state\", \"type\": \"STRING\", \"name\": \"state\", \"isdim\": true}, {\"alias\": \"region\", \"type\": \"STRING\", \"name\": \"region\", \"isdim\": true}, {\"alias\": \"product_code\", \"type\": \"STRING\", \"name\": \"product_code\", \"isdim\": true}, {\"alias\": \"product_name\", \"type\": \"STRING\", \"name\": \"product_name\", \"isdim\": true}, {\"alias\": \"kyc_type\", \"type\": \"STRING\", \"name\": \"kyc_type\", \"isdim\": true}, {\"alias\": \"main_reason\", \"type\": \"STRING\", \"name\": \"main_reason\", \"isdim\": true}, {\"alias\": \"reason_codes\", \"type\": \"STRING\", \"name\": \"reason_codes\", \"isdim\": true}, {\"alias\": \"reasons\", \"type\": \"STRING\", \"name\": \"reasons\", \"isdim\": true}, {\"alias\": \"ring_id\", \"type\": \"STRING\", \"name\": \"ring_id\", \"isdim\": true}, {\"alias\": \"ring_size\", \"type\": \"INT\", \"name\": \"ring_size\", \"isdim\": true}, {\"alias\": \"in_ring\", \"type\": \"TINYINT\", \"name\": \"in_ring\", \"isdim\": false}, {\"alias\": \"hops_to_known_mule\", \"type\": \"INT\", \"name\": \"hops_to_known_mule\", \"isdim\": true}, {\"alias\": \"near_known_mule\", \"type\": \"TINYINT\", \"name\": \"near_known_mule\", \"isdim\": false}, {\"alias\": \"p_mule\", \"type\": \"DOUBLE\", \"name\": \"p_mule\", \"isdim\": false}, {\"alias\": \"p_mule_adj\", \"type\": \"DOUBLE\", \"name\": \"p_mule_adj\", \"isdim\": false}, {\"alias\": \"risk_pct\", \"type\": \"DOUBLE\", \"name\": \"risk_pct\", \"isdim\": false}, {\"alias\": \"account_age_days\", \"type\": \"INT\", \"name\": \"account_age_days\", \"isdim\": false}, {\"alias\": \"pass_through_ratio_7d\", \"type\": \"DOUBLE\", \"name\": \"pass_through_ratio_7d\", \"isdim\": false}, {\"alias\": \"median_hold_hours_30d\", \"type\": \"DOUBLE\", \"name\": \"median_hold_hours_30d\", \"isdim\": false}, {\"alias\": \"distinct_senders_7d\", \"type\": \"INT\", \"name\": \"distinct_senders_7d\", \"isdim\": false}, {\"alias\": \"new_device_logins_30d\", \"type\": \"INT\", \"name\": \"new_device_logins_30d\", \"isdim\": false}, {\"alias\": \"accounts_on_same_device\", \"type\": \"INT\", \"name\": \"accounts_on_same_device\", \"isdim\": false}, {\"alias\": \"cifs_sharing_mobile\", \"type\": \"INT\", \"name\": \"cifs_sharing_mobile\", \"isdim\": false}]}]",
+    "dataset_tablenames": "[\"rsingh_mule_acct_report.v_alerts\"]",
+    "uuid": "a062d49f-c043-57c1-b106-9d99a4b5f417",
+    "imported_uuid": null,
+    "cache_sequence": 0,
+    "dataset_settings": "{}",
+    "search_enabled": false,
+    "dashboards": [
+     7000
+    ],
+    "version_id": 7100,
+    "version_group_id": 7100,
+    "is_active_version": true,
+    "version_name": "mule-command-centre",
+    "is_named_version": false
+   }
+  },
+  {
+   "model": "datasets.dataset",
+   "pk": 7101,
+   "fields": {
+    "dataconnection": 2,
+    "dataset_name": "Mule - Alert reasons",
+    "dataset_type": "singletable",
+    "dataset_detail": "rsingh_mule_acct_report.v_alert_reasons",
+    "dataset_description": "rsingh_mule_acct_report.v_alert_reasons (sql/dataviz_views.sql)",
+    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_alert_reasons\", \"columns\": [{\"alias\": \"run_date\", \"type\": \"DATE\", \"name\": \"run_date\", \"isdim\": true}, {\"alias\": \"is_latest\", \"type\": \"TINYINT\", \"name\": \"is_latest\", \"isdim\": true}, {\"alias\": \"account_id\", \"type\": \"STRING\", \"name\": \"account_id\", \"isdim\": true}, {\"alias\": \"tier\", \"type\": \"STRING\", \"name\": \"tier\", \"isdim\": true}, {\"alias\": \"region\", \"type\": \"STRING\", \"name\": \"region\", \"isdim\": true}, {\"alias\": \"reason_code\", \"type\": \"STRING\", \"name\": \"reason_code\", \"isdim\": true}]}]",
+    "dataset_tablenames": "[\"rsingh_mule_acct_report.v_alert_reasons\"]",
+    "uuid": "14ed05a8-93ec-571c-921f-537f6febf128",
+    "imported_uuid": null,
+    "cache_sequence": 0,
+    "dataset_settings": "{}",
+    "search_enabled": false,
+    "dashboards": [
+     7000
+    ],
+    "version_id": 7101,
+    "version_group_id": 7101,
+    "is_active_version": true,
+    "version_name": "mule-command-centre",
+    "is_named_version": false
+   }
+  },
+  {
+   "model": "datasets.dataset",
+   "pk": 7102,
+   "fields": {
+    "dataconnection": 2,
+    "dataset_name": "Mule - Rings",
+    "dataset_type": "singletable",
+    "dataset_detail": "rsingh_mule_acct_report.v_rings",
+    "dataset_description": "rsingh_mule_acct_report.v_rings (sql/dataviz_views.sql)",
+    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_rings\", \"columns\": [{\"alias\": \"run_date\", \"type\": \"DATE\", \"name\": \"run_date\", \"isdim\": true}, {\"alias\": \"is_latest\", \"type\": \"TINYINT\", \"name\": \"is_latest\", \"isdim\": true}, {\"alias\": \"ring_rank\", \"type\": \"BIGINT\", \"name\": \"ring_rank\", \"isdim\": true}, {\"alias\": \"ring_id\", \"type\": \"STRING\", \"name\": \"ring_id\", \"isdim\": true}, {\"alias\": \"ring_size\", \"type\": \"INT\", \"name\": \"ring_size\", \"isdim\": false}, {\"alias\": \"accounts_scored\", \"type\": \"INT\", \"name\": \"accounts_scored\", \"isdim\": false}, {\"alias\": \"accounts_alerted\", \"type\": \"INT\", \"name\": \"accounts_alerted\", \"isdim\": false}, {\"alias\": \"alerted_share\", \"type\": \"DOUBLE\", \"name\": \"alerted_share\", \"isdim\": false}, {\"alias\": \"top_tier\", \"type\": \"STRING\", \"name\": \"top_tier\", \"isdim\": true}, {\"alias\": \"max_p_mule_adj\", \"type\": \"DOUBLE\", \"name\": \"max_p_mule_adj\", \"isdim\": false}, {\"alias\": \"ring_risk\", \"type\": \"DOUBLE\", \"name\": \"ring_risk\", \"isdim\": false}, {\"alias\": \"min_hops_to_known_mule\", \"type\": \"INT\", \"name\": \"min_hops_to_known_mule\", \"isdim\": true}, {\"alias\": \"top_reason_codes\", \"type\": \"STRING\", \"name\": \"top_reason_codes\", \"isdim\": true}]}]",
+    "dataset_tablenames": "[\"rsingh_mule_acct_report.v_rings\"]",
+    "uuid": "716c3af4-578c-58a8-9473-a3a65e30fcf9",
+    "imported_uuid": null,
+    "cache_sequence": 0,
+    "dataset_settings": "{}",
+    "search_enabled": false,
+    "dashboards": [
+     7000
+    ],
+    "version_id": 7102,
+    "version_group_id": 7102,
+    "is_active_version": true,
+    "version_name": "mule-command-centre",
+    "is_named_version": false
+   }
+  },
+  {
+   "model": "datasets.dataset",
+   "pk": 7103,
+   "fields": {
+    "dataconnection": 2,
+    "dataset_name": "Mule - Book weekly",
+    "dataset_type": "singletable",
+    "dataset_detail": "rsingh_mule_acct_report.v_book_weekly",
+    "dataset_description": "rsingh_mule_acct_report.v_book_weekly (sql/dataviz_views.sql)",
+    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_book_weekly\", \"columns\": [{\"alias\": \"snapshot_date\", \"type\": \"DATE\", \"name\": \"snapshot_date\", \"isdim\": true}, {\"alias\": \"region\", \"type\": \"STRING\", \"name\": \"region\", \"isdim\": true}, {\"alias\": \"product_name\", \"type\": \"STRING\", \"name\": \"product_name\", \"isdim\": true}, {\"alias\": \"kyc_type\", \"type\": \"STRING\", \"name\": \"kyc_type\", \"isdim\": true}, {\"alias\": \"hops_band\", \"type\": \"STRING\", \"name\": \"hops_band\", \"isdim\": true}, {\"alias\": \"pass_through_band\", \"type\": \"STRING\", \"name\": \"pass_through_band\", \"isdim\": true}, {\"alias\": \"accounts\", \"type\": \"BIGINT\", \"name\": \"accounts\", \"isdim\": false}, {\"alias\": \"labelled\", \"type\": \"BIGINT\", \"name\": \"labelled\", \"isdim\": false}, {\"alias\": \"mules\", \"type\": \"BIGINT\", \"name\": \"mules\", \"isdim\": false}]}]",
+    "dataset_tablenames": "[\"rsingh_mule_acct_report.v_book_weekly\"]",
+    "uuid": "b5a2b806-41f8-5052-8080-f68db0496db6",
+    "imported_uuid": null,
+    "cache_sequence": 0,
+    "dataset_settings": "{}",
+    "search_enabled": false,
+    "dashboards": [
+     7000
+    ],
+    "version_id": 7103,
+    "version_group_id": 7103,
+    "is_active_version": true,
+    "version_name": "mule-command-centre",
+    "is_named_version": false
+   }
+  },
+  {
+   "model": "datasets.dataset",
+   "pk": 7104,
+   "fields": {
+    "dataconnection": 2,
+    "dataset_name": "Mule - Model runs",
+    "dataset_type": "singletable",
+    "dataset_detail": "rsingh_mule_acct_report.v_model_run",
+    "dataset_description": "rsingh_mule_acct_report.v_model_run (sql/dataviz_views.sql)",
+    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_model_run\", \"columns\": [{\"alias\": \"run_date\", \"type\": \"DATE\", \"name\": \"run_date\", \"isdim\": true}, {\"alias\": \"is_latest\", \"type\": \"TINYINT\", \"name\": \"is_latest\", \"isdim\": true}, {\"alias\": \"run_id\", \"type\": \"STRING\", \"name\": \"run_id\", \"isdim\": true}, {\"alias\": \"run_ts\", \"type\": \"TIMESTAMP\", \"name\": \"run_ts\", \"isdim\": true}, {\"alias\": \"model_family\", \"type\": \"STRING\", \"name\": \"model_family\", \"isdim\": true}, {\"alias\": \"device\", \"type\": \"STRING\", \"name\": \"device\", \"isdim\": true}, {\"alias\": \"triggered_by\", \"type\": \"STRING\", \"name\": \"triggered_by\", \"isdim\": true}, {\"alias\": \"scored_accounts\", \"type\": \"INT\", \"name\": \"scored_accounts\", \"isdim\": false}, {\"alias\": \"alerts_t1\", \"type\": \"INT\", \"name\": \"alerts_t1\", \"isdim\": false}, {\"alias\": \"alerts_t2\", \"type\": \"INT\", \"name\": \"alerts_t2\", \"isdim\": false}, {\"alias\": \"alerts_t3\", \"type\": \"INT\", \"name\": \"alerts_t3\", \"isdim\": false}, {\"alias\": \"alerts_total\", \"type\": \"BIGINT\", \"name\": \"alerts_total\", \"isdim\": false}, {\"alias\": \"book_mule_rate\", \"type\": \"DOUBLE\", \"name\": \"book_mule_rate\", \"isdim\": false}, {\"alias\": \"holdout_auc\", \"type\": \"DOUBLE\", \"name\": \"holdout_auc\", \"isdim\": false}, {\"alias\": \"holdout_pr_auc\", \"type\": \"DOUBLE\", \"name\": \"holdout_pr_auc\", \"isdim\": false}, {\"alias\": \"capture_top1\", \"type\": \"DOUBLE\", \"name\": \"capture_top1\", \"isdim\": false}, {\"alias\": \"capture_top5\", \"type\": \"DOUBLE\", \"name\": \"capture_top5\", \"isdim\": false}, {\"alias\": \"precision_top02\", \"type\": \"DOUBLE\", \"name\": \"precision_top02\", \"isdim\": false}, {\"alias\": \"precision_top1\", \"type\": \"DOUBLE\", \"name\": \"precision_top1\", \"isdim\": false}, {\"alias\": \"rules_capture_top1\", \"type\": \"DOUBLE\", \"name\": \"rules_capture_top1\", \"isdim\": false}, {\"alias\": \"rules_precision_top1\", \"type\": \"DOUBLE\", \"name\": \"rules_precision_top1\", \"isdim\": false}, {\"alias\": \"lift_over_rules\", \"type\": \"DOUBLE\", \"name\": \"lift_over_rules\", \"isdim\": false}, {\"alias\": \"t1_cutoff\", \"type\": \"DOUBLE\", \"name\": \"t1_cutoff\", \"isdim\": false}, {\"alias\": \"gate_passed\", \"type\": \"INT\", \"name\": \"gate_passed\", \"isdim\": true}, {\"alias\": \"alerts_published\", \"type\": \"INT\", \"name\": \"alerts_published\", \"isdim\": true}, {\"alias\": \"gate_detail\", \"type\": \"STRING\", \"name\": \"gate_detail\", \"isdim\": true}, {\"alias\": \"duration_s\", \"type\": \"DOUBLE\", \"name\": \"duration_s\", \"isdim\": false}]}]",
+    "dataset_tablenames": "[\"rsingh_mule_acct_report.v_model_run\"]",
+    "uuid": "8f696b2c-05ba-5282-87d2-60db8f096ea2",
+    "imported_uuid": null,
+    "cache_sequence": 0,
+    "dataset_settings": "{}",
+    "search_enabled": false,
+    "dashboards": [
+     7000
+    ],
+    "version_id": 7104,
+    "version_group_id": 7104,
+    "is_active_version": true,
+    "version_name": "mule-command-centre",
+    "is_named_version": false
+   }
+  },
+  {
+   "model": "datasets.dataset",
+   "pk": 7105,
+   "fields": {
+    "dataconnection": 2,
+    "dataset_name": "Mule - Holdout",
+    "dataset_type": "singletable",
+    "dataset_detail": "rsingh_mule_acct_report.v_holdout",
+    "dataset_description": "rsingh_mule_acct_report.v_holdout (sql/dataviz_views.sql)",
+    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_holdout\", \"columns\": [{\"alias\": \"run_date\", \"type\": \"DATE\", \"name\": \"run_date\", \"isdim\": true}, {\"alias\": \"is_latest\", \"type\": \"TINYINT\", \"name\": \"is_latest\", \"isdim\": true}, {\"alias\": \"band_label\", \"type\": \"STRING\", \"name\": \"band_label\", \"isdim\": true}, {\"alias\": \"upto_pct\", \"type\": \"DOUBLE\", \"name\": \"upto_pct\", \"isdim\": false}, {\"alias\": \"accounts\", \"type\": \"INT\", \"name\": \"accounts\", \"isdim\": false}, {\"alias\": \"mules\", \"type\": \"INT\", \"name\": \"mules\", \"isdim\": false}, {\"alias\": \"mule_rate\", \"type\": \"DOUBLE\", \"name\": \"mule_rate\", \"isdim\": false}, {\"alias\": \"mean_p_mule\", \"type\": \"DOUBLE\", \"name\": \"mean_p_mule\", \"isdim\": false}, {\"alias\": \"model_cum_capture\", \"type\": \"DOUBLE\", \"name\": \"model_cum_capture\", \"isdim\": false}, {\"alias\": \"rules_cum_capture\", \"type\": \"DOUBLE\", \"name\": \"rules_cum_capture\", \"isdim\": false}]}]",
+    "dataset_tablenames": "[\"rsingh_mule_acct_report.v_holdout\"]",
+    "uuid": "4f723232-c260-5fdf-a039-a97cecde6dbe",
+    "imported_uuid": null,
+    "cache_sequence": 0,
+    "dataset_settings": "{}",
+    "search_enabled": false,
+    "dashboards": [
+     7000
+    ],
+    "version_id": 7105,
+    "version_group_id": 7105,
+    "is_active_version": true,
+    "version_name": "mule-command-centre",
+    "is_named_version": false
+   }
+  },
+  {
+   "model": "datasets.dataset",
+   "pk": 7106,
+   "fields": {
+    "dataconnection": 2,
+    "dataset_name": "Mule - Data quality",
+    "dataset_type": "singletable",
+    "dataset_detail": "rsingh_mule_acct_report.v_dq",
+    "dataset_description": "rsingh_mule_acct_report.v_dq (sql/dataviz_views.sql)",
+    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_dq\", \"columns\": [{\"alias\": \"layer\", \"type\": \"STRING\", \"name\": \"layer\", \"isdim\": true}, {\"alias\": \"table_name\", \"type\": \"STRING\", \"name\": \"table_name\", \"isdim\": true}, {\"alias\": \"check_name\", \"type\": \"STRING\", \"name\": \"check_name\", \"isdim\": true}, {\"alias\": \"severity\", \"type\": \"STRING\", \"name\": \"severity\", \"isdim\": true}, {\"alias\": \"rule\", \"type\": \"STRING\", \"name\": \"rule\", \"isdim\": true}, {\"alias\": \"expected\", \"type\": \"BIGINT\", \"name\": \"expected\", \"isdim\": false}, {\"alias\": \"actual\", \"type\": \"BIGINT\", \"name\": \"actual\", \"isdim\": false}, {\"alias\": \"diff\", \"type\": \"BIGINT\", \"name\": \"diff\", \"isdim\": false}, {\"alias\": \"passed\", \"type\": \"TINYINT\", \"name\": \"passed\", \"isdim\": false}, {\"alias\": \"failed\", \"type\": \"TINYINT\", \"name\": \"failed\", \"isdim\": false}, {\"alias\": \"note\", \"type\": \"STRING\", \"name\": \"note\", \"isdim\": true}]}]",
+    "dataset_tablenames": "[\"rsingh_mule_acct_report.v_dq\"]",
+    "uuid": "365095e9-6ffb-5197-a2bb-d37850405d79",
+    "imported_uuid": null,
+    "cache_sequence": 0,
+    "dataset_settings": "{}",
+    "search_enabled": false,
+    "dashboards": [
+     7000
+    ],
+    "version_id": 7106,
+    "version_group_id": 7106,
+    "is_active_version": true,
+    "version_name": "mule-command-centre",
+    "is_named_version": false
+   }
+  }
+ ],
+ "version": {
+  "Arcviz Version": "8.1.7",
+  "Raw Timestamp of last commit": "1790674769",
+  "Timestamp of last commit": "Tue Sep 29 11:39:29 2026 +0200",
+  "SHA of last commit": "33b9a6f149e78eab27640d5fffd29e46e669bdb3",
+  "Description": "8.1.7-b36"
+ }
+}

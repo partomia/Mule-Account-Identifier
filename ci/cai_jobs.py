@@ -26,5 +26,12 @@ MODEL = {"name": "rsingh-mule-acct-scorer", "file": "cai/model/predict.py", "cpu
 APP = {"name": "Mule Investigator Console", "subdomain": "rsingh-mule-acct-console", "script": "app/run.py",
        "cpu": 2, "memory": 4, "description": "Streamlit console over the published mule alert queue"}
 
+# Cloudera Data Visualization as a CAI application: one per CAI project (its metadata lives in
+# /home/cdsw/.arc). Dashboards over the rsingh_mule_acct_report views: docs/DATAVIZ.md.
+DATAVIZ = {"name": "Mule Data Visualization", "subdomain": "rsingh-mule-acct-dataviz",
+           "script": "/opt/vizapps/tools/arcviz/startup_app.py", "cpu": 2, "memory": 8,
+           "runtime": "docker.repository.cloudera.com/cloudera/cdv/runtimedataviz:8.1.7-b36",
+           "description": "Mule Investigation Command Centre dashboard (Cloudera Data Visualization)"}
+
 # Airflow Variable -> CAI job name (the DAG reads these)
 JOB_VARIABLES = {"MULE_CAI_SYNC_JOB_ID": SYNC_JOB, "MULE_CAI_JOB_ID": SCORE_JOB}

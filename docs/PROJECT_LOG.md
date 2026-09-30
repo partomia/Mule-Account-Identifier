@@ -167,6 +167,43 @@ decisions and the phase checklist are in `PLAN.md`.
   to the first one gives the same 14,206,374 rows, because the DAG run
   re-wrote the manual run's data.
 
+### Reporting dashboard in Data Visualization (2026-10-01)
+
+- `sql/dataviz_views.sql` created `rsingh_mule_acct_report` and 7 views
+  (each statement 1.4 to 2.8 s). The check queries at the end of the file,
+  on the 2026-09-28 run:
+  - Alerts: 6,042, including 402 T1, touching 1,002 rings. Expected mules
+    on the queue 229.3; 233 alerts one hop from a known mule.
+  - Reason codes: NEW_ACCOUNT on 2,121 alerts, DEVICE_OR_MOBILE_CHANGE
+    1,278, RING 1,037 (13 codes in use).
+  - Rings: 1,002 with alerts; the largest alerted ring has 81 customers.
+  - `v_dq`: 13 checks, all passing (3.8 s). Silver `txn` equals 17,172,596
+    positive bronze transactions of known accounts; 32 transactions of
+    unknown accounts (limit 17,175); 18 unresolved complaints (limit 195).
+- `ci/setup_cai.py --dataviz` created the application `Mule Data
+  Visualization` (`px89-o4du-6d3m-9070`); `APPLICATION_RUNNING` after 102 s.
+  Export returned "Manage dashboards role is required" until Ravi opened the
+  application once in a browser.
+- The built-in sample dashboards export KPI and line visuals with the same
+  shelves as the builder; the sample tables add a tooltip shelf and the
+  sample bars have no drill or label shelves. The import accepted the
+  builder's shelves as they are.
+- `dataviz/build_dashboard.py` created connection `rsingh-mule-acct-impala`
+  and imported 7 datasets, 34 visuals and 5 sheets (dashboard id 129,
+  21 s including the column types). A second import created nothing new: 7
+  datasets, 1 dashboard.
+- `--verify` (72 s): all 34 visuals return rows through the application's
+  connection (the failed-checks table returns 0 rows, as expected). The 16
+  KPI tiles equal Impala: 6,042 alerts, 402 T1, 1,002 rings, 229 expected
+  mules, 233 near a known mule; 1,002 rings, largest 81, 1,619 alerted
+  accounts in rings; AUC 0.9996, capture top 1% 1.0 (rules 0.5797),
+  precision top 0.2% 0.2559, lift 1.725; 13 checks, 0 failed, 0 critical.
+- The first build sorted the rings table by a measure, and the Data API
+  returned 15 unordered rings (the first had a ring risk of 0.001).
+  `v_rings` now has `ring_rank`, and the table filters on `ring_rank <= 15`;
+  rank 1 is ring `1581411711` with a risk of 11.011, as in the Impala ring
+  report.
+
 ### Step 7: GitHub secrets
 
 - Not needed: Mule's CI has no GitHub-to-CAI chain, so no workflow reads
