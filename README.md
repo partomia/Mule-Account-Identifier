@@ -272,7 +272,12 @@ top alerts by tier, the weekly book/mule-rate trend, a ring report, the
 model-run lineage/trust history, whether a past run's alerts held up against
 labels that have since matured, the investigator decisions log, and the
 Iceberg time-travel context rebuild (`FOR SYSTEM_VERSION AS OF
-<source_snapshot_id>`, values from that run's `mule_model_run` row). Cloudera
+<source_snapshot_id>`, values from that run's `mule_model_run` row). Queries 9
+to 21 are analytics views: a one-row run briefing, branch and product/KYC
+hotspots, reason codes on the freeze queue, mule rate by hops to a known mule
+and by pass-through band, the riskiest rings, UPI money forwarded through
+alerted accounts, the holdout capture curve against rules, the complaint
+trend, days from opening to first report, and Iceberg history. Cloudera
 Data Visualization dashboards on top of these aren't built yet.
 
 ## Layout

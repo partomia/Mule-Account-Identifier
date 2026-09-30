@@ -147,6 +147,26 @@ decisions and the phase checklist are in `PLAN.md`.
   14,206,374 rows and added a second Iceberg snapshot (`7351637737303755153`).
 - Next: the scheduled run at 2026-09-30 20:30 UTC (as_of 2026-09-29).
 
+### Analytics queries (2026-09-30)
+
+- Added queries 9 to 21 to `sql/reports.sql` and ran each on federal Impala
+  against the 2026-09-28 run; each took 1.6 to 5.4 s.
+- Measured on that data:
+  - Top branch: Surat Branch 1 at 38.9 alerts per 1,000 active accounts.
+  - Alert rate: min-KYC savings 9.60% and min-KYC BSBD 7.69%, against
+    1.56% to 3.88% for full-KYC products.
+  - Mule rate by hops to a known mule: 1 hop 30.947% (3,004 of 9,707),
+    2 hops 5.355%, further or none 0.038%.
+  - Pass-through of at least 90%: mule rate 2.377%, against 0.031% to 0.192%
+    for the lower bands.
+  - UPI in the last 30 days: T1 accounts forwarded 96% of credits
+    (₹0.74 Cr in, ₹0.71 Cr out); accounts not alerted forwarded 25%.
+  - Holdout: the top 0.2% holds 96.4% of mules, against 49.0% for rules.
+  - Days from opening to first report (median): BSBD 34, savings 2,119.
+- `DESCRIBE HISTORY` on gold `mule_features` shows 2 snapshots. Time travel
+  to the first one gives the same 14,206,374 rows, because the DAG run
+  re-wrote the manual run's data.
+
 ### Step 7: GitHub secrets
 
 - Not needed: Mule's CI has no GitHub-to-CAI chain, so no workflow reads
