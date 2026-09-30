@@ -332,12 +332,14 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   holds under the Airflow PythonOperator path too, not just a bare CAI Job
   run. The daily 20:30 UTC / 02:00 IST schedule is now live and unpaused:
   the pipeline runs unattended from here on.
-- [ ] **9. Federal environment** (2026-09-29, decisions 12-16) — rebuilt from
+- [x] **9. Federal environment** (2026-09-29, decisions 12-16) — rebuilt from
   empty: CDE repository, python-env and five Spark jobs; the chain for as_of
   2026-09-28 checked in Impala at every layer (gold 14,206,374 rows, 201,404
   accounts in the book); CAI project `rsingh-mule-acct` with sync-code and
   daily-score jobs created over the API v2; first published run
   `20260928-cd07a805` (TabICL on CPU, gate PASS, 6,042 alerts); model
   `rsingh-mule-acct-scorer` and app `Mule Investigator Console` running;
-  `MULE_CAI_*` Airflow Variables set; DAG registered paused. Open: unpause
-  the DAG (Ravi's call) and its first run.
+  `MULE_CAI_*` Airflow Variables set; DAG registered paused, then unpaused
+  on 2026-09-30. Its first run (CDE run 50, 45 min) succeeded end to end
+  and republished 2026-09-28 with `triggered_by = airflow` and the same
+  results; daily at 20:30 UTC / 02:00 IST from here.

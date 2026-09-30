@@ -123,6 +123,30 @@ decisions and the phase checklist are in `PLAN.md`.
   - next logical date 2026-09-28 20:30 UTC with interval end 2026-09-29
     20:30. That end has passed, so unpausing runs as_of 2026-09-28 at once.
 
+### First DAG run (2026-09-30)
+
+- Pushed `a24b873`, synced the CDE repository to it, and unpaused the DAG at
+  00:39:33 UTC with no other Spark run active. DAG run 50 (the closed
+  interval, as_of 2026-09-28) started at once and succeeded in 2,678 s:
+
+  | Run | Task | Wall |
+  |---|---|---|
+  | 51 | generate-bronze | 375 s |
+  | 52 | validate-bronze | 117 s |
+  | 53 | build-silver | 241 s |
+  | 54 | build-identity-graph | 264 s |
+  | 55 | build-gold-features | 202 s |
+  | - | cai_sync_code + cai_daily_score | 01:01:01 to 01:24:12 UTC, ~23 min |
+
+- `mule_model_run` has one row for 2026-09-28: run `20260928-2672b8ce`,
+  `triggered_by` airflow, TabICL on CPU, 1,067.9 s of scoring. It replaced
+  the manual run `20260928-cd07a805`, and the results are the same: 201,404
+  scored, 402 / 1,612 / 4,028 alerts, AUC 0.9996, capture top 1% 1.0,
+  precision top 0.2% 0.2559, lift 1.725, gate PASS.
+- `mule_alerts` has 6,042 rows for 2026-09-28. The gold MERGE kept
+  14,206,374 rows and added a second Iceberg snapshot (`7351637737303755153`).
+- Next: the scheduled run at 2026-09-30 20:30 UTC (as_of 2026-09-29).
+
 ### Step 7: GitHub secrets
 
 - Not needed: Mule's CI has no GitHub-to-CAI chain, so no workflow reads
