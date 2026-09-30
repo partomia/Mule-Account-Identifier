@@ -160,9 +160,10 @@ push`, then `cde repository sync --name rsingh-mule-acct-pipeline` (re-run
 
 Orchestrated by `cde/dags/mule_dag.py`: `generate_mule_bronze` →
 `validate_bronze` → `build_silver` → `build_identity_graph` →
-`build_gold_features` → a `PythonOperator` that triggers and polls the CAI
-scoring job over the API v2 (`mule-daily-score`), scheduled daily at 20:30
-UTC (02:00 IST). Only `generate_mule_bronze` takes `--as-of`; the other four
+`build_gold_features` → two `PythonOperator`s that trigger and poll CAI jobs
+over the API v2 (`rsingh-mule-acct-sync-code`, then
+`rsingh-mule-acct-daily-score`), scheduled daily at 20:30 UTC (02:00 IST).
+The DAG registers paused (`is_paused_upon_creation=True`). Only `generate_mule_bronze` takes `--as-of`; the other four
 derive it from what's already in the data, so it's the only task the DAG
 overrides. Register / update it:
 
@@ -170,11 +171,12 @@ overrides. Register / update it:
 ./cde/scripts/deploy_dag.sh       # CDE job rsingh-mule-acct-orchestration (--type airflow)
 ```
 
-Needs these CDE Airflow Variables (Admin > Variables) before the CAI step
-will run — without `MULE_CAI_HOST` it's skipped, so the Spark part is
-testable on its own: `MULE_CAI_HOST`, `MULE_CAI_PROJECT_ID`,
-`MULE_CAI_JOB_ID`, `MULE_CAI_API_KEY` (all set once the CAI project and job
-exist — Phase 8).
+Needs these CDE Airflow Variables before the CAI steps will run — without
+`MULE_CAI_HOST` they're skipped, so the Spark part is testable on its own:
+`MULE_CAI_HOST`, `MULE_CAI_PROJECT_ID`, `MULE_CAI_SYNC_JOB_ID`,
+`MULE_CAI_JOB_ID`, `MULE_CAI_API_KEY`. `python
+cde/scripts/set_airflow_variables.py` sets exactly these (and no other keys)
+once the CAI project exists.
 
 To seed a few days of history on a vcluster before Airflow is running:
 
@@ -185,10 +187,11 @@ python cai/jobs/backfill_history.py --weeks 8   # matching alert queues, from a 
 
 ## CAI
 
-Project `mule-account-identifier` (workbench host already recorded in
-`.env.example` as `MULE_CAI_HOST`), created from this GitHub repo, Python
-3.11 runtime, GPU profile if available. Project Settings > Advanced >
-environment variables (inherited by sessions, jobs, models and apps):
+`python ci/setup_cai.py` (API v2, idempotent; names and sizes in
+`ci/cai_jobs.py`) creates project `rsingh-mule-acct` from this GitHub repo,
+its jobs, environment, model and application; `docs/DEMO_RUNBOOK.md` has
+the order. The sections below describe what it creates. Project environment
+variables (inherited by sessions, jobs, models and apps):
 
 | Variable | Value |
 |---|---|
@@ -213,11 +216,13 @@ python cai/jobs/daily_score.py --dry-run
 python cai/model/test_endpoint.py --local --context impala
 ```
 
-**Job**: Jobs > New Job, name `mule-daily-score`, script
-`cai/jobs/daily_score.py`, arguments empty (a job run ignores them; the DAG
-passes `MULE_RUN_DATE` / `MULE_TRIGGERED_BY` through the environment
-instead), Python 3.11, GPU profile if available, schedule Manual (Airflow
-triggers it over the API v2 — see the CDE section). The job **exits
+**Jobs**: `rsingh-mule-acct-sync-code` (`cai/jobs/sync_code.py`, 2 vCPU /
+8 GB: git reset to origin/main, pip install when `requirements.txt`
+changes) and `rsingh-mule-acct-daily-score` (`cai/jobs/daily_score.py`,
+4 vCPU / 16 GB), arguments empty (a job run ignores them; the DAG passes
+`MULE_RUN_DATE` / `MULE_TRIGGERED_BY` through the environment instead),
+schedule Manual (Airflow triggers them over the API v2 — see the CDE
+section; `python ci/run_cai_job.py <job>` runs one by hand). The job **exits
 non-zero when the KPI gate fails**
 (`gate_passed = false` in `mule_model_run`; yesterday's alert queue stays
 live) so a red run is visible even before Airflow orchestrates it, and it
@@ -225,18 +230,18 @@ logs params + KPIs to MLflow in CAI Experiments when `mlflow` is available.
 Run it once, then `python cai/jobs/backfill_history.py --weeks 8` from a
 session so the app's holdout-trend and lineage tabs have several run dates.
 
-**Model Deployment**: Model Deployments > New Model, name `mule-scorer`, file
-`cai/model/predict.py`, function `predict`, Python 3.11, GPU profile if
-available, 1 replica, authentication on. Example input: the output of
+**Model Deployment**: `rsingh-mule-acct-scorer`, file
+`cai/model/predict.py`, function `predict`, 4 vCPU / 16 GB (a GPU profile
+if the workspace has one), 1 replica, authentication on. Example input: the output of
 `python cai/model/test_endpoint.py --print-request`. Each replica rebuilds
 the context of the latest daily run at start-up (same Iceberg snapshot,
 window and row count) — **restart** the model after a new daily run to serve
 it; a code change needs **Deploy New Build**.
 
-**Application**: Applications > New Application, name `Mule Investigator
-Console`, script `app/run.py`, Python 3.11, 2 vCPU / 4 GB (8 GB if what-ifs
-score in-app without the endpoint). So what-ifs call the model endpoint,
-set:
+**Application**: `Mule Investigator Console` (subdomain
+`rsingh-mule-acct-console`), script `app/run.py`, 2 vCPU / 4 GB (8 GB if
+what-ifs score in-app without the endpoint). So what-ifs call the model
+endpoint, `setup_cai.py` sets these in the project environment:
 
 | Variable | Where to find it |
 |---|---|

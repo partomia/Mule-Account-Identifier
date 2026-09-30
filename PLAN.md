@@ -153,6 +153,15 @@ reviewing it against the two recent repos and the Mitra-v2 / AutoGluon 1.6 docs.
 15. **Impala identifiers are backtick-quoted** in the DDL and inserts
     `ImpalaStorage` generates; a test checks the output columns against
     Impala's 409 reserved words (none collide today).
+16. **Sized for the shared federal clusters; TabICL on CPU.** CDE executors
+    are 4 cores / 8 GB, 2 initial, up to 16 (the go01 size failed within
+    30 s, twice). The CAI scoring job is 4 vCPU / 16 GB (8 / 32 stayed in
+    "scheduling" for 14 min). The federal runtime is the standard (CPU)
+    one, so `family: auto` resolves to TabICL with the CPU context of
+    `max_mules_cpu` 500 mules (2,000 rows). Measured on the 2026-09-28 book:
+    1,149 s of scoring inside a 1,273 s job, the same gate result as Mitra
+    on the go01 GPU (capture top 1% 100%, lift 1.73x; precision top 0.2%
+    25.6% vs 26.5%); the endpoint answers in ~14 s per call.
 
 ## Method (demo policy, see `config/policy.yaml`)
 
@@ -323,3 +332,12 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   holds under the Airflow PythonOperator path too, not just a bare CAI Job
   run. The daily 20:30 UTC / 02:00 IST schedule is now live and unpaused:
   the pipeline runs unattended from here on.
+- [ ] **9. Federal environment** (2026-09-29, decisions 12-16) — rebuilt from
+  empty: CDE repository, python-env and five Spark jobs; the chain for as_of
+  2026-09-28 checked in Impala at every layer (gold 14,206,374 rows, 201,404
+  accounts in the book); CAI project `rsingh-mule-acct` with sync-code and
+  daily-score jobs created over the API v2; first published run
+  `20260928-cd07a805` (TabICL on CPU, gate PASS, 6,042 alerts); model
+  `rsingh-mule-acct-scorer` and app `Mule Investigator Console` running;
+  `MULE_CAI_*` Airflow Variables set; DAG registered paused. Open: unpause
+  the DAG (Ravi's call) and its first run.

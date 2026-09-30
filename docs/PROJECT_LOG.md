@@ -46,3 +46,84 @@ decisions and the phase checklist are in `PLAN.md`.
   requirements hash, Airflow keys limited to `MULE_CAI_*`, DAG variables and
   job names, the Jupyter-wrapper rules for every CAI script, reserved words.
   `pytest -q`: 84 passed.
+- Pushed `fbf7bca` and `3643968`. `ci/setup_cai.py --skip-serving` (7 s):
+  project `rsingh-mule-acct` (`fizl-vpsd-g4je-vch4`), jobs
+  `rsingh-mule-acct-sync-code` (`k18a-gx0s-wurr-ss0j`) and
+  `rsingh-mule-acct-daily-score` (`f9pk-yhdd-c6hs-905f`), project environment
+  `HF_HOME`, `MULE_IMPALA_USER`, `MULE_IMPALA_PASSWORD`.
+- First sync-code run `ys9wpoq7xh3ip5nj`: succeeded in 682 s (the one-time
+  pip install at 2 vCPU / 8 GB). `models/.requirements.sha256`, read back with
+  `POST /files/<path>:download`, matches `requirements.txt` (`4d06acc970e0`).
+
+### Step 5: data chain for as_of 2026-09-28
+
+- generate-bronze failed twice, run 3 (18:34 UTC) and run 16 (19:48 UTC),
+  each within 28 s and with no logs at all ("object not found").
+  - Job size was 4 initial executors of 8 cores / 12 GB (the go01 size). The
+    two other projects on the vcluster run 2 initial of 4 cores / 8 GB.
+  - `deploy_jobs.sh` now defaults to executors of 4 cores / 8 GB, 1 minimum,
+    2 initial, 16 maximum (overridable). Redeployed in 175 s. Committed
+    `cfa613d`.
+- The chain waits for other projects' Spark runs before each job (Airflow
+  runs hold no executors, so they are not waited for) and polls
+  `cde run describe`. Every step verified in Impala:
+
+  | Run | Job | Wall | Checked in Impala |
+  |---|---|---|---|
+  | 19 | generate-bronze | 183 s | kyc 196,125; cbs_accounts 246,867; upi 17,175,915; sessions 3,742,570; fraud_reports 19,547; ref 60 / 5 / 420; batch_as_of 2026-09-28; 0 null keys |
+  | 25 | validate-bronze | 122 s | the bronze gate passed |
+  | 26 | build-silver | 224 s | customer 196,088; account 246,867 (unique); txn 17,172,596 (3,319 duplicates removed); session 3,741,774; report 21,077; identity links 846,995, hubs 414, edges 49,641 |
+  | 27 | build-identity-graph | 245 s | graph_edges 6,082,570; identity_clusters 2,725,800; latest snapshot 2026-09-28; largest ring 81, largest person cluster 25 |
+  | 28 | build-gold-features | 184 s | mule_features 14,206,374 rows, 75 snapshots, 11,439,586 labelled, 7,495 mule rows; 0 duplicate or null keys; book 201,404 accounts on 2026-09-28 |
+
+- All tables are Iceberg with one snapshot each (a fresh build).
+- Mule has no separate silver or gold DQ job; the Impala checks above stand
+  in for them.
+- CAI scoring, `rsingh-mule-acct-daily-score` with `MULE_RUN_DATE=2026-09-28`:
+  - At 8 vCPU / 32 GB, run `uanmoctcojxuevt5` stayed in "scheduling" for
+    14 min and was stopped. Spend-Analytics' largest jobs here are 4 / 16.
+  - Resized to 4 vCPU / 16 GB (`40ffbc3`). Run `mx3dtqj730s040v9` was
+    scheduled in 91 s and succeeded in 1,273 s.
+  - `mule_model_run` (read in Impala): run `20260928-cd07a805`, TabICL
+    (`tabicl-classifier-v2-20260212.ckpt`) on CPU, 1,148.9 s of scoring,
+    context 2,000 rows (500 mules) from 2025-12-26 to 2026-06-26, source
+    snapshot `5480612185225799219`.
+  - Holdout: 39,556 rows, 414 mules, AUC 0.9996, PR-AUC 0.446, capture top
+    1% 1.000 (rules 0.580), precision top 0.2% 0.256, lift 1.725. Gate PASS
+    on all three checks; alerts published.
+  - Book: 201,404 accounts scored; 402 T1 / 1,612 T2 / 4,028 T3 (6,042
+    alerts); 1,002 rings. Cut-offs T1 0.0818, T2 0.000007, T3 0.0.
+  - The go01 run on Mitra-v2 with a GPU (2026-09-27 book) gave the same
+    capture and lift, and precision top 0.2% 0.264.
+
+### Step 6: model, app, Airflow, DAG
+
+- `ci/setup_cai.py` with `MULE_ENDPOINT_API_KEY` set to the CAI API v2 key,
+  as in Spend-Analytics:
+  - Model `rsingh-mule-acct-scorer` (`6df21e26-d25d-4dec-9f6f-1e6f5a5e2dc9`):
+    built at 21:31 UTC, deployed at 21:34 (created at 21:22).
+  - `MULE_ENDPOINT_URL`, `_ACCESS_KEY` and `_API_KEY` are in the project
+    environment.
+  - Application `Mule Investigator Console` (`10w4-874e-ezlo-f22u`,
+    subdomain `rsingh-mule-acct-console`) reached APPLICATION_RUNNING. Its
+    URL redirects to the CAI login.
+- `test_endpoint.py` against the deployment: 14.1 s and 13.5 s per call.
+  It serves run `20260928-cd07a805`. The what-if moves `p_mule_adj` from
+  0.000079 to 0.0027, staying T2.
+- The app ran headless (Streamlit `AppTest`) from the laptop against
+  federal Impala and the endpoint, in 267 s:
+  - All 7 tabs ran with no exception.
+  - Metrics: 201,404 scored, 6,042 alerts, 1,002 rings, capture top 1%
+    100.0%.
+- `cde/scripts/set_airflow_variables.py` created the five `MULE_CAI_*`
+  Variables. No other key was read or written.
+- `deploy_dag.sh` registered `rsingh-mule-acct-orchestration`. The Airflow
+  API shows:
+  - `is_paused` true, 0 DAG runs, 7 tasks;
+  - next logical date 2026-09-28 20:30 UTC with interval end 2026-09-29
+    20:30. That end has passed, so unpausing runs as_of 2026-09-28 at once.
+
+### Step 7: GitHub secrets
+
+- Not needed: Mule's CI has no GitHub-to-CAI chain, so no workflow reads
+  CAI secrets. `gh secret list` stays empty.

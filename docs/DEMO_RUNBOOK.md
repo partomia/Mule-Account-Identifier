@@ -1,198 +1,120 @@
 # Demo runbook
 
-Two parts: **Setup** (one-time, what was actually run to get this live on
-Cloudera) and **Demo** (the ~12-minute walkthrough). Every command in Setup
-is copy-paste from the real Phase 8 session — hostnames, project/job IDs and
-measured numbers are the real ones for `mule-account-identifier`, not
-placeholders. Secrets (`MULE_IMPALA_PASSWORD`, any API key) are never
-written out; grab those from your own `User Settings` / `.env` each time.
+Two parts: **Setup** (what was run to get this live on the federal
+environment, 2026-09-29) and **Demo** (the ~12-minute walkthrough). IDs and
+measured numbers are the real ones; secrets (`MULE_IMPALA_PASSWORD`, API keys)
+are never written out. They live in the gitignored `.env`, the CAI project
+environment and the Airflow Variables. Details and timings:
+`docs/PROJECT_LOG.md`.
 
-## Setup (one-time)
+## Setup
 
-### 1. CDE: repository, five Spark jobs, Airflow DAG
+Everything runs from a laptop with the `cde` CLI configured for the vcluster
+and `.env` filled in from `.env.example`:
 
-Already automated; running these again is idempotent (`deploy_jobs.sh`
-re-syncs the repo and recreates the jobs, `deploy_dag.sh` re-registers the
-DAG).
+```bash
+set -a; source .env; set +a      # MULE_IMPALA_USER/_PASSWORD, MULE_CAI_HOST, MULE_CAI_API_KEY
+```
+
+### 1. CDE: repository, python-env, five Spark jobs
 
 ```bash
 ./cde/scripts/deploy_jobs.sh
+```
+
+Repository `rsingh-mule-acct-pipeline`, python-env `rsingh-mule-acct-python-env`,
+jobs `rsingh-mule-acct-{generate-bronze,validate-bronze,build-silver,
+build-identity-graph,build-gold-features}`. Executors are 4 cores / 8 GB,
+2 initial, up to 16: the go01 size (4 initial of 8 cores / 12 GB) failed
+within 30 s on the shared federal vcluster, with no logs.
+
+### 2. CAI: project, jobs, environment
+
+```bash
+python ci/setup_cai.py --skip-serving --dry-run
+python ci/setup_cai.py --skip-serving
+python ci/run_cai_job.py rsingh-mule-acct-sync-code
+```
+
+Creates project `rsingh-mule-acct` (`fizl-vpsd-g4je-vch4`) from the GitHub
+repo, jobs `rsingh-mule-acct-sync-code` (`k18a-gx0s-wurr-ss0j`, 2 vCPU / 8 GB)
+and `rsingh-mule-acct-daily-score` (`f9pk-yhdd-c6hs-905f`, 4 vCPU / 16 GB;
+8 / 32 never left "scheduling"), and the project environment (`HF_HOME`,
+`MULE_IMPALA_USER`, `MULE_IMPALA_PASSWORD`). The first sync-code run is the
+one-time pip install (682 s).
+
+### 3. First data chain (as_of 2026-09-28)
+
+Run the five Spark jobs in order (`--as-of 2026-09-28` on generate-bronze;
+the others read it from the data), one at a time and not on top of another
+project's heavy run, and check each layer in Impala. `cde job run --wait` can
+return while a run is still "starting": poll `cde run describe`. Then score:
+
+```bash
+python ci/run_cai_job.py rsingh-mule-acct-daily-score --env MULE_RUN_DATE=2026-09-28
+```
+
+Real result (TabICL on CPU, 1,273 s): 201,404 accounts scored, holdout AUC
+0.9996, capture top 1% 100% (rules alone 58%), precision top 0.2% 25.6%,
+lift 1.73x, gate PASS; 402 T1 / 1,612 T2 / 4,028 T3 alerts, 1,002 rings.
+
+### 4. Model and application
+
+They serve the latest published run, so they come after step 3:
+
+```bash
+MULE_ENDPOINT_API_KEY="$MULE_CAI_API_KEY" python ci/setup_cai.py
+```
+
+Model `rsingh-mule-acct-scorer` (4 vCPU / 16 GB, authentication on) builds
+and deploys itself (built in ~9 min, deployed ~12 min after creation);
+`MULE_ENDPOINT_URL` / `_ACCESS_KEY` / `_API_KEY` go into the project
+environment; then the application `Mule Investigator Console` (subdomain
+`rsingh-mule-acct-console`, 2 vCPU / 4 GB). Check the endpoint with
+`MULE_ENDPOINT_*` exported (about 14 s per call on CPU):
+
+```bash
+python cai/model/test_endpoint.py
+```
+
+`MULE_ENDPOINT_API_KEY` is the CAI API v2 key for now; a Model API key
+(User Settings > API Keys) would be narrower.
+
+### 5. Airflow Variables and the DAG
+
+```bash
+python cde/scripts/set_airflow_variables.py --dry-run
+python cde/scripts/set_airflow_variables.py
 ./cde/scripts/deploy_dag.sh
 ```
 
-Verify what's registered:
-
-```bash
-cde repository describe --name rsingh-mule-acct-pipeline
-cde job list | python3 -c "import json,sys; [print(j['name'], j.get('type')) for j in json.load(sys.stdin)]"
-```
-
-Real output for this project: repository `rsingh-mule-acct-pipeline` status
-`ready`; jobs `rsingh-mule-acct-{generate-bronze,validate-bronze,build-silver,
-build-identity-graph,build-gold-features}` (type `spark`) and
-`rsingh-mule-acct-orchestration` (type `airflow`).
-
-### 2. CAI project
-
-Projects > New Project: name `mule-account-identifier`, Git URL
-`https://github.com/partomia/Mule-Account-Identifier`, Python 3.11, GPU
-profile if available. Project Settings > Advanced > Environment Variables:
-
-| Variable | Value |
-|---|---|
-| `HF_HOME` | `/home/cdsw/.hf_cache` |
-| `MULE_IMPALA_USER` | your workload username |
-| `MULE_IMPALA_PASSWORD` | your workload password — type it directly into the UI, never into a file that gets committed |
-
-![Project Settings > Advanced > Environment Variables, values masked](images/project-env-vars.png)
-
-### 3. Session sanity checks
-
-Open a Session (Python 3.11, same GPU profile), then:
-
-```bash
-git pull
-pip3 install -r requirements.txt
-
-python -c "import torch; print('cuda', torch.cuda.is_available())"
-
-python -c "from mule.storage import get_storage; print(get_storage('impala').query( \
-  'SELECT COUNT(*) n, MAX(snapshot_date) d FROM rsingh_mule_acct_gold.mule_features'))"
-
-# first run downloads the model checkpoint from Hugging Face; reads + scores, writes nothing
-python cai/jobs/daily_score.py --dry-run
-```
-
-Real results, this environment: `cuda True` (GPU available, so `family:
-auto` resolves to **Mitra-v2**, not the TabICL/CPU path used for local
-laptop validation); `gold.mule_features` had **14,004,971 rows**, latest
-snapshot `2026-09-25`. The dry run: holdout AUC 1.000, capture top 1% 100%
-(rules alone 58%), precision top 0.2% 26.5%, lift 1.73×, all three gates
-PASS; 200,380 active accounts scored in ~7 minutes.
-
-### 4. CAI Job: `mule-daily-score`
-
-Jobs > New Job: name `mule-daily-score`, script `cai/jobs/daily_score.py`,
-arguments empty, Python 3.11, GPU profile, schedule **Manual** (Airflow
-triggers it, not the CAI scheduler). Run it once for real (writes the gold
-tables and logs to MLflow):
-
-```bash
-python cai/jobs/daily_score.py
-```
-
-Get the IDs Airflow needs, from a session terminal (single line, paste
-as-is — a multi-line paste can pick up stray indentation and break Python):
-
-```bash
-python3 -c "import os, cmlapi; c = cmlapi.default_client(); pid = os.environ['CDSW_PROJECT_ID']; print('MULE_CAI_HOST       =', 'https://' + os.environ['CDSW_DOMAIN']); print('MULE_CAI_PROJECT_ID =', pid); [print('MULE_CAI_JOB_ID     =', j.id, '(' + j.name + ')') for j in c.list_jobs(pid).jobs]"
-```
-
-Real values for this project:
-
-```
-MULE_CAI_HOST       = https://federal-cml.federal.dp5i-5vkq.cloudera.site
-MULE_CAI_PROJECT_ID = jxyu-tt5i-g9s7-93jd
-MULE_CAI_JOB_ID     = g9qt-ic8o-e7lr-moxt
-```
-
-### 5. Model Deployment: `mule-scorer`
-
-Model Deployments > New Model: name `mule-scorer`, file
-`cai/model/predict.py`, function `predict`, Python 3.11, GPU profile, 1
-replica, authentication **on**. Example input for the Test tab:
-
-```bash
-python cai/model/test_endpoint.py --print-request
-```
-
-Real result once deployed (1 replica, 2 GPUs, 2 vCPU, 4 GiB): a Test-tab
-call returns real scores + a what-if comparison built from the latest Job
-run's context (8,000 rows). Confirm the replica actually has GPU resources
-via **Deployments** tab (not just Overview, which can show a stale `0 GPU`
-reading right after a build):
-
-![Model Overview Test tab: a real scored request, with an accessKey and resource CRNs redacted](images/model-deployment-test.png)
-
-![Model Deployments tab: 1 replica, 2 GPUs, confirming the stale 0-GPU reading above was just a snapshot](images/model-deployment-resources.png)
-
-### 6. Application: `Mule Investigator Console`
-
-Applications > New Application: name `Mule Investigator Console`, script
-`app/run.py`, Python 3.11, 2 vCPU / 4 GiB. Environment variables — copy
-these from the `mule-scorer` deployment's own Overview page (its sample
-curl command), don't hand-type them:
-
-| Variable | Where to find it |
-|---|---|
-| `MULE_ENDPOINT_URL` | the `-X POST https://modelservice.../model` URL in the sample curl |
-| `MULE_ENDPOINT_ACCESS_KEY` | the `accessKey` value in that same sample curl |
-| `MULE_ENDPOINT_API_KEY` | User Settings > API Keys > create a **Model API key** (different from the CAI API v2 key in step 7) |
-
-`MULE_IMPALA_USER`/`_PASSWORD` are inherited from the project, no need to
-reset them on the application.
-
-### 7. Airflow Variables
-
-CDE Airflow UI > Admin > Variables — set the four values from step 4, plus
-a CAI **API v2** key (User Settings > API Keys — a different key from the
-application's Model API key):
-
-- `MULE_CAI_HOST`
-- `MULE_CAI_PROJECT_ID`
-- `MULE_CAI_JOB_ID`
-- `MULE_CAI_API_KEY`
-
-![CDE Airflow Admin > Variables: the four MULE_CAI_* values set (other pipelines' rows hidden)](images/airflow-variables.png)
-
-### 8. First end-to-end run
-
-A newly-registered DAG job comes with its schedule enabled but its start
-date in the past, so it's live before you've finished configuring it —
-**pause it immediately after creation** (`--schedule-enabled false` does
-*not* pause it; only this does):
-
-```bash
-cde job schedule pause --name rsingh-mule-acct-orchestration
-```
-
-Once the Airflow Variables are set, CDE won't manually trigger a *paused*
-job at all (`"job ... is paused, resume the schedule before triggering the
-run"`), so unpause it — which is the real end state anyway, since it also
-arms the daily 20:30 UTC / 02:00 IST schedule — then trigger a manual run:
+Sets only `MULE_CAI_{HOST,PROJECT_ID,SYNC_JOB_ID,JOB_ID,API_KEY}` (Knox
+token for the workload user), then registers `rsingh-mule-acct-orchestration`.
+The DAG registers **paused** (`is_paused_upon_creation=True`; `cde job create
+--schedule-paused` is rejected for Airflow jobs). Unpausing runs the latest
+closed interval at once (as_of the day before its end), then daily at
+20:30 UTC / 02:00 IST:
 
 ```bash
 cde job schedule unpause --name rsingh-mule-acct-orchestration
-cde job run --name rsingh-mule-acct-orchestration --wait
 ```
 
-Verify:
+Seven tasks: the five Spark jobs, `cai_sync_code`, `cai_daily_score`.
 
-```bash
-cde run describe --id <run-id>                                       # overall status, start/end time
-cde run logs --id <run-id> --type cai_daily_score/attempt_1 --follow=false   # confirms the Airflow -> CAI trigger worked
-```
+## Before the demo (60 minutes ahead)
 
-Real result: Run 2304, `succeeded`, all six tasks, **27 minutes**
-(`03:09:08Z` → `03:35:52Z`). The `cai_daily_score` task log showed the
-trigger working exactly as designed: started CAI job run `s55yl2sn75k5ctsq`
-with `MULE_TRIGGERED_BY=airflow`, `MULE_RUN_DATE=2026-09-27`, polled every
-30s through `scheduling → running → succeeded` (~10 minutes), task exited 0.
-
-## Before the demo (30 minutes ahead)
-
-- CDE Job Runs / Airflow UI: today's 02:00 IST DAG run succeeded (all six
+- CDE Job Runs / Airflow UI: today's 02:00 IST DAG run succeeded (all seven
   tasks green, including `validate_bronze`).
-- App Lineage tab: today's run with `triggered_by = airflow`, plus 4+
-  backfilled run dates (`cai/jobs/backfill_history.py --weeks 8`).
-- Model `mule-scorer` restarted after today's run; its Test tab shows
-  today's `run_date`.
+- App Lineage tab: today's run with `triggered_by = airflow`, plus earlier
+  run dates if backfilled (`cai/jobs/backfill_history.py --weeks 8`).
+- Model `rsingh-mule-acct-scorer` restarted after today's run; a test call
+  shows today's `run_id`.
 - Open the app and run one Hue query 5 minutes before: the Impala virtual
   warehouse auto-suspends and the first query after a pause can take
   minutes.
 - Hue open on `sql/reports.sql`; the Airflow UI open on the DAG grid.
-- Showing CDE live? Trigger the DAG ~30 minutes before — the real run above
-  took 27 minutes end to end.
+- Showing CDE live? Trigger the DAG about 60 minutes before: on federal the
+  Spark chain took about 16 minutes and CPU scoring about 21.
 
 ## 1. The question (1 min)
 
@@ -218,13 +140,13 @@ freeze today, which get held and watched, and which just go on a watchlist?
 
 ## 3. Alert queue (2 min): app, first tab
 
-![Investigator Console, Alert queue tab: 200,380 accounts scored, 6,011 alerts, KPI gate PASS, top-11 T1 accounts ranked by P(mule)](images/investigator-console-alert-queue.png)
+![Investigator Console, Alert queue tab (go01 run): 200,380 accounts scored, 6,011 alerts, KPI gate PASS, top-11 T1 accounts ranked by P(mule)](images/investigator-console-alert-queue.png)
 
 - Accounts scored, alert count and share of the book, rings with an alert,
-  the measured book mule rate (real run, 2026-09-25 snapshot, Mitra-v2 on
-  GPU: **200,380 accounts scored, 6,011 alerts — 400 T1 / 1,603 T2 / 4,008
-  T3 — across 1,000+ rings, book mule rate 0.065%**). "Alerts by tier" bar
-  chart and a filterable, rank-ordered queue.
+  the measured book mule rate (federal run, 2026-09-28 snapshot, TabICL on
+  CPU: **201,404 accounts scored, 6,042 alerts — 402 T1 / 1,612 T2 / 4,028
+  T3 — across 1,002 rings, book mule rate 0.065%**; the screenshot is the
+  go01 run). "Alerts by tier" bar chart and a filterable, rank-ordered queue.
 - Point at the reasons column ("2 hop(s) from a reported mule; minimum-KYC
   (OTP) account"): business rules on the inputs, what the investigator
   opens the case with — not an explanation of the model's score.
@@ -243,9 +165,9 @@ freeze today, which get held and watched, and which just go on a watchlist?
 ## 5. Can we trust it? (2 min): Holdout & trust tab
 
 - The talking point: "the top 1% of the book catches X% of the mules that
-  actually matured, against rules alone" (real run: **100% capture at the
+  actually matured, against rules alone" (federal run: **100% capture at the
   top 1%, vs. 58% for rules alone — a 1.73× lift**; precision at the T1
-  queue (top 0.2%) is 26.5%, holdout AUC 1.000).
+  queue (top 0.2%) is 25.6%, holdout AUC 0.9996).
 - Why the gate reads capture/precision/lift instead of accuracy: at well
   under 0.1% mule rate, a model that flags nobody is "99.9% accurate."
 - The holdout is honest: context ends 90 days before the test weeks, as if
