@@ -1,14 +1,19 @@
 """
 Airflow DAG (CDE): daily mule-account scoring pipeline.
 
-  generate_mule_bronze -> validate_bronze -> build_silver -> build_identity_graph -> build_gold_features   (CDE Spark)
-    -> cai_sync_code -> cai_daily_score                                                                    (CAI Jobs via API v2)
+  generate_mule_bronze -> validate_bronze -> build_silver -> build_identity_graph -> dq_silver
+    -> build_gold_features -> dq_gold                                                   (CDE Spark)
+    -> cai_sync_code -> cai_daily_score -> dq_publish                                   (CAI Jobs via API v2, then CDE)
 
-validate_bronze is the one hard gate (null keys, orphans, raw PAN outside the
-PAN column, missing days): a failure stops the DAG before silver, so nothing
-reaches an investigator. silver / build_identity_graph / build_gold_features
-take no --as-of of their own (they derive it from MAX(batch_as_of) already in
-the data), so only the first task needs its arguments overridden.
+Data quality gates: validate_bronze and the dq_* tasks (job rsingh-mule-acct-dq-check,
+cde/jobs/dq_check.py --layer bronze|silver|gold|publish) append every check to
+rsingh_mule_acct_ref.dq_results with pipeline_run = the Airflow run_id; a
+critical failure fails the task and stops the DAG (bronze: before silver, so
+nothing reaches an investigator), a failed warning is recorded only. A retried
+task records its checks again under a new run_id; the report views read the
+latest run_id per (pipeline_run, layer). silver / build_identity_graph /
+build_gold_features take no --as-of of their own (they derive it from
+MAX(batch_as_of) already in the data).
 
 The CAI steps start two Cloudera AI jobs one after the other and wait for
 each: sync-code brings the CAI project to origin/main (and installs a changed
@@ -48,6 +53,7 @@ DB_PREFIX = "rsingh_mule_acct"
 AS_OF = ("{{ params.as_of or ((data_interval_end - macros.timedelta(days=1)).strftime('%Y-%m-%d') "
          "if dag_run.run_type == 'scheduled' else (macros.datetime.utcnow() - macros.timedelta(days=1))"
          ".strftime('%Y-%m-%d')) }}")
+RUN = "{{ run_id }}"
 TERMINAL_OK = {"succeeded"}
 TERMINAL_BAD = {"failed", "stopped", "timedout"}
 DAILY = "30 20 * * *"
@@ -81,6 +87,16 @@ def trigger_cai_job(job_variable: str, env: dict, deadline_min: int, **_):
     raise AirflowException(f"CAI job run {run_id} did not finish within {deadline_min} minutes")
 
 
+def dq_task(task_id: str, layer: str) -> CDEJobRunOperator:
+    return CDEJobRunOperator(
+        task_id=task_id,
+        job_name=f"{JOB_PREFIX}-dq-check",
+        overrides={"spark": {"args": ["--db-prefix", DB_PREFIX, "--layer", layer, "--as-of", AS_OF,
+                                      "--pipeline-run", RUN]}},
+        wait=True,
+    )
+
+
 default_args = {
     "owner": "mule-account-identifier",
     "depends_on_past": False,
@@ -108,11 +124,18 @@ with DAG(
         overrides={"spark": {"args": ["--db-prefix", DB_PREFIX, "--as-of", AS_OF]}},
         wait=True,
     )
-    validate = CDEJobRunOperator(task_id="validate_bronze", job_name=f"{JOB_PREFIX}-validate-bronze", wait=True)
+    validate = CDEJobRunOperator(
+        task_id="validate_bronze",
+        job_name=f"{JOB_PREFIX}-validate-bronze",
+        overrides={"spark": {"args": ["--db-prefix", DB_PREFIX, "--as-of", AS_OF, "--pipeline-run", RUN]}},
+        wait=True,
+    )
     silver = CDEJobRunOperator(task_id="build_silver", job_name=f"{JOB_PREFIX}-build-silver", wait=True)
     graph = CDEJobRunOperator(task_id="build_identity_graph", job_name=f"{JOB_PREFIX}-build-identity-graph",
                               wait=True)
+    dq_silver = dq_task("dq_silver", "silver")
     gold = CDEJobRunOperator(task_id="build_gold_features", job_name=f"{JOB_PREFIX}-build-gold-features", wait=True)
+    dq_gold = dq_task("dq_gold", "gold")
     sync = PythonOperator(
         task_id="cai_sync_code",
         python_callable=trigger_cai_job,
@@ -125,5 +148,6 @@ with DAG(
                    "env": {"MULE_TRIGGERED_BY": "airflow", "MULE_RUN_DATE": AS_OF}, "deadline_min": 120},
         retries=0,
     )
+    dq_publish = dq_task("dq_publish", "publish")
 
-    generate >> validate >> silver >> graph >> gold >> sync >> score
+    generate >> validate >> silver >> graph >> dq_silver >> gold >> dq_gold >> sync >> score >> dq_publish

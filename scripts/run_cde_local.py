@@ -9,8 +9,9 @@ exports the tables the CAI job and app read to parquet (parquet backend).
   python scripts/run_cde_local.py gold export
   python scripts/run_cde_local.py history
 
-Stages: generate, validate, silver, graph, gold, export, all (= the five jobs + export),
-history (list Iceberg snapshots of a gold table).
+Stages: generate, validate, silver, graph, dq_silver, gold, dq_gold, export, all (= the
+seven CDE steps + export), history (list Iceberg snapshots of a gold table). validate,
+dq_silver and dq_gold record their checks in <prefix>_ref.dq_results.
 """
 
 from __future__ import annotations
@@ -30,8 +31,11 @@ STAGES = {
     "validate": "validate_bronze.py",
     "silver": "build_silver.py",
     "graph": "build_identity_graph.py",
+    "dq_silver": "dq_check.py",
     "gold": "build_gold_features.py",
+    "dq_gold": "dq_check.py",
 }
+DQ_LAYER = {"dq_silver": "silver", "dq_gold": "gold"}
 # (layer, table) exported for the parquet backend: what the CAI job, endpoint and app read.
 EXPORT_TABLES = [("gold", "mule_features"), ("silver", "customer"), ("silver", "account"),
                  ("silver", "identity_edges"), ("silver", "graph_edges")]
@@ -61,6 +65,7 @@ def local_spark(warehouse: Path, driver_memory: str = "6g"):
 def load_job(filename: str):
     spec = importlib.util.spec_from_file_location(filename[:-3], JOBS / filename)
     module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -91,6 +96,7 @@ def main() -> None:
     gen_args = list(job_args)
     if args.as_of:
         gen_args += ["--as-of", args.as_of]
+    dq_args = ["--as-of", args.as_of] if args.as_of else []
     if args.customers:
         gen_args += ["--customers", str(args.customers)]
     if args.inject_bad_data:
@@ -113,7 +119,15 @@ def main() -> None:
                           f"FROM {args.db_prefix}_gold.{args.table}.snapshots ORDER BY committed_at").show(truncate=False)
             else:
                 try:
-                    load_job(STAGES[stage]).main(gen_args if stage == "generate" else job_args, spark=spark)
+                    if stage == "generate":
+                        stage_args = gen_args
+                    elif stage == "validate":
+                        stage_args = job_args + dq_args
+                    elif stage in DQ_LAYER:
+                        stage_args = job_args + dq_args + ["--layer", DQ_LAYER[stage]]
+                    else:
+                        stage_args = job_args
+                    load_job(STAGES[stage]).main(stage_args, spark=spark)
                 except SystemExit as e:
                     if e.code:
                         sys.exit(f"stage '{stage}' failed (exit {e.code})")

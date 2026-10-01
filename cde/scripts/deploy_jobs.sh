@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Create/sync the CDE Repository for this GitHub repo and (re)create the five
+# Create/sync the CDE Repository for this GitHub repo and (re)create the six
 # Spark jobs, each reading its application file straight from the repo.
+# validate-bronze and dq-check record their checks in <prefix>_ref.dq_results.
 #
 # After a code change: git push, then either re-run this script or just
 #   cde repository sync --name rsingh-mule-acct-pipeline
@@ -82,10 +83,13 @@ create_job "${JOB_PREFIX}-validate-bronze"       "cde/jobs/validate_bronze.py"
 create_job "${JOB_PREFIX}-build-silver"          "cde/jobs/build_silver.py"
 create_job "${JOB_PREFIX}-build-identity-graph"  "cde/jobs/build_identity_graph.py"
 create_job "${JOB_PREFIX}-build-gold-features"   "cde/jobs/build_gold_features.py"
+create_job "${JOB_PREFIX}-dq-check"              "cde/jobs/dq_check.py" --arg=--layer --arg=silver
 
 echo ""
 echo "Jobs deployed from ${REPO_NAME}. Run them in order:"
-for j in generate-bronze validate-bronze build-silver build-identity-graph build-gold-features; do
+for j in generate-bronze validate-bronze build-silver build-identity-graph dq-check build-gold-features; do
   echo "  cde job run --name ${JOB_PREFIX}-${j} --wait"
 done
+echo "  (dq-check runs --layer silver; for gold / publish override its args:"
+echo "   cde job run --name ${JOB_PREFIX}-dq-check --arg --db-prefix --arg ${DB_PREFIX} --arg --layer --arg gold --wait)"
 echo "Then register the DAG: ./cde/scripts/deploy_dag.sh"

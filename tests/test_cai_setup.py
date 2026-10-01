@@ -110,7 +110,7 @@ def test_dag_reads_every_job_variable_and_registers_paused():
 def test_dag_spark_job_names_match_deploy_script():
     script = (ROOT / "cde" / "scripts" / "deploy_jobs.sh").read_text()
     deployed = set(re.findall(r'create_job "\$\{JOB_PREFIX\}-([a-z-]+)"', script))
-    assert set(re.findall(r'job_name=f"\{JOB_PREFIX\}-([a-z-]+)"', DAG)) == deployed and len(deployed) == 5
+    assert set(re.findall(r'job_name=f"\{JOB_PREFIX\}-([a-z-]+)"', DAG)) == deployed and len(deployed) == 6
 
 
 @pytest.mark.parametrize("script", sorted((ROOT / "cai" / "jobs").glob("*.py")) + [ROOT / "cai/model/predict.py"])
