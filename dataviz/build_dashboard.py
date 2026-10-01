@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-The "Mule Investigation Command Centre" dashboard in Cloudera Data Visualization, as code.
+The "Mule Investigation Command Centre" and "Mule Data Health" dashboards in
+Cloudera Data Visualization, as code.
 
-Datasets, visuals and sheets are declared below; this script turns them into a
-Data Visualization export file (dataviz/mule_command_centre.json) and imports it
-through the migration REST API of the CAI application "Mule Data Visualization"
-(ci/cai_jobs.py DATAVIZ). UUIDs are fixed per artefact, so an import updates the
-dashboard in place. Datasets read the rsingh_mule_acct_report views
-(sql/dataviz_views.sql); see docs/DATAVIZ.md.
+Datasets, visuals and sheets are declared below (DASHBOARDS); this script turns
+them into one Data Visualization export file (dataviz/mule_dashboards.json) and
+imports it through the migration REST API of the CAI application "Mule Data
+Visualization" (ci/cai_jobs.py DATAVIZ). UUIDs and primary keys are fixed per
+artefact, so an import updates both dashboards in place. Datasets read the
+rsingh_mule_acct_report views (sql/dataviz_views.sql); see docs/DATAVIZ.md.
 
   set -a; source .env; set +a
   python dataviz/build_dashboard.py              # connection (if missing), file, import
@@ -34,14 +35,15 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from ci.cai_jobs import DATAVIZ  # noqa: E402
 
-OUT = ROOT / "dataviz" / "mule_command_centre.json"
+OUT = ROOT / "dataviz" / "mule_dashboards.json"
 TITLE = "Mule Investigation Command Centre"
+HEALTH_TITLE = "Mule Data Health"
 DB = "rsingh_mule_acct_report"
 CONNECTION = "rsingh-mule-acct-impala"
 NS = uuid.UUID("78b6c29c-4f37-40d2-81ec-cdeef2987950")
-DASHBOARD_PK = 7000
+DASHBOARD_PK = 7000                   # the Command Centre; Data Health is 7001
 DATASET_PK0 = 7100
-VISUAL_PK0 = 7200
+VISUAL_PK0 = 7200                     # Command Centre visuals 7201..; Data Health 7401..
 
 DATASETS = {                          # key: (name, view, integer columns that are dimensions)
     "alerts": ("Mule - Alerts", "v_alerts", {"is_latest", "risk_rank", "ring_size", "hops_to_known_mule"}),
@@ -50,7 +52,8 @@ DATASETS = {                          # key: (name, view, integer columns that a
     "book": ("Mule - Book weekly", "v_book_weekly", set()),
     "runs": ("Mule - Model runs", "v_model_run", {"is_latest", "gate_passed", "alerts_published"}),
     "holdout": ("Mule - Holdout", "v_holdout", {"is_latest"}),
-    "dq": ("Mule - Data quality", "v_dq", set()),
+    "dq": ("Mule - Data quality", "v_dq", {"is_latest", "layer_order", "table_snapshot_id"}),
+    "dq_run": ("Mule - DQ runs", "v_dq_run", {"is_latest", "layer_order"}),
 }
 
 LATEST = "[is_latest] = 1"
@@ -155,24 +158,123 @@ SHEETS = [
              sort_dim="run_date", sort_asc=False, pos=(1, 35, 64, 20)),
     ]),
     ("Data quality", [
-        dict(type="kpi", ds="dq", title="Checks", measures=[("sum(1)", "Checks")], pos=(1, 1, 21, 10)),
-        dict(type="kpi", ds="dq", title="Failed checks", measures=[("sum([failed])", "Failed")], pos=(22, 1, 21, 10)),
+        dict(type="kpi", ds="dq", title="Checks", measures=[("sum(1)", "Checks")], filters=[LATEST],
+             pos=(1, 1, 21, 10)),
+        dict(type="kpi", ds="dq", title="Failed checks", measures=[("sum([failed])", "Failed")], filters=[LATEST],
+             pos=(22, 1, 21, 10)),
         dict(type="kpi", ds="dq", title="Critical failures",
              measures=[("sum(case when [severity] = 'critical' then [failed] else 0 end)", "Critical failures")],
-             pos=(43, 1, 22, 10)),
+             filters=[LATEST], pos=(43, 1, 22, 10)),
         dict(type="trellis-bars", ds="dq", title="Checks passed and failed by layer",
-             x=[("layer", "Layer")], measures=[("sum([passed])", "Passed"), ("sum([failed])", "Failed")],
-             pos=(1, 11, 24, 22)),
+             x=[("layer_label", "Layer")], measures=[("sum([passed])", "Passed"), ("sum([failed])", "Failed")],
+             filters=[LATEST], pos=(1, 11, 24, 22)),
         dict(type="table", ds="dq", title="Failed checks (empty on a healthy pipeline)",
              dims=[("layer", "Layer"), ("table_name", "Table"), ("check_name", "Check"), ("severity", "Severity")],
              measures=[("sum([expected])", "Expected"), ("sum([actual])", "Actual"), ("sum([diff])", "Diff")],
-             filters=["[failed] = 1"], pos=(25, 11, 40, 22)),
+             filters=[LATEST, "[failed] = 1"], may_be_empty=True, pos=(25, 11, 40, 22)),
         dict(type="table", ds="dq", title="Every check: reconciliation against source counts and integrity",
-             dims=[("layer", "Layer"), ("table_name", "Table"), ("check_name", "Check"), ("severity", "Severity"),
-                   ("rule", "Rule"), ("note", "Note")],
+             dims=[("layer_label", "Layer"), ("table_name", "Table"), ("check_name", "Check"),
+                   ("severity", "Severity"), ("rule", "Rule"), ("note", "Note")],
              measures=[("sum([expected])", "Expected"), ("sum([actual])", "Actual"), ("sum([passed])", "Passed")],
-             sort_dim="layer", pos=(1, 33, 64, 26)),
+             filters=[LATEST], sort_dim="layer_label", pos=(1, 33, 64, 26)),
     ]),
+]
+
+PASS_RATE = "round(100 * sum([passed]) / sum(1), 2)"
+CRITICAL_FAILED = "sum(case when [severity] = 'critical' then [failed] else 0 end)"
+WARNINGS_FAILED = "sum(case when [severity] = 'warning' then [failed] else 0 end)"
+
+# Data Health: the checks cde/jobs/dq_check.py records after every layer (rsingh_mule_acct_ref.dq_results).
+HEALTH_SHEETS = [
+    ("Health now", [
+        dict(type="kpi", ds="dq", title="Checks in the latest run", measures=[("sum(1)", "Checks")],
+             filters=[LATEST], pos=(1, 1, 11, 10)),
+        dict(type="kpi", ds="dq", title="Pass rate %", measures=[(PASS_RATE, "Pass rate %")],
+             filters=[LATEST], pos=(12, 1, 11, 10)),
+        dict(type="kpi", ds="dq", title="Critical failures (stop the pipeline)",
+             measures=[(CRITICAL_FAILED, "Critical failures")], filters=[LATEST], pos=(23, 1, 11, 10)),
+        dict(type="kpi", ds="dq", title="Warnings failed", measures=[(WARNINGS_FAILED, "Warnings")],
+             filters=[LATEST], pos=(34, 1, 11, 10)),
+        dict(type="kpi", ds="dq", title="Near misses (passed, some rows unexpected)",
+             measures=[("sum([near_miss])", "Near misses")], filters=[LATEST], pos=(45, 1, 10, 10)),
+        dict(type="kpi", ds="dq", title="Rows under check", measures=[("sum([row_count])", "Rows")],
+             filters=[LATEST], pos=(55, 1, 10, 10)),
+        dict(type="trellis-bars", ds="dq", title="Checks by layer and category",
+             x=[("layer_label", "Layer")], measures=[("sum(1)", "Checks")], color=[("category", "Category")],
+             filters=[LATEST], pos=(1, 11, 32, 22)),
+        dict(type="trellis-bars", ds="dq", title="Checks by category and severity",
+             x=[("category", "Category")], measures=[("sum(1)", "Checks")], color=[("severity", "Severity")],
+             filters=[LATEST], pos=(33, 11, 32, 22)),
+        dict(type="table", ds="dq", title="Table scorecard (latest run of each layer)",
+             dims=[("layer_label", "Layer"), ("table_name", "Table")],
+             measures=[("sum(1)", "Checks"), ("sum([passed])", "Passed"), ("sum([failed])", "Failed"),
+                       (CRITICAL_FAILED, "Critical failed"), ("sum([near_miss])", "Near misses"),
+                       ("max([row_count])", "Rows")],
+             filters=[LATEST], sort_dim="layer_label", pos=(1, 33, 64, 26)),
+    ]),
+    ("Trends", [
+        dict(type="trellis-lines", ds="dq", title="Pass rate % by as-of date and layer",
+             x=[("as_of", "As of")], measures=[(PASS_RATE, "Pass rate %")], color=[("layer_label", "Layer")],
+             pos=(1, 1, 32, 22)),
+        dict(type="trellis-bars", ds="dq_run", title="Checks passed and failed per pipeline run",
+             x=[("run_label", "Pipeline run")], measures=[("sum([passed])", "Passed"), ("sum([failed])", "Failed")],
+             pos=(33, 1, 32, 22)),
+        dict(type="trellis-lines", ds="dq", title="Bronze volume per table (rows per load)",
+             x=[("as_of", "As of")], measures=[("sum([row_count])", "Rows")], color=[("table_name", "Table")],
+             filters=["[layer] = 'bronze'", "[row_count] > 0"], pos=(1, 23, 64, 22)),
+        dict(type="table", ds="dq", title="Rate checks against their limits (% of rows)",
+             dims=[("as_of", "As of"), ("layer_label", "Layer"), ("table_name", "Table"), ("check_name", "Check"),
+                   ("severity", "Severity")],
+             measures=[("max([rate_pct])", "Rate %"), ("max([limit_pct])", "Limit %"),
+                       ("sum([unexpected_count])", "Rows over")],
+             filters=["[rule] = 'rate_at_most'"], sort_dim="as_of", sort_asc=False, pos=(1, 45, 64, 26)),
+    ]),
+    ("Pipeline runs", [
+        dict(type="trellis-bars", ds="dq_run", title="Minutes after the bronze gate, per gate",
+             x=[("run_label", "Pipeline run")], measures=[("max([minutes_after_bronze])", "Minutes")],
+             color=[("layer_label", "Gate")], pos=(1, 1, 32, 22)),
+        dict(type="trellis-bars", ds="dq_run", title="Rows checked per run and layer",
+             x=[("run_label", "Pipeline run")], measures=[("sum([rows_checked])", "Rows checked")],
+             color=[("layer_label", "Layer")], pos=(33, 1, 32, 22)),
+        dict(type="table", ds="dq_run", title="Every gate run",
+             dims=[("checked_at", "Checked at"), ("run_label", "Pipeline run"), ("run_type", "Run type"),
+                   ("layer_label", "Gate"), ("pipeline_run", "Airflow run id")],
+             measures=[("max([minutes_after_bronze])", "Minutes after bronze"), ("sum([checks])", "Checks"),
+                       ("sum([passed])", "Passed"), ("sum([failed])", "Failed"),
+                       ("sum([critical_failed])", "Critical failed"), ("sum([warnings_failed])", "Warnings failed"),
+                       ("sum([near_misses])", "Near misses"), ("sum([table_count])", "Tables"),
+                       ("sum([rows_checked])", "Rows checked")],
+             sort_dim="checked_at", sort_asc=False, pos=(1, 23, 64, 26)),
+    ]),
+    ("Check details", [
+        dict(type="table", ds="dq", title="Near misses: passed, but some rows were unexpected",
+             dims=[("layer_label", "Layer"), ("table_name", "Table"), ("check_name", "Check"),
+                   ("severity", "Severity"), ("observed_value", "Observed")],
+             measures=[("sum([unexpected_count])", "Unexpected rows"), ("max([unexpected_pct])", "Unexpected %")],
+             filters=[LATEST, "[near_miss] = 1"], may_be_empty=True, sort_dim="layer_label", pos=(1, 1, 64, 18)),
+        dict(type="table", ds="dq", title="Failed checks over all runs (empty on a healthy pipeline)",
+             dims=[("run_label", "Pipeline run"), ("layer_label", "Layer"), ("table_name", "Table"),
+                   ("check_name", "Check"), ("severity", "Severity"), ("observed_value", "Observed"),
+                   ("note", "Limit")],
+             measures=[("sum([unexpected_count])", "Unexpected rows")],
+             filters=["[failed] = 1"], may_be_empty=True, sort_dim="run_label", sort_asc=False,
+             pos=(1, 19, 64, 18)),
+        dict(type="table", ds="dq", title="Every check of the latest run",
+             dims=[("layer_label", "Layer"), ("table_name", "Table"), ("check_name", "Check"),
+                   ("category", "Category"), ("severity", "Severity"), ("rule", "Rule"),
+                   ("column_name", "Column"), ("observed_value", "Observed"), ("note", "Limit")],
+             measures=[("sum([passed])", "Passed"), ("sum([unexpected_count])", "Unexpected rows")],
+             filters=[LATEST], sort_dim="layer_label", pos=(1, 37, 64, 30)),
+    ]),
+]
+
+# The Command Centre's uid parts are unprefixed (its UUIDs predate Data Health).
+DASHBOARDS = [
+    dict(title=TITLE, pk=DASHBOARD_PK, visual_pk0=VISUAL_PK0, uid=(), sheets=SHEETS, main_ds="alerts",
+         subtitle="Daily mule alert queue, rings, trends, model trust and data quality (federal CDW)"),
+    dict(title=HEALTH_TITLE, pk=DASHBOARD_PK + 1, visual_pk0=VISUAL_PK0 + 200, uid=("data-health",),
+         sheets=HEALTH_SHEETS, main_ds="dq",
+         subtitle="Every data quality check after bronze, silver, gold and the publish (rsingh_mule_acct_ref.dq_results)"),
 ]
 
 SHELVES = {
@@ -201,7 +303,7 @@ def is_dim(ds_key: str, col: str, typ: str) -> bool:
     return col in DATASETS[ds_key][2] or not any(t in typ for t in ("INT", "DOUBLE", "FLOAT", "DECIMAL"))
 
 
-def dataset_record(key: str, pk: int, types: dict[str, str], conn_id: int) -> dict:
+def dataset_record(key: str, pk: int, types: dict[str, str], conn_id: int, dashboards: list[int]) -> dict:
     name, view, _ = DATASETS[key]
     table = f"{DB}.{view}"
     cols = [{"alias": c, "type": t, "name": c, "isdim": is_dim(key, c, t)} for c, t in types.items()]
@@ -210,7 +312,7 @@ def dataset_record(key: str, pk: int, types: dict[str, str], conn_id: int) -> di
         "dataset_description": f"{table} (sql/dataviz_views.sql)",
         "dataset_info": json.dumps([{"tablename": table, "columns": cols}]),
         "dataset_tablenames": json.dumps([table]), "uuid": uid("dataset", key), "imported_uuid": None,
-        "cache_sequence": 0, "dataset_settings": "{}", "search_enabled": False, "dashboards": [DASHBOARD_PK],
+        "cache_sequence": 0, "dataset_settings": "{}", "search_enabled": False, "dashboards": dashboards,
         "version_id": pk, "version_group_id": pk, "is_active_version": True,
         "version_name": "mule-command-centre", "is_named_version": False}}
 
@@ -229,7 +331,7 @@ def filter_item(expr: str) -> dict:
             "dataset_colname": "", "dataset_coltype": "STRING", "filter_column": ""}
 
 
-def visual_record(v: dict, pk: int, sheet: str, types: dict[str, str], dataset_pk: int) -> dict:
+def visual_record(v: dict, pk: int, sheet: str, types: dict[str, str], dataset_pk: int, dash: dict) -> dict:
     kind = v["type"]
     shelves = {name: [] for name, _, _ in SHELVES[kind]}
     sources = {}
@@ -261,17 +363,17 @@ def visual_record(v: dict, pk: int, sheet: str, types: dict[str, str], dataset_p
         item = next(i for i in shelves[shelf] if i["dataset_colname"] == v["sort_dim"])
         item["order"] = {"priority": 1, "ascending": v.get("sort_asc", True)}
     report = {
-        "report_title": v["title"], "report_subtitle": "", "dashboard_id": DASHBOARD_PK,
+        "report_title": v["title"], "report_subtitle": "", "dashboard_id": dash["pk"],
         "limit": v.get("limit", 1000), "sample_pct": "Off", "selected_segments": [], "report_derived_data": [],
         "click_behaviors": {}, "sort_orders_asc": {}, "user_settings": {}, **shelves,
         "core": {"viz_type": kind, "saved_shelf_sources": sources,
                  "shelves": [{"name": n, "shelf_type": s, "column_type": c} for n, s, c in SHELVES[kind]]},
     }
     return {"model": "reports.report", "pk": pk, "fields": {
-        "report_name": "", "report_description": f"{TITLE} / {sheet}", "dataset": dataset_pk,
+        "report_name": "", "report_description": f"{dash['title']} / {sheet}", "dataset": dataset_pk,
         "workspace": 1, "report_type": kind, "report_mode": "", "dashboard_url_name": "",
         "report_data": json.dumps({"report_data": report, "report_type": kind}), "shared_visual_dashboards": None,
-        "parent_report": None, "uuid": uid("visual", sheet, v["title"]), "imported_uuid": None,
+        "parent_report": None, "uuid": uid("visual", *dash["uid"], sheet, v["title"]), "imported_uuid": None,
         "has_css_styles": False, "report_search_text": ""}}
 
 
@@ -280,34 +382,41 @@ def widgets(pairs: list[tuple[int, tuple]]) -> list[dict]:
             for i, (pk, (c, r, w, h)) in enumerate(pairs, 1)]
 
 
-def build(conn_id: int, version: dict) -> dict:
-    ds_pk = {k: DATASET_PK0 + i for i, k in enumerate(DATASETS)}
-    types = {k: column_types(k) for k in DATASETS}
-    visuals, sheets, pk = [], [], VISUAL_PK0
-    for order, (sheet, items) in enumerate(SHEETS, 1):
+def dashboard_record(d: dict, visuals: list[dict], ds_pk: dict[str, int], types: dict) -> dict:
+    sheets, pk = [], d["visual_pk0"]
+    for order, (sheet, items) in enumerate(d["sheets"], 1):
         placed = []
         for v in items:
             pk += 1
-            visuals.append(visual_record(v, pk, sheet, types[v["ds"]], ds_pk[v["ds"]]))
+            visuals.append(visual_record(v, pk, sheet, types[v["ds"]], ds_pk[v["ds"]], d))
             placed.append((pk, v["pos"]))
         sheets.append({"sheet_id": order, "order": order, "sheet_handle_title": sheet, "behaviors": {},
                        "visual_widgets": widgets(placed), "control_widgets": []})
-    dash = {"report_title": TITLE, "numColumns": 64,
-            "report_subtitle": "Daily mule alert queue, rings, trends, model trust and data quality (federal CDW)",
+    dash = {"report_title": d["title"], "numColumns": 64, "report_subtitle": d["subtitle"],
             "dashboard_widgets": sheets[0]["visual_widgets"], "dashboard_sheets": sheets,
             "user_settings": {"dashboard_width": "1280", "display_filters": "true",
                               "permit_csv_download_dashboard": "true"},
             "global_control_widgets": [], "control_widgets": [], "click_behavior": {}}
-    dashboard = {"model": "reports.report", "pk": DASHBOARD_PK, "fields": {
-        "report_name": TITLE, "report_description": "docs/DATAVIZ.md",
-        "dataset": ds_pk["alerts"], "workspace": 1, "report_type": "dashboard", "report_mode": None,
+    return {"model": "reports.report", "pk": d["pk"], "fields": {
+        "report_name": d["title"], "report_description": "docs/DATAVIZ.md",
+        "dataset": ds_pk[d["main_ds"]], "workspace": 1, "report_type": "dashboard", "report_mode": None,
         "dashboard_url_name": "", "report_data": json.dumps(dash), "shared_visual_dashboards": "[]",
-        "parent_report": None, "uuid": uid("dashboard"), "imported_uuid": None, "has_css_styles": False,
+        "parent_report": None, "uuid": uid("dashboard", *d["uid"]), "imported_uuid": None, "has_css_styles": False,
         "report_search_text": None}}
-    return {"segments": [], "staticasset": [], "dashboards": [dashboard], "appgroupmembership": [],
+
+
+def build(conn_id: int, version: dict) -> dict:
+    ds_pk = {k: DATASET_PK0 + i for i, k in enumerate(DATASETS)}
+    types = {k: column_types(k) for k in DATASETS}
+    visuals = []
+    dashboards = [dashboard_record(d, visuals, ds_pk, types) for d in DASHBOARDS]
+    used_by = {k: [d["pk"] for d in DASHBOARDS if any(v["ds"] == k for _, items in d["sheets"] for v in items)]
+               for k in DATASETS}
+    return {"segments": [], "staticasset": [], "dashboards": dashboards, "appgroupmembership": [],
             "reportannotation": [], "events": [], "customcss": [], "reportimage": [], "dateranges": [],
             "visuals": visuals, "colorpalette": [], "appgroups": [],
-            "datasets": [dataset_record(k, ds_pk[k], types[k], conn_id) for k in DATASETS], "version": version}
+            "datasets": [dataset_record(k, ds_pk[k], types[k], conn_id, used_by[k]) for k in DATASETS],
+            "version": version}
 
 
 def impala_sql(v: dict) -> str:
@@ -361,27 +470,30 @@ class DataViz:
         impala = get_storage("impala")
         ids = {d["name"]: d["id"] for d in self.get("/arc/adminapi/v1/datasets")}
         failed = 0
-        for sheet, items in SHEETS:
-            for v in items:
-                dims = v.get("dims", []) + v.get("x", []) + v.get("color", [])
-                dsreq = {"version": 1, "type": "SQL", "limit": v.get("limit", 1000),
-                         "dimensions": [{"type": "SIMPLE", "expr": f"[{c}] as '{a}'"} for c, a in dims],
-                         "aggregates": [{"expr": f"{e} as '{a}'"} for e, a in v["measures"]],
-                         "filters": v.get("filters", []), "dataset_id": ids[DATASETS[v["ds"]][0]]}
-                r = self.s.post(self.url + "/arc/api/data", data={"version": 1, "dsreq": json.dumps(dsreq)},
-                                timeout=300)
-                rows = json.loads(r.json()["rows"]) if r.status_code == 200 else None
-                ok = bool(rows) or (rows is not None and "[failed] = 1" in v.get("filters", []))
-                note = f"{len(rows)} rows, first {rows[0] if rows else None}" if rows is not None else \
-                    f"HTTP {r.status_code} {r.text[:200]}"
-                if ok and v["type"] == "kpi":
-                    want = impala.query(impala_sql(v)).iloc[0, 0]
-                    got = rows[0][-1] if isinstance(rows[0], list) else list(rows[0].values())[-1]
-                    ok = abs(float(got) - float(want)) < 1e-6
-                    note = f"{got} (Impala {want})"
-                failed += not ok
-                print(f"{'ok  ' if ok else 'FAIL'} {sheet} / {v['title']}: {note}")
+        for d in DASHBOARDS:
+            for sheet, items in d["sheets"]:
+                for v in items:
+                    failed += not self.verify_visual(v, f"{d['title']} / {sheet}", ids, impala)
         return failed
+
+    def verify_visual(self, v: dict, where: str, ids: dict, impala) -> bool:
+        dims = v.get("dims", []) + v.get("x", []) + v.get("color", [])
+        dsreq = {"version": 1, "type": "SQL", "limit": v.get("limit", 1000),
+                 "dimensions": [{"type": "SIMPLE", "expr": f"[{c}] as '{a}'"} for c, a in dims],
+                 "aggregates": [{"expr": f"{e} as '{a}'"} for e, a in v["measures"]],
+                 "filters": v.get("filters", []), "dataset_id": ids[DATASETS[v["ds"]][0]]}
+        r = self.s.post(self.url + "/arc/api/data", data={"version": 1, "dsreq": json.dumps(dsreq)}, timeout=300)
+        rows = json.loads(r.json()["rows"]) if r.status_code == 200 else None
+        ok = bool(rows) or (rows is not None and v.get("may_be_empty", False))
+        note = f"{len(rows)} rows, first {rows[0] if rows else None}" if rows is not None else \
+            f"HTTP {r.status_code} {r.text[:200]}"
+        if ok and v["type"] == "kpi":
+            want = impala.query(impala_sql(v)).iloc[0, 0]
+            got = rows[0][-1] if isinstance(rows[0], list) else list(rows[0].values())[-1]
+            ok = abs(float(got) - float(want)) < 1e-6
+            note = f"{got} (Impala {want})"
+        print(f"{'ok  ' if ok else 'FAIL'} {where} / {v['title']}: {note}")
+        return ok
 
     def import_file(self, path: Path) -> None:
         with path.open("rb") as f:
@@ -403,11 +515,11 @@ def main() -> int:
     conn_id = viz.connection()
     doc = build(conn_id, viz.version())
     OUT.write_text(json.dumps(doc, indent=1) + "\n")
-    print(f"wrote {OUT.relative_to(ROOT)}: {len(doc['datasets'])} datasets, {len(doc['visuals'])} visuals, "
-          f"{len(SHEETS)} sheets")
+    print(f"wrote {OUT.relative_to(ROOT)}: {len(doc['dashboards'])} dashboards, {len(doc['datasets'])} datasets, "
+          f"{len(doc['visuals'])} visuals, {sum(len(d['sheets']) for d in DASHBOARDS)} sheets")
     if not args.no_import:
         viz.import_file(OUT)
-        print(f"open {viz.url}/arc/apps/ -> Dashboards -> {TITLE}")
+        print(f"open {viz.url}/arc/apps/ -> Dashboards -> {TITLE} / {HEALTH_TITLE}")
     return 0
 
 

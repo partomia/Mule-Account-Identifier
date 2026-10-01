@@ -112,85 +112,91 @@ FROM rsingh_mule_acct_gold.mule_holdout h
 CROSS JOIN (SELECT run_id FROM rsingh_mule_acct_gold.mule_model_run
             ORDER BY run_ts DESC LIMIT 1) m;
 
--- Dataset "Data quality": reconciliation and integrity checks, computed live on every query.
--- rule 'equal' passes when actual = expected; 'at most' when actual <= expected, where expected
--- is the 0.1% limit of cde/jobs/validate_bronze.py MAX_BAD_RATE. Silver drops transactions of
--- unknown accounts and complaints it cannot resolve, so those are counted, not treated as loss.
+-- Dataset "Data quality": every recorded check of cde/jobs/dq_check.py (rsingh_mule_acct_ref.dq_results).
+-- A retried DAG task records its layer again under a new run_id; only the latest run_id of each
+-- (pipeline_run, layer) is kept. is_latest flags the latest pipeline run of each layer. A near miss
+-- passed but found unexpected rows (re-sent duplicates, orphans under the limit). expected / actual:
+-- the limit and the observed number of the rule (count rules: 0 and the bad rows; rates: the
+-- maximum rate and the rate; reconciliations: the source count and the count). In LIKE, _ is a
+-- wildcard, so 'manual-%' (a run by hand) is tested before Airflow's 'manual__%'.
 DROP VIEW IF EXISTS rsingh_mule_acct_report.v_dq;
 CREATE VIEW rsingh_mule_acct_report.v_dq AS
-SELECT layer, table_name, check_name, severity, rule, expected, actual, actual - expected AS diff,
-       CASE WHEN (rule = 'equal' AND actual = expected) OR (rule = 'at most' AND actual <= expected)
-            THEN 1 ELSE 0 END AS passed,
-       CASE WHEN (rule = 'equal' AND actual = expected) OR (rule = 'at most' AND actual <= expected)
-            THEN 0 ELSE 1 END AS failed,
-       note
+SELECT d.pipeline_run,
+       CASE WHEN d.pipeline_run LIKE 'scheduled__%' THEN 'nightly'
+            WHEN d.pipeline_run LIKE 'manual-%' THEN 'by hand'
+            WHEN d.pipeline_run LIKE 'manual__%' THEN 'triggered' ELSE 'other' END           AS run_type,
+       concat(CAST(d.as_of AS STRING), ' ',
+              CASE WHEN d.pipeline_run LIKE 'scheduled__%' THEN 'nightly'
+                   WHEN d.pipeline_run LIKE 'manual-%' THEN 'by hand'
+                   WHEN d.pipeline_run LIKE 'manual__%' THEN 'triggered' ELSE 'other' END,
+              ' ', from_timestamp(d.started_ts, 'HH:mm'))                                   AS run_label,
+       d.run_id, d.run_ts, d.as_of, d.layer,
+       CASE d.layer WHEN 'bronze' THEN 1 WHEN 'silver' THEN 2 WHEN 'gold' THEN 3 WHEN 'publish' THEN 4
+            ELSE 9 END                                                                      AS layer_order,
+       concat(CASE d.layer WHEN 'bronze' THEN '1' WHEN 'silver' THEN '2' WHEN 'gold' THEN '3'
+                           WHEN 'publish' THEN '4' ELSE '9' END, '. ', d.layer)            AS layer_label,
+       d.table_name, d.check_name, d.expectation_type AS rule,
+       CASE WHEN d.check_name LIKE '%raw PAN%' OR d.check_name LIKE '%SHA-256%' THEN 'Privacy'
+            WHEN d.check_name LIKE '%(leakage)%' THEN 'Leakage guard'
+            WHEN d.expectation_type IN ('row_count', 'volume_change') THEN 'Volume'
+            WHEN d.expectation_type = 'not_null' THEN 'Completeness'
+            WHEN d.expectation_type = 'unique' THEN 'Uniqueness'
+            WHEN d.expectation_type = 'reconciliation_equal' THEN 'Reconciliation'
+            WHEN d.expectation_type = 'rate_at_most' THEN 'Rate limit'
+            WHEN d.expectation_type = 'not_after_as_of' THEN 'Timeliness'
+            ELSE 'Validity' END                                                             AS category,
+       d.column_name, d.severity,
+       CAST(d.success AS INT) AS passed, 1 - CAST(d.success AS INT) AS failed,
+       CASE WHEN d.success AND d.unexpected_count > 0 THEN 1 ELSE 0 END                    AS near_miss,
+       d.observed_value, d.actual, d.expected, d.actual - d.expected AS diff,
+       CASE WHEN d.expectation_type = 'rate_at_most' THEN 100 * d.actual END               AS rate_pct,
+       CASE WHEN d.expectation_type = 'rate_at_most' THEN 100 * d.expected END             AS limit_pct,
+       d.unexpected_count, d.unexpected_pct, d.element_count,
+       CASE WHEN d.expectation_type = 'row_count' AND d.check_name = 'row count'
+            THEN CAST(d.observed_value AS BIGINT) END                                       AS row_count,
+       d.kwargs AS note, d.table_snapshot_id,
+       CASE WHEN d.pipeline_run = l.pipeline_run THEN 1 ELSE 0 END                         AS is_latest
 FROM (
-  SELECT 'silver' AS layer, 'customer' AS table_name, 'rows = distinct bronze cif' AS check_name,
-         'critical' AS severity, 'equal' AS rule, x.n AS expected, y.n AS actual,
-         'kyc_onboarding deduplicated on cif' AS note
-  FROM (SELECT COUNT(DISTINCT cif) n FROM rsingh_mule_acct_bronze.kyc_onboarding) x
-  CROSS JOIN (SELECT COUNT(*) n FROM rsingh_mule_acct_silver.customer) y
-  UNION ALL
-  SELECT 'silver', 'account', 'rows = distinct bronze account_id', 'critical', 'equal', x.n, y.n,
-         'cbs_accounts deduplicated on account_id'
-  FROM (SELECT COUNT(DISTINCT account_id) n FROM rsingh_mule_acct_bronze.cbs_accounts) x
-  CROSS JOIN (SELECT COUNT(*) n FROM rsingh_mule_acct_silver.account) y
-  UNION ALL
-  SELECT 'silver', 'txn', 'rows = distinct positive bronze txn_id of known accounts', 'critical', 'equal',
-         x.n, y.n, 'upi_transactions deduplicated on txn_id, amount > 0, account in cbs_accounts'
-  FROM (SELECT COUNT(DISTINCT t.txn_id) n FROM rsingh_mule_acct_bronze.upi_transactions t
-        LEFT SEMI JOIN rsingh_mule_acct_bronze.cbs_accounts a ON a.account_id = t.account_id
-        WHERE t.amount > 0) x
-  CROSS JOIN (SELECT COUNT(*) n FROM rsingh_mule_acct_silver.txn) y
-  UNION ALL
-  SELECT 'bronze', 'upi_transactions', 'transactions of unknown accounts (dropped by silver)', 'warning',
-         'at most', CAST(FLOOR(x.total * 0.001) AS BIGINT), x.orphans, 'limit 0.1% of rows'
-  FROM (SELECT COUNT(*) total,
-               SUM(CASE WHEN a.account_id IS NULL THEN 1 ELSE 0 END) orphans
-        FROM rsingh_mule_acct_bronze.upi_transactions t
-        LEFT JOIN (SELECT DISTINCT account_id FROM rsingh_mule_acct_bronze.cbs_accounts) a
-          ON a.account_id = t.account_id) x
-  UNION ALL
-  SELECT 'bronze', 'upi_transactions', 'null txn_id or account_id', 'critical', 'equal', 0,
-         SUM(CASE WHEN txn_id IS NULL OR account_id IS NULL THEN 1 ELSE 0 END), 'keys must be present'
-  FROM rsingh_mule_acct_bronze.upi_transactions
-  UNION ALL
-  SELECT 'bronze', 'upi_transactions', 'transactions after the batch as-of date', 'critical', 'equal', 0,
-         SUM(CASE WHEN to_date(txn_ts) > batch_as_of THEN 1 ELSE 0 END), 'no future-dated rows'
-  FROM rsingh_mule_acct_bronze.upi_transactions
-  UNION ALL
-  SELECT 'silver', 'report', 'report_ids not in bronze', 'critical', 'equal', 0, COUNT(*),
-         'every resolved complaint comes from fraud_reports'
-  FROM rsingh_mule_acct_silver.report r
-  LEFT ANTI JOIN rsingh_mule_acct_bronze.fraud_reports b ON b.report_id = r.report_id
-  UNION ALL
-  SELECT 'silver', 'report', 'complaints not resolved to an account', 'warning', 'at most',
-         CAST(FLOOR(x.n * 0.01) AS BIGINT), x.n - y.n, 'limit 1% of complaints; one complaint can resolve to several accounts'
-  FROM (SELECT COUNT(DISTINCT report_id) n FROM rsingh_mule_acct_bronze.fraud_reports) x
-  CROSS JOIN (SELECT COUNT(DISTINCT report_id) n FROM rsingh_mule_acct_silver.report) y
-  UNION ALL
-  SELECT 'gold', 'mule_features', 'duplicate (account_id, snapshot_date)', 'critical', 'equal', 0,
-         COUNT(*) - COUNT(DISTINCT concat(account_id, '|', CAST(snapshot_date AS STRING))), 'merge key is unique'
-  FROM rsingh_mule_acct_gold.mule_features
-  UNION ALL
-  SELECT 'gold', 'mule_features', 'latest snapshot rows = scored accounts of the latest run', 'critical',
-         'equal', r.scored_accounts, f.n, 'mule_model_run.scored_accounts'
-  FROM (SELECT scored_accounts, snapshot_date FROM rsingh_mule_acct_gold.mule_model_run
-        ORDER BY run_ts DESC LIMIT 1) r
-  JOIN (SELECT snapshot_date, COUNT(*) n FROM rsingh_mule_acct_gold.mule_features GROUP BY snapshot_date) f
-    ON f.snapshot_date = r.snapshot_date
-  UNION ALL
-  SELECT 'gold', 'mule_alerts', concat('latest run ', e.tier, ' rows = the run row'), 'critical', 'equal',
-         e.expected, NVL(a.n, 0), 'mule_model_run.alerts_t1 / t2 / t3 of the same run_id'
-  FROM (SELECT run_id, 'T1_FREEZE_REVIEW' AS tier, alerts_t1 AS expected FROM
-          (SELECT * FROM rsingh_mule_acct_gold.mule_model_run ORDER BY run_ts DESC LIMIT 1) r1
-        UNION ALL SELECT run_id, 'T2_HOLD_MONITOR', alerts_t2 FROM
-          (SELECT * FROM rsingh_mule_acct_gold.mule_model_run ORDER BY run_ts DESC LIMIT 1) r2
-        UNION ALL SELECT run_id, 'T3_WATCHLIST', alerts_t3 FROM
-          (SELECT * FROM rsingh_mule_acct_gold.mule_model_run ORDER BY run_ts DESC LIMIT 1) r3) e
-  LEFT JOIN (SELECT run_id, tier, COUNT(*) n FROM rsingh_mule_acct_gold.mule_alerts GROUP BY run_id, tier) a
-    ON a.run_id = e.run_id AND a.tier = e.tier
-) c;
+  SELECT r.*,
+         CASE WHEN r.expectation_type IN ('row_count', 'reconciliation_equal', 'rate_at_most', 'volume_change')
+              THEN CAST(r.observed_value AS DOUBLE) ELSE CAST(r.unexpected_count AS DOUBLE) END AS actual,
+         CASE r.expectation_type
+              WHEN 'row_count' THEN CAST(get_json_object(r.kwargs, '$.min_value') AS DOUBLE)
+              WHEN 'reconciliation_equal' THEN CAST(get_json_object(r.kwargs, '$.expected') AS DOUBLE)
+              WHEN 'rate_at_most' THEN CAST(get_json_object(r.kwargs, '$.max_rate') AS DOUBLE)
+              WHEN 'volume_change' THEN CAST(NULL AS DOUBLE)
+              ELSE CAST(0 AS DOUBLE) END                                                     AS expected,
+         MAX(r.run_ts) OVER (PARTITION BY r.pipeline_run, r.layer) AS last_ts,
+         MIN(r.run_ts) OVER (PARTITION BY r.pipeline_run) AS started_ts
+  FROM rsingh_mule_acct_ref.dq_results r
+) d
+LEFT JOIN (
+  SELECT layer, pipeline_run
+  FROM (SELECT layer, pipeline_run,
+               ROW_NUMBER() OVER (PARTITION BY layer ORDER BY MAX(run_ts) DESC) AS rn
+        FROM rsingh_mule_acct_ref.dq_results GROUP BY layer, pipeline_run) x
+  WHERE rn = 1
+) l ON l.layer = d.layer
+WHERE d.run_ts = d.last_ts;
+
+-- Dataset "DQ runs": one row per pipeline run and layer: when each gate ran relative to the
+-- run's bronze gate, and what it checked.
+DROP VIEW IF EXISTS rsingh_mule_acct_report.v_dq_run;
+CREATE VIEW rsingh_mule_acct_report.v_dq_run AS
+SELECT pipeline_run, run_type, run_label, as_of, layer, layer_order, layer_label, MAX(is_latest) AS is_latest,
+       MAX(run_ts)                                                   AS checked_at,
+       ROUND((UNIX_TIMESTAMP(MAX(run_ts))
+              - UNIX_TIMESTAMP(MIN(MIN(run_ts)) OVER (PARTITION BY pipeline_run))) / 60, 1) AS minutes_after_bronze,
+       COUNT(*)                                                      AS checks,
+       SUM(passed)                                                   AS passed,
+       SUM(failed)                                                   AS failed,
+       SUM(CASE WHEN severity = 'critical' THEN failed ELSE 0 END)   AS critical_failed,
+       SUM(CASE WHEN severity = 'warning' THEN failed ELSE 0 END)    AS warnings_failed,
+       SUM(near_miss)                                                AS near_misses,
+       COUNT(DISTINCT table_name)                                    AS table_count,
+       SUM(row_count)                                                AS rows_checked
+FROM rsingh_mule_acct_report.v_dq
+GROUP BY pipeline_run, run_type, run_label, as_of, layer, layer_order, layer_label;
 
 -- Checks: the numbers the dashboard's KPI tiles should show
 
@@ -216,5 +222,20 @@ FROM rsingh_mule_acct_report.v_model_run ORDER BY run_date;
 SELECT band_label, model_cum_capture, rules_cum_capture FROM rsingh_mule_acct_report.v_holdout
 WHERE is_latest = 1 ORDER BY band_label;
 
-SELECT layer, table_name, check_name, rule, expected, actual, passed
-FROM rsingh_mule_acct_report.v_dq ORDER BY layer, table_name, check_name;
+SELECT COUNT(*) AS checks, ROUND(100 * SUM(passed) / COUNT(*), 2) AS pass_rate_pct,
+       SUM(CASE WHEN severity = 'critical' THEN failed ELSE 0 END) AS critical_failed,
+       SUM(CASE WHEN severity = 'warning' THEN failed ELSE 0 END) AS warnings_failed,
+       SUM(near_miss) AS near_misses, SUM(row_count) AS rows_checked
+FROM rsingh_mule_acct_report.v_dq WHERE is_latest = 1;
+
+SELECT layer_label, category, COUNT(*) AS checks, SUM(failed) AS failed, SUM(near_miss) AS near_misses
+FROM rsingh_mule_acct_report.v_dq WHERE is_latest = 1 GROUP BY layer_label, category
+ORDER BY layer_label, category;
+
+SELECT layer_label, table_name, check_name, severity, observed_value, unexpected_count
+FROM rsingh_mule_acct_report.v_dq WHERE is_latest = 1 AND (failed = 1 OR near_miss = 1)
+ORDER BY layer_label, table_name;
+
+SELECT run_label, layer_label, checked_at, minutes_after_bronze, checks, failed, near_misses, table_count,
+       rows_checked
+FROM rsingh_mule_acct_report.v_dq_run ORDER BY checked_at;

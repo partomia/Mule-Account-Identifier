@@ -174,10 +174,26 @@ reviewing it against the two recent repos and the Mitra-v2 / AutoGluon 1.6 docs.
     cluster-internal host CAI cannot reach and belong to other users. The
     datasets read flat views in a separate `rsingh_mule_acct_report` database
     with `is_latest` flags instead of subquery filters; nothing in the
-    pipeline reads them. There is no data-quality results table in this
-    project (`validate_bronze` fails the batch instead), so `v_dq` computes
-    the reconciliation and integrity checks live on each query. Top-N tables
+    pipeline reads them. (Until decision 18, `v_dq` computed the
+    reconciliation and integrity checks live on each query.) Top-N tables
     filter on a rank column, since table visuals sort by dimensions only.
+18. **Data quality recorded per layer, in plain PySpark, not Great
+    Expectations.** `cde/jobs/dq_check.py` checks bronze, silver, gold and the
+    CAI publish after each step and appends every result to
+    `rsingh_mule_acct_ref.dq_results` with the churn project's 18 columns
+    (`gx_version` NULL), so the "Data Health" dashboard has the same shape in
+    both projects. No new package in the CDE python-env (its requirements
+    file stays empty) and the rules (rate limits with a warning at half the
+    limit, reconciliations, leakage) stay readable in one file.
+    `validate_bronze` became `--layer bronze`; the DAG gained `dq_silver`,
+    `dq_gold` and `dq_publish`, with `pipeline_run` = the Airflow `run_id`.
+    Critical failures still stop the DAG; warnings are recorded only. Tasks
+    keep the DAG's one retry: a retry records under a new `run_id`, and the
+    views read the latest `run_id` per (pipeline run, layer). Unresolved
+    complaints stay a warning at 1% (as in the earlier `v_dq`): silver drops
+    them by design. The Command Centre's data quality sheet now reads the
+    recorded latest run; both dashboards are one `DASHBOARDS` declaration,
+    with the Command Centre's UUIDs and keys unchanged.
 
 ## Method (demo policy, see `config/policy.yaml`)
 
@@ -366,3 +382,12 @@ duplicates for silver to remove. Scale is a flag, so tests and CI run small.
   34 visuals answer through the application's own Impala connection and the
   16 KPI tiles equal the same numbers queried in Impala. See
   `docs/DATAVIZ.md` and `docs/PROJECT_LOG.md`.
+- [x] **11. Data quality results and the Data Health dashboard**
+  (2026-10-01, decision 18) — `rsingh-mule-acct-dq-check` deployed and the
+  DAG updated (still unpaused, not triggered); the four layers run by hand
+  for as_of 2026-09-29 (`manual-2026-09-29`, CDE runs 79-82): 155 checks
+  (bronze 46, silver 54, gold 47, publish 8), all passed, 6 near misses;
+  `v_dq` over the results plus `v_dq_run`; "Mule Data Health" (19 visuals,
+  4 sheets) imported next to the Command Centre; all 53 visuals of both
+  dashboards answer through the Data API and the 25 KPI tiles equal Impala.
+  Trends and volume checks fill in with each nightly run.

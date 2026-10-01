@@ -21,6 +21,26 @@
     "has_css_styles": false,
     "report_search_text": null
    }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7001,
+   "fields": {
+    "report_name": "Mule Data Health",
+    "report_description": "docs/DATAVIZ.md",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "dashboard",
+    "report_mode": null,
+    "dashboard_url_name": "",
+    "report_data": "{\"report_title\": \"Mule Data Health\", \"numColumns\": 64, \"report_subtitle\": \"Every data quality check after bronze, silver, gold and the publish (rsingh_mule_acct_ref.dq_results)\", \"dashboard_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 11, \"size_y\": 10, \"id\": \"uri-1-widget-7401\"}, {\"col\": 12, \"row\": 1, \"size_x\": 11, \"size_y\": 10, \"id\": \"uri-2-widget-7402\"}, {\"col\": 23, \"row\": 1, \"size_x\": 11, \"size_y\": 10, \"id\": \"uri-3-widget-7403\"}, {\"col\": 34, \"row\": 1, \"size_x\": 11, \"size_y\": 10, \"id\": \"uri-4-widget-7404\"}, {\"col\": 45, \"row\": 1, \"size_x\": 10, \"size_y\": 10, \"id\": \"uri-5-widget-7405\"}, {\"col\": 55, \"row\": 1, \"size_x\": 10, \"size_y\": 10, \"id\": \"uri-6-widget-7406\"}, {\"col\": 1, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-7-widget-7407\"}, {\"col\": 33, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-8-widget-7408\"}, {\"col\": 1, \"row\": 33, \"size_x\": 64, \"size_y\": 26, \"id\": \"uri-9-widget-7409\"}], \"dashboard_sheets\": [{\"sheet_id\": 1, \"order\": 1, \"sheet_handle_title\": \"Health now\", \"behaviors\": {}, \"visual_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 11, \"size_y\": 10, \"id\": \"uri-1-widget-7401\"}, {\"col\": 12, \"row\": 1, \"size_x\": 11, \"size_y\": 10, \"id\": \"uri-2-widget-7402\"}, {\"col\": 23, \"row\": 1, \"size_x\": 11, \"size_y\": 10, \"id\": \"uri-3-widget-7403\"}, {\"col\": 34, \"row\": 1, \"size_x\": 11, \"size_y\": 10, \"id\": \"uri-4-widget-7404\"}, {\"col\": 45, \"row\": 1, \"size_x\": 10, \"size_y\": 10, \"id\": \"uri-5-widget-7405\"}, {\"col\": 55, \"row\": 1, \"size_x\": 10, \"size_y\": 10, \"id\": \"uri-6-widget-7406\"}, {\"col\": 1, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-7-widget-7407\"}, {\"col\": 33, \"row\": 11, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-8-widget-7408\"}, {\"col\": 1, \"row\": 33, \"size_x\": 64, \"size_y\": 26, \"id\": \"uri-9-widget-7409\"}], \"control_widgets\": []}, {\"sheet_id\": 2, \"order\": 2, \"sheet_handle_title\": \"Trends\", \"behaviors\": {}, \"visual_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-1-widget-7410\"}, {\"col\": 33, \"row\": 1, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-2-widget-7411\"}, {\"col\": 1, \"row\": 23, \"size_x\": 64, \"size_y\": 22, \"id\": \"uri-3-widget-7412\"}, {\"col\": 1, \"row\": 45, \"size_x\": 64, \"size_y\": 26, \"id\": \"uri-4-widget-7413\"}], \"control_widgets\": []}, {\"sheet_id\": 3, \"order\": 3, \"sheet_handle_title\": \"Pipeline runs\", \"behaviors\": {}, \"visual_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-1-widget-7414\"}, {\"col\": 33, \"row\": 1, \"size_x\": 32, \"size_y\": 22, \"id\": \"uri-2-widget-7415\"}, {\"col\": 1, \"row\": 23, \"size_x\": 64, \"size_y\": 26, \"id\": \"uri-3-widget-7416\"}], \"control_widgets\": []}, {\"sheet_id\": 4, \"order\": 4, \"sheet_handle_title\": \"Check details\", \"behaviors\": {}, \"visual_widgets\": [{\"col\": 1, \"row\": 1, \"size_x\": 64, \"size_y\": 18, \"id\": \"uri-1-widget-7417\"}, {\"col\": 1, \"row\": 19, \"size_x\": 64, \"size_y\": 18, \"id\": \"uri-2-widget-7418\"}, {\"col\": 1, \"row\": 37, \"size_x\": 64, \"size_y\": 30, \"id\": \"uri-3-widget-7419\"}], \"control_widgets\": []}], \"user_settings\": {\"dashboard_width\": \"1280\", \"display_filters\": \"true\", \"permit_csv_download_dashboard\": \"true\"}, \"global_control_widgets\": [], \"control_widgets\": [], \"click_behavior\": {}}",
+    "shared_visual_dashboards": "[]",
+    "parent_report": null,
+    "uuid": "73a57d49-d3f5-53d3-9f7f-9e650e817901",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": null
+   }
   }
  ],
  "appgroupmembership": [],
@@ -601,7 +621,7 @@
     "report_type": "kpi",
     "report_mode": "",
     "dashboard_url_name": "",
-    "report_data": "{\"report_data\": {\"report_title\": \"Checks\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Checks\", \"dataset_colname\": \"Checks\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(1) as 'sub:Checks'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "report_data": "{\"report_data\": {\"report_title\": \"Checks\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Checks\", \"dataset_colname\": \"Checks\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(1) as 'sub:Checks'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
     "shared_visual_dashboards": null,
     "parent_report": null,
     "uuid": "6c16c23d-8839-51be-a5b4-8038ebfae23b",
@@ -621,7 +641,7 @@
     "report_type": "kpi",
     "report_mode": "",
     "dashboard_url_name": "",
-    "report_data": "{\"report_data\": {\"report_title\": \"Failed checks\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum([failed])\", \"expression_for_trigger\": \"sum([failed])\", \"expr_hasagg\": true, \"col_alias\": \"Failed\", \"dataset_colname\": \"Failed\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum([failed]) as 'sub:Failed'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "report_data": "{\"report_data\": {\"report_title\": \"Failed checks\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum([failed])\", \"expression_for_trigger\": \"sum([failed])\", \"expr_hasagg\": true, \"col_alias\": \"Failed\", \"dataset_colname\": \"Failed\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum([failed]) as 'sub:Failed'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
     "shared_visual_dashboards": null,
     "parent_report": null,
     "uuid": "c86a0912-3081-546f-8fb8-465cafce995b",
@@ -641,7 +661,7 @@
     "report_type": "kpi",
     "report_mode": "",
     "dashboard_url_name": "",
-    "report_data": "{\"report_data\": {\"report_title\": \"Critical failures\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expression_for_trigger\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expr_hasagg\": true, \"col_alias\": \"Critical failures\", \"dataset_colname\": \"Critical failures\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(case when [severity] = 'critical' then [failed] else 0 end) as 'sub:Critical failures'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "report_data": "{\"report_data\": {\"report_title\": \"Critical failures\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expression_for_trigger\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expr_hasagg\": true, \"col_alias\": \"Critical failures\", \"dataset_colname\": \"Critical failures\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(case when [severity] = 'critical' then [failed] else 0 end) as 'sub:Critical failures'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
     "shared_visual_dashboards": null,
     "parent_report": null,
     "uuid": "b201658b-5588-5b0a-b0ad-471b9d120bbc",
@@ -661,7 +681,7 @@
     "report_type": "trellis-bars",
     "report_mode": "",
     "dashboard_url_name": "",
-    "report_data": "{\"report_data\": {\"report_title\": \"Checks passed and failed by layer\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"layer\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer]\", \"col_alias\": \"Layer\"}], \"y_shelf\": [{\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([failed])\", \"expression_for_trigger\": \"sum([failed])\", \"expr_hasagg\": true, \"col_alias\": \"Failed\", \"dataset_colname\": \"Failed\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[layer] as 'sub:Layer'\": \"x_shelf\", \"sum([passed]) as 'sub:Passed'\": \"y_shelf\", \"sum([failed]) as 'sub:Failed'\": \"y_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "report_data": "{\"report_data\": {\"report_title\": \"Checks passed and failed by layer\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\"}], \"y_shelf\": [{\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([failed])\", \"expression_for_trigger\": \"sum([failed])\", \"expr_hasagg\": true, \"col_alias\": \"Failed\", \"dataset_colname\": \"Failed\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[layer_label] as 'sub:Layer'\": \"x_shelf\", \"sum([passed]) as 'sub:Passed'\": \"y_shelf\", \"sum([failed]) as 'sub:Failed'\": \"y_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
     "shared_visual_dashboards": null,
     "parent_report": null,
     "uuid": "40340434-e375-5edd-992a-674ad2915f07",
@@ -681,7 +701,7 @@
     "report_type": "table",
     "report_mode": "",
     "dashboard_url_name": "",
-    "report_data": "{\"report_data\": {\"report_title\": \"Failed checks (empty on a healthy pipeline)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"layer\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer]\", \"col_alias\": \"Layer\"}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([expected])\", \"expression_for_trigger\": \"sum([expected])\", \"expr_hasagg\": true, \"col_alias\": \"Expected\", \"dataset_colname\": \"Expected\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([actual])\", \"expression_for_trigger\": \"sum([actual])\", \"expr_hasagg\": true, \"col_alias\": \"Actual\", \"dataset_colname\": \"Actual\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([diff])\", \"expression_for_trigger\": \"sum([diff])\", \"expr_hasagg\": true, \"col_alias\": \"Diff\", \"dataset_colname\": \"Diff\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[failed] = 1\", \"expression_for_trigger\": \"[failed] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[layer] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"sum([expected]) as 'sub:Expected'\": \"aggregates_shelf\", \"sum([actual]) as 'sub:Actual'\": \"aggregates_shelf\", \"sum([diff]) as 'sub:Diff'\": \"aggregates_shelf\", \"[failed] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "report_data": "{\"report_data\": {\"report_title\": \"Failed checks (empty on a healthy pipeline)\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"layer\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer]\", \"col_alias\": \"Layer\"}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([expected])\", \"expression_for_trigger\": \"sum([expected])\", \"expr_hasagg\": true, \"col_alias\": \"Expected\", \"dataset_colname\": \"Expected\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([actual])\", \"expression_for_trigger\": \"sum([actual])\", \"expr_hasagg\": true, \"col_alias\": \"Actual\", \"dataset_colname\": \"Actual\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([diff])\", \"expression_for_trigger\": \"sum([diff])\", \"expr_hasagg\": true, \"col_alias\": \"Diff\", \"dataset_colname\": \"Diff\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}, {\"custom_expr\": \"[failed] = 1\", \"expression_for_trigger\": \"[failed] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[layer] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"sum([expected]) as 'sub:Expected'\": \"aggregates_shelf\", \"sum([actual]) as 'sub:Actual'\": \"aggregates_shelf\", \"sum([diff]) as 'sub:Diff'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\", \"[failed] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
     "shared_visual_dashboards": null,
     "parent_report": null,
     "uuid": "aa1e7b70-cc34-511c-a57f-1ef3f8a92615",
@@ -701,10 +721,390 @@
     "report_type": "table",
     "report_mode": "",
     "dashboard_url_name": "",
-    "report_data": "{\"report_data\": {\"report_title\": \"Every check: reconciliation against source counts and integrity\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"layer\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer]\", \"col_alias\": \"Layer\", \"order\": {\"priority\": 1, \"ascending\": true}}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}, {\"dataset_colname\": \"rule\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[rule]\", \"col_alias\": \"Rule\"}, {\"dataset_colname\": \"note\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[note]\", \"col_alias\": \"Note\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([expected])\", \"expression_for_trigger\": \"sum([expected])\", \"expr_hasagg\": true, \"col_alias\": \"Expected\", \"dataset_colname\": \"Expected\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([actual])\", \"expression_for_trigger\": \"sum([actual])\", \"expr_hasagg\": true, \"col_alias\": \"Actual\", \"dataset_colname\": \"Actual\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[layer] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"[rule] as 'sub:Rule'\": \"dimensions_shelf\", \"[note] as 'sub:Note'\": \"dimensions_shelf\", \"sum([expected]) as 'sub:Expected'\": \"aggregates_shelf\", \"sum([actual]) as 'sub:Actual'\": \"aggregates_shelf\", \"sum([passed]) as 'sub:Passed'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "report_data": "{\"report_data\": {\"report_title\": \"Every check: reconciliation against source counts and integrity\", \"report_subtitle\": \"\", \"dashboard_id\": 7000, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\", \"order\": {\"priority\": 1, \"ascending\": true}}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}, {\"dataset_colname\": \"rule\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[rule]\", \"col_alias\": \"Rule\"}, {\"dataset_colname\": \"note\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[note]\", \"col_alias\": \"Note\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([expected])\", \"expression_for_trigger\": \"sum([expected])\", \"expr_hasagg\": true, \"col_alias\": \"Expected\", \"dataset_colname\": \"Expected\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([actual])\", \"expression_for_trigger\": \"sum([actual])\", \"expr_hasagg\": true, \"col_alias\": \"Actual\", \"dataset_colname\": \"Actual\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[layer_label] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"[rule] as 'sub:Rule'\": \"dimensions_shelf\", \"[note] as 'sub:Note'\": \"dimensions_shelf\", \"sum([expected]) as 'sub:Expected'\": \"aggregates_shelf\", \"sum([actual]) as 'sub:Actual'\": \"aggregates_shelf\", \"sum([passed]) as 'sub:Passed'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
     "shared_visual_dashboards": null,
     "parent_report": null,
     "uuid": "9fba3343-e35d-5042-85ca-b2525822c375",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7401,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Health now",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Checks in the latest run\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Checks\", \"dataset_colname\": \"Checks\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(1) as 'sub:Checks'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "0f6a96f4-6224-5903-a52d-6ee54defd8f0",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7402,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Health now",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Pass rate %\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"round(100 * sum([passed]) / sum(1), 2)\", \"expression_for_trigger\": \"round(100 * sum([passed]) / sum(1), 2)\", \"expr_hasagg\": true, \"col_alias\": \"Pass rate %\", \"dataset_colname\": \"Pass rate %\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"round(100 * sum([passed]) / sum(1), 2) as 'sub:Pass rate %'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "633b66f9-b1c2-5bf4-b42d-2c9ed4d328a1",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7403,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Health now",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Critical failures (stop the pipeline)\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expression_for_trigger\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expr_hasagg\": true, \"col_alias\": \"Critical failures\", \"dataset_colname\": \"Critical failures\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(case when [severity] = 'critical' then [failed] else 0 end) as 'sub:Critical failures'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "0c00f83c-51ce-5845-b5d7-c0186be9f51c",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7404,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Health now",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Warnings failed\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum(case when [severity] = 'warning' then [failed] else 0 end)\", \"expression_for_trigger\": \"sum(case when [severity] = 'warning' then [failed] else 0 end)\", \"expr_hasagg\": true, \"col_alias\": \"Warnings\", \"dataset_colname\": \"Warnings\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum(case when [severity] = 'warning' then [failed] else 0 end) as 'sub:Warnings'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "2cd0bfb4-59f3-5f6a-8802-3aec9c191caa",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7405,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Health now",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Near misses (passed, some rows unexpected)\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum([near_miss])\", \"expression_for_trigger\": \"sum([near_miss])\", \"expr_hasagg\": true, \"col_alias\": \"Near misses\", \"dataset_colname\": \"Near misses\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum([near_miss]) as 'sub:Near misses'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "e3b83ed3-342f-5dd4-aeae-80a61033db7f",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7406,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Health now",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "kpi",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Rows under check\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [], \"aggregates_shelf\": [{\"custom_expr\": \"sum([row_count])\", \"expression_for_trigger\": \"sum([row_count])\", \"expr_hasagg\": true, \"col_alias\": \"Rows\", \"dataset_colname\": \"Rows\", \"dataset_coltype\": \"DOUBLE\"}], \"compare_shelf\": [], \"label_shelf\": [], \"tooltip_shelf\": [], \"x_shelf\": [], \"y_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"kpi\", \"saved_shelf_sources\": {\"sum([row_count]) as 'sub:Rows'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"compare_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"kpi\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "b364ce83-6ddf-51c2-96ad-efc468aef871",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7407,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Health now",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Checks by layer and category\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\"}], \"y_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Checks\", \"dataset_colname\": \"Checks\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"category\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[category]\", \"col_alias\": \"Category\"}], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[layer_label] as 'sub:Layer'\": \"x_shelf\", \"sum(1) as 'sub:Checks'\": \"y_shelf\", \"[category] as 'sub:Category'\": \"color_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "f5a94760-0e28-54e1-819b-5e1d47241624",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7408,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Health now",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Checks by category and severity\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"category\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[category]\", \"col_alias\": \"Category\"}], \"y_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Checks\", \"dataset_colname\": \"Checks\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[category] as 'sub:Category'\": \"x_shelf\", \"sum(1) as 'sub:Checks'\": \"y_shelf\", \"[severity] as 'sub:Severity'\": \"color_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "85d2d42c-dd16-50c8-8567-653e1f82c616",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7409,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Health now",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Table scorecard (latest run of each layer)\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\", \"order\": {\"priority\": 1, \"ascending\": true}}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum(1)\", \"expression_for_trigger\": \"sum(1)\", \"expr_hasagg\": true, \"col_alias\": \"Checks\", \"dataset_colname\": \"Checks\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([failed])\", \"expression_for_trigger\": \"sum([failed])\", \"expr_hasagg\": true, \"col_alias\": \"Failed\", \"dataset_colname\": \"Failed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expression_for_trigger\": \"sum(case when [severity] = 'critical' then [failed] else 0 end)\", \"expr_hasagg\": true, \"col_alias\": \"Critical failed\", \"dataset_colname\": \"Critical failed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([near_miss])\", \"expression_for_trigger\": \"sum([near_miss])\", \"expr_hasagg\": true, \"col_alias\": \"Near misses\", \"dataset_colname\": \"Near misses\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"max([row_count])\", \"expression_for_trigger\": \"max([row_count])\", \"expr_hasagg\": true, \"col_alias\": \"Rows\", \"dataset_colname\": \"Rows\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[layer_label] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"sum(1) as 'sub:Checks'\": \"aggregates_shelf\", \"sum([passed]) as 'sub:Passed'\": \"aggregates_shelf\", \"sum([failed]) as 'sub:Failed'\": \"aggregates_shelf\", \"sum(case when [severity] = 'critical' then [failed] else 0 end) as 'sub:Critical failed'\": \"aggregates_shelf\", \"sum([near_miss]) as 'sub:Near misses'\": \"aggregates_shelf\", \"max([row_count]) as 'sub:Rows'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "c6a7a5e3-dab4-55da-9ff8-95859edb4e7f",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7410,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Trends",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "trellis-lines",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Pass rate % by as-of date and layer\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"as_of\", \"dataset_coltype\": \"DATE\", \"expression_for_trigger\": \"[as_of]\", \"col_alias\": \"As of\"}], \"y_shelf\": [{\"custom_expr\": \"round(100 * sum([passed]) / sum(1), 2)\", \"expression_for_trigger\": \"round(100 * sum([passed]) / sum(1), 2)\", \"expr_hasagg\": true, \"col_alias\": \"Pass rate %\", \"dataset_colname\": \"Pass rate %\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\"}], \"tooltip_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"trellis-lines\", \"saved_shelf_sources\": {\"[as_of] as 'sub:As of'\": \"x_shelf\", \"round(100 * sum([passed]) / sum(1), 2) as 'sub:Pass rate %'\": \"y_shelf\", \"[layer_label] as 'sub:Layer'\": \"color_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-lines\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "48bc2fb3-c496-56d3-8128-9f15094badcf",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7411,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Trends",
+    "dataset": 7107,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Checks passed and failed per pipeline run\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"run_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[run_label]\", \"col_alias\": \"Pipeline run\"}], \"y_shelf\": [{\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([failed])\", \"expression_for_trigger\": \"sum([failed])\", \"expr_hasagg\": true, \"col_alias\": \"Failed\", \"dataset_colname\": \"Failed\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[run_label] as 'sub:Pipeline run'\": \"x_shelf\", \"sum([passed]) as 'sub:Passed'\": \"y_shelf\", \"sum([failed]) as 'sub:Failed'\": \"y_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "3d408f02-2dee-5e6e-b6cf-39fa6a19ee72",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7412,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Trends",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "trellis-lines",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Bronze volume per table (rows per load)\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"as_of\", \"dataset_coltype\": \"DATE\", \"expression_for_trigger\": \"[as_of]\", \"col_alias\": \"As of\"}], \"y_shelf\": [{\"custom_expr\": \"sum([row_count])\", \"expression_for_trigger\": \"sum([row_count])\", \"expr_hasagg\": true, \"col_alias\": \"Rows\", \"dataset_colname\": \"Rows\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}], \"tooltip_shelf\": [], \"filters_shelf\": [{\"custom_expr\": \"[layer] = 'bronze'\", \"expression_for_trigger\": \"[layer] = 'bronze'\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}, {\"custom_expr\": \"[row_count] > 0\", \"expression_for_trigger\": \"[row_count] > 0\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"trellis-lines\", \"saved_shelf_sources\": {\"[as_of] as 'sub:As of'\": \"x_shelf\", \"sum([row_count]) as 'sub:Rows'\": \"y_shelf\", \"[table_name] as 'sub:Table'\": \"color_shelf\", \"[layer] = 'bronze'\": \"filters_shelf\", \"[row_count] > 0\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-lines\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "00cd592c-5b5e-51b4-b67b-6b2252f28d2d",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7413,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Trends",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Rate checks against their limits (% of rows)\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"as_of\", \"dataset_coltype\": \"DATE\", \"expression_for_trigger\": \"[as_of]\", \"col_alias\": \"As of\", \"order\": {\"priority\": 1, \"ascending\": false}}, {\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\"}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}], \"aggregates_shelf\": [{\"custom_expr\": \"max([rate_pct])\", \"expression_for_trigger\": \"max([rate_pct])\", \"expr_hasagg\": true, \"col_alias\": \"Rate %\", \"dataset_colname\": \"Rate %\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"max([limit_pct])\", \"expression_for_trigger\": \"max([limit_pct])\", \"expr_hasagg\": true, \"col_alias\": \"Limit %\", \"dataset_colname\": \"Limit %\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([unexpected_count])\", \"expression_for_trigger\": \"sum([unexpected_count])\", \"expr_hasagg\": true, \"col_alias\": \"Rows over\", \"dataset_colname\": \"Rows over\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[rule] = 'rate_at_most'\", \"expression_for_trigger\": \"[rule] = 'rate_at_most'\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[as_of] as 'sub:As of'\": \"dimensions_shelf\", \"[layer_label] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"max([rate_pct]) as 'sub:Rate %'\": \"aggregates_shelf\", \"max([limit_pct]) as 'sub:Limit %'\": \"aggregates_shelf\", \"sum([unexpected_count]) as 'sub:Rows over'\": \"aggregates_shelf\", \"[rule] = 'rate_at_most'\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "e303c78a-5e20-58ff-9b9e-3706aa8c3d86",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7414,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Pipeline runs",
+    "dataset": 7107,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Minutes after the bronze gate, per gate\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"run_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[run_label]\", \"col_alias\": \"Pipeline run\"}], \"y_shelf\": [{\"custom_expr\": \"max([minutes_after_bronze])\", \"expression_for_trigger\": \"max([minutes_after_bronze])\", \"expr_hasagg\": true, \"col_alias\": \"Minutes\", \"dataset_colname\": \"Minutes\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Gate\"}], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[run_label] as 'sub:Pipeline run'\": \"x_shelf\", \"max([minutes_after_bronze]) as 'sub:Minutes'\": \"y_shelf\", \"[layer_label] as 'sub:Gate'\": \"color_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "f4fd301c-1a19-590b-b541-0c48337f878d",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7415,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Pipeline runs",
+    "dataset": 7107,
+    "workspace": 1,
+    "report_type": "trellis-bars",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Rows checked per run and layer\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"x_shelf\": [{\"dataset_colname\": \"run_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[run_label]\", \"col_alias\": \"Pipeline run\"}], \"y_shelf\": [{\"custom_expr\": \"sum([rows_checked])\", \"expression_for_trigger\": \"sum([rows_checked])\", \"expr_hasagg\": true, \"col_alias\": \"Rows checked\", \"dataset_colname\": \"Rows checked\", \"dataset_coltype\": \"DOUBLE\"}], \"color_shelf\": [{\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\"}], \"tooltip_shelf\": [], \"drill_shelf\": [], \"label_shelf\": [], \"filters_shelf\": [], \"core\": {\"viz_type\": \"trellis-bars\", \"saved_shelf_sources\": {\"[run_label] as 'sub:Pipeline run'\": \"x_shelf\", \"sum([rows_checked]) as 'sub:Rows checked'\": \"y_shelf\", \"[layer_label] as 'sub:Layer'\": \"color_shelf\"}, \"shelves\": [{\"name\": \"x_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"y_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"color_shelf\", \"shelf_type\": 1, \"column_type\": 3}, {\"name\": \"tooltip_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"drill_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"label_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"trellis-bars\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "ef19090d-009c-5279-a0b1-ed2c34a73a30",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7416,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Pipeline runs",
+    "dataset": 7107,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Every gate run\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"checked_at\", \"dataset_coltype\": \"TIMESTAMP\", \"expression_for_trigger\": \"[checked_at]\", \"col_alias\": \"Checked at\", \"order\": {\"priority\": 1, \"ascending\": false}}, {\"dataset_colname\": \"run_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[run_label]\", \"col_alias\": \"Pipeline run\"}, {\"dataset_colname\": \"run_type\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[run_type]\", \"col_alias\": \"Run type\"}, {\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Gate\"}, {\"dataset_colname\": \"pipeline_run\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[pipeline_run]\", \"col_alias\": \"Airflow run id\"}], \"aggregates_shelf\": [{\"custom_expr\": \"max([minutes_after_bronze])\", \"expression_for_trigger\": \"max([minutes_after_bronze])\", \"expr_hasagg\": true, \"col_alias\": \"Minutes after bronze\", \"dataset_colname\": \"Minutes after bronze\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([checks])\", \"expression_for_trigger\": \"sum([checks])\", \"expr_hasagg\": true, \"col_alias\": \"Checks\", \"dataset_colname\": \"Checks\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([failed])\", \"expression_for_trigger\": \"sum([failed])\", \"expr_hasagg\": true, \"col_alias\": \"Failed\", \"dataset_colname\": \"Failed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([critical_failed])\", \"expression_for_trigger\": \"sum([critical_failed])\", \"expr_hasagg\": true, \"col_alias\": \"Critical failed\", \"dataset_colname\": \"Critical failed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([warnings_failed])\", \"expression_for_trigger\": \"sum([warnings_failed])\", \"expr_hasagg\": true, \"col_alias\": \"Warnings failed\", \"dataset_colname\": \"Warnings failed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([near_misses])\", \"expression_for_trigger\": \"sum([near_misses])\", \"expr_hasagg\": true, \"col_alias\": \"Near misses\", \"dataset_colname\": \"Near misses\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([table_count])\", \"expression_for_trigger\": \"sum([table_count])\", \"expr_hasagg\": true, \"col_alias\": \"Tables\", \"dataset_colname\": \"Tables\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([rows_checked])\", \"expression_for_trigger\": \"sum([rows_checked])\", \"expr_hasagg\": true, \"col_alias\": \"Rows checked\", \"dataset_colname\": \"Rows checked\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[checked_at] as 'sub:Checked at'\": \"dimensions_shelf\", \"[run_label] as 'sub:Pipeline run'\": \"dimensions_shelf\", \"[run_type] as 'sub:Run type'\": \"dimensions_shelf\", \"[layer_label] as 'sub:Gate'\": \"dimensions_shelf\", \"[pipeline_run] as 'sub:Airflow run id'\": \"dimensions_shelf\", \"max([minutes_after_bronze]) as 'sub:Minutes after bronze'\": \"aggregates_shelf\", \"sum([checks]) as 'sub:Checks'\": \"aggregates_shelf\", \"sum([passed]) as 'sub:Passed'\": \"aggregates_shelf\", \"sum([failed]) as 'sub:Failed'\": \"aggregates_shelf\", \"sum([critical_failed]) as 'sub:Critical failed'\": \"aggregates_shelf\", \"sum([warnings_failed]) as 'sub:Warnings failed'\": \"aggregates_shelf\", \"sum([near_misses]) as 'sub:Near misses'\": \"aggregates_shelf\", \"sum([table_count]) as 'sub:Tables'\": \"aggregates_shelf\", \"sum([rows_checked]) as 'sub:Rows checked'\": \"aggregates_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "3f8a8fa0-a619-5fcd-85f8-0d79172c062a",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7417,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Check details",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Near misses: passed, but some rows were unexpected\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\", \"order\": {\"priority\": 1, \"ascending\": true}}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}, {\"dataset_colname\": \"observed_value\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[observed_value]\", \"col_alias\": \"Observed\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([unexpected_count])\", \"expression_for_trigger\": \"sum([unexpected_count])\", \"expr_hasagg\": true, \"col_alias\": \"Unexpected rows\", \"dataset_colname\": \"Unexpected rows\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"max([unexpected_pct])\", \"expression_for_trigger\": \"max([unexpected_pct])\", \"expr_hasagg\": true, \"col_alias\": \"Unexpected %\", \"dataset_colname\": \"Unexpected %\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}, {\"custom_expr\": \"[near_miss] = 1\", \"expression_for_trigger\": \"[near_miss] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[layer_label] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"[observed_value] as 'sub:Observed'\": \"dimensions_shelf\", \"sum([unexpected_count]) as 'sub:Unexpected rows'\": \"aggregates_shelf\", \"max([unexpected_pct]) as 'sub:Unexpected %'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\", \"[near_miss] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "c96ba649-c00f-56de-a39c-efeb655b7c2a",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7418,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Check details",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Failed checks over all runs (empty on a healthy pipeline)\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"run_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[run_label]\", \"col_alias\": \"Pipeline run\", \"order\": {\"priority\": 1, \"ascending\": false}}, {\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\"}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}, {\"dataset_colname\": \"observed_value\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[observed_value]\", \"col_alias\": \"Observed\"}, {\"dataset_colname\": \"note\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[note]\", \"col_alias\": \"Limit\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([unexpected_count])\", \"expression_for_trigger\": \"sum([unexpected_count])\", \"expr_hasagg\": true, \"col_alias\": \"Unexpected rows\", \"dataset_colname\": \"Unexpected rows\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[failed] = 1\", \"expression_for_trigger\": \"[failed] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[run_label] as 'sub:Pipeline run'\": \"dimensions_shelf\", \"[layer_label] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"[observed_value] as 'sub:Observed'\": \"dimensions_shelf\", \"[note] as 'sub:Limit'\": \"dimensions_shelf\", \"sum([unexpected_count]) as 'sub:Unexpected rows'\": \"aggregates_shelf\", \"[failed] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "54b88332-dffa-5b3d-975b-3730c59c2ddb",
+    "imported_uuid": null,
+    "has_css_styles": false,
+    "report_search_text": ""
+   }
+  },
+  {
+   "model": "reports.report",
+   "pk": 7419,
+   "fields": {
+    "report_name": "",
+    "report_description": "Mule Data Health / Check details",
+    "dataset": 7106,
+    "workspace": 1,
+    "report_type": "table",
+    "report_mode": "",
+    "dashboard_url_name": "",
+    "report_data": "{\"report_data\": {\"report_title\": \"Every check of the latest run\", \"report_subtitle\": \"\", \"dashboard_id\": 7001, \"limit\": 1000, \"sample_pct\": \"Off\", \"selected_segments\": [], \"report_derived_data\": [], \"click_behaviors\": {}, \"sort_orders_asc\": {}, \"user_settings\": {}, \"dimensions_shelf\": [{\"dataset_colname\": \"layer_label\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[layer_label]\", \"col_alias\": \"Layer\", \"order\": {\"priority\": 1, \"ascending\": true}}, {\"dataset_colname\": \"table_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[table_name]\", \"col_alias\": \"Table\"}, {\"dataset_colname\": \"check_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[check_name]\", \"col_alias\": \"Check\"}, {\"dataset_colname\": \"category\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[category]\", \"col_alias\": \"Category\"}, {\"dataset_colname\": \"severity\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[severity]\", \"col_alias\": \"Severity\"}, {\"dataset_colname\": \"rule\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[rule]\", \"col_alias\": \"Rule\"}, {\"dataset_colname\": \"column_name\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[column_name]\", \"col_alias\": \"Column\"}, {\"dataset_colname\": \"observed_value\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[observed_value]\", \"col_alias\": \"Observed\"}, {\"dataset_colname\": \"note\", \"dataset_coltype\": \"STRING\", \"expression_for_trigger\": \"[note]\", \"col_alias\": \"Limit\"}], \"aggregates_shelf\": [{\"custom_expr\": \"sum([passed])\", \"expression_for_trigger\": \"sum([passed])\", \"expr_hasagg\": true, \"col_alias\": \"Passed\", \"dataset_colname\": \"Passed\", \"dataset_coltype\": \"DOUBLE\"}, {\"custom_expr\": \"sum([unexpected_count])\", \"expression_for_trigger\": \"sum([unexpected_count])\", \"expr_hasagg\": true, \"col_alias\": \"Unexpected rows\", \"dataset_colname\": \"Unexpected rows\", \"dataset_coltype\": \"DOUBLE\"}], \"filters_shelf\": [{\"custom_expr\": \"[is_latest] = 1\", \"expression_for_trigger\": \"[is_latest] = 1\", \"filter_input\": {}, \"filter_data\": [], \"dataset_colname\": \"\", \"dataset_coltype\": \"STRING\", \"filter_column\": \"\"}], \"core\": {\"viz_type\": \"table\", \"saved_shelf_sources\": {\"[layer_label] as 'sub:Layer'\": \"dimensions_shelf\", \"[table_name] as 'sub:Table'\": \"dimensions_shelf\", \"[check_name] as 'sub:Check'\": \"dimensions_shelf\", \"[category] as 'sub:Category'\": \"dimensions_shelf\", \"[severity] as 'sub:Severity'\": \"dimensions_shelf\", \"[rule] as 'sub:Rule'\": \"dimensions_shelf\", \"[column_name] as 'sub:Column'\": \"dimensions_shelf\", \"[observed_value] as 'sub:Observed'\": \"dimensions_shelf\", \"[note] as 'sub:Limit'\": \"dimensions_shelf\", \"sum([passed]) as 'sub:Passed'\": \"aggregates_shelf\", \"sum([unexpected_count]) as 'sub:Unexpected rows'\": \"aggregates_shelf\", \"[is_latest] = 1\": \"filters_shelf\"}, \"shelves\": [{\"name\": \"dimensions_shelf\", \"shelf_type\": 1, \"column_type\": 1}, {\"name\": \"aggregates_shelf\", \"shelf_type\": 1, \"column_type\": 2}, {\"name\": \"filters_shelf\", \"shelf_type\": 2, \"column_type\": 3}]}}, \"report_type\": \"table\"}",
+    "shared_visual_dashboards": null,
+    "parent_report": null,
+    "uuid": "04590786-9785-50a9-a765-bdf7643e901a",
     "imported_uuid": null,
     "has_css_styles": false,
     "report_search_text": ""
@@ -879,7 +1279,7 @@
     "dataset_type": "singletable",
     "dataset_detail": "rsingh_mule_acct_report.v_dq",
     "dataset_description": "rsingh_mule_acct_report.v_dq (sql/dataviz_views.sql)",
-    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_dq\", \"columns\": [{\"alias\": \"layer\", \"type\": \"STRING\", \"name\": \"layer\", \"isdim\": true}, {\"alias\": \"table_name\", \"type\": \"STRING\", \"name\": \"table_name\", \"isdim\": true}, {\"alias\": \"check_name\", \"type\": \"STRING\", \"name\": \"check_name\", \"isdim\": true}, {\"alias\": \"severity\", \"type\": \"STRING\", \"name\": \"severity\", \"isdim\": true}, {\"alias\": \"rule\", \"type\": \"STRING\", \"name\": \"rule\", \"isdim\": true}, {\"alias\": \"expected\", \"type\": \"BIGINT\", \"name\": \"expected\", \"isdim\": false}, {\"alias\": \"actual\", \"type\": \"BIGINT\", \"name\": \"actual\", \"isdim\": false}, {\"alias\": \"diff\", \"type\": \"BIGINT\", \"name\": \"diff\", \"isdim\": false}, {\"alias\": \"passed\", \"type\": \"TINYINT\", \"name\": \"passed\", \"isdim\": false}, {\"alias\": \"failed\", \"type\": \"TINYINT\", \"name\": \"failed\", \"isdim\": false}, {\"alias\": \"note\", \"type\": \"STRING\", \"name\": \"note\", \"isdim\": true}]}]",
+    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_dq\", \"columns\": [{\"alias\": \"pipeline_run\", \"type\": \"STRING\", \"name\": \"pipeline_run\", \"isdim\": true}, {\"alias\": \"run_type\", \"type\": \"STRING\", \"name\": \"run_type\", \"isdim\": true}, {\"alias\": \"run_label\", \"type\": \"STRING\", \"name\": \"run_label\", \"isdim\": true}, {\"alias\": \"run_id\", \"type\": \"STRING\", \"name\": \"run_id\", \"isdim\": true}, {\"alias\": \"run_ts\", \"type\": \"TIMESTAMP\", \"name\": \"run_ts\", \"isdim\": true}, {\"alias\": \"as_of\", \"type\": \"DATE\", \"name\": \"as_of\", \"isdim\": true}, {\"alias\": \"layer\", \"type\": \"STRING\", \"name\": \"layer\", \"isdim\": true}, {\"alias\": \"layer_order\", \"type\": \"TINYINT\", \"name\": \"layer_order\", \"isdim\": true}, {\"alias\": \"layer_label\", \"type\": \"STRING\", \"name\": \"layer_label\", \"isdim\": true}, {\"alias\": \"table_name\", \"type\": \"STRING\", \"name\": \"table_name\", \"isdim\": true}, {\"alias\": \"check_name\", \"type\": \"STRING\", \"name\": \"check_name\", \"isdim\": true}, {\"alias\": \"rule\", \"type\": \"STRING\", \"name\": \"rule\", \"isdim\": true}, {\"alias\": \"category\", \"type\": \"STRING\", \"name\": \"category\", \"isdim\": true}, {\"alias\": \"column_name\", \"type\": \"STRING\", \"name\": \"column_name\", \"isdim\": true}, {\"alias\": \"severity\", \"type\": \"STRING\", \"name\": \"severity\", \"isdim\": true}, {\"alias\": \"passed\", \"type\": \"INT\", \"name\": \"passed\", \"isdim\": false}, {\"alias\": \"failed\", \"type\": \"BIGINT\", \"name\": \"failed\", \"isdim\": false}, {\"alias\": \"near_miss\", \"type\": \"TINYINT\", \"name\": \"near_miss\", \"isdim\": false}, {\"alias\": \"observed_value\", \"type\": \"STRING\", \"name\": \"observed_value\", \"isdim\": true}, {\"alias\": \"actual\", \"type\": \"DOUBLE\", \"name\": \"actual\", \"isdim\": false}, {\"alias\": \"expected\", \"type\": \"DOUBLE\", \"name\": \"expected\", \"isdim\": false}, {\"alias\": \"diff\", \"type\": \"DOUBLE\", \"name\": \"diff\", \"isdim\": false}, {\"alias\": \"rate_pct\", \"type\": \"DOUBLE\", \"name\": \"rate_pct\", \"isdim\": false}, {\"alias\": \"limit_pct\", \"type\": \"DOUBLE\", \"name\": \"limit_pct\", \"isdim\": false}, {\"alias\": \"unexpected_count\", \"type\": \"BIGINT\", \"name\": \"unexpected_count\", \"isdim\": false}, {\"alias\": \"unexpected_pct\", \"type\": \"DOUBLE\", \"name\": \"unexpected_pct\", \"isdim\": false}, {\"alias\": \"element_count\", \"type\": \"BIGINT\", \"name\": \"element_count\", \"isdim\": false}, {\"alias\": \"row_count\", \"type\": \"BIGINT\", \"name\": \"row_count\", \"isdim\": false}, {\"alias\": \"note\", \"type\": \"STRING\", \"name\": \"note\", \"isdim\": true}, {\"alias\": \"table_snapshot_id\", \"type\": \"BIGINT\", \"name\": \"table_snapshot_id\", \"isdim\": true}, {\"alias\": \"is_latest\", \"type\": \"TINYINT\", \"name\": \"is_latest\", \"isdim\": true}]}]",
     "dataset_tablenames": "[\"rsingh_mule_acct_report.v_dq\"]",
     "uuid": "365095e9-6ffb-5197-a2bb-d37850405d79",
     "imported_uuid": null,
@@ -887,10 +1287,37 @@
     "dataset_settings": "{}",
     "search_enabled": false,
     "dashboards": [
-     7000
+     7000,
+     7001
     ],
     "version_id": 7106,
     "version_group_id": 7106,
+    "is_active_version": true,
+    "version_name": "mule-command-centre",
+    "is_named_version": false
+   }
+  },
+  {
+   "model": "datasets.dataset",
+   "pk": 7107,
+   "fields": {
+    "dataconnection": 2,
+    "dataset_name": "Mule - DQ runs",
+    "dataset_type": "singletable",
+    "dataset_detail": "rsingh_mule_acct_report.v_dq_run",
+    "dataset_description": "rsingh_mule_acct_report.v_dq_run (sql/dataviz_views.sql)",
+    "dataset_info": "[{\"tablename\": \"rsingh_mule_acct_report.v_dq_run\", \"columns\": [{\"alias\": \"pipeline_run\", \"type\": \"STRING\", \"name\": \"pipeline_run\", \"isdim\": true}, {\"alias\": \"run_type\", \"type\": \"STRING\", \"name\": \"run_type\", \"isdim\": true}, {\"alias\": \"run_label\", \"type\": \"STRING\", \"name\": \"run_label\", \"isdim\": true}, {\"alias\": \"as_of\", \"type\": \"DATE\", \"name\": \"as_of\", \"isdim\": true}, {\"alias\": \"layer\", \"type\": \"STRING\", \"name\": \"layer\", \"isdim\": true}, {\"alias\": \"layer_order\", \"type\": \"TINYINT\", \"name\": \"layer_order\", \"isdim\": true}, {\"alias\": \"layer_label\", \"type\": \"STRING\", \"name\": \"layer_label\", \"isdim\": true}, {\"alias\": \"is_latest\", \"type\": \"TINYINT\", \"name\": \"is_latest\", \"isdim\": true}, {\"alias\": \"checked_at\", \"type\": \"TIMESTAMP\", \"name\": \"checked_at\", \"isdim\": true}, {\"alias\": \"minutes_after_bronze\", \"type\": \"DOUBLE\", \"name\": \"minutes_after_bronze\", \"isdim\": false}, {\"alias\": \"checks\", \"type\": \"BIGINT\", \"name\": \"checks\", \"isdim\": false}, {\"alias\": \"passed\", \"type\": \"BIGINT\", \"name\": \"passed\", \"isdim\": false}, {\"alias\": \"failed\", \"type\": \"BIGINT\", \"name\": \"failed\", \"isdim\": false}, {\"alias\": \"critical_failed\", \"type\": \"BIGINT\", \"name\": \"critical_failed\", \"isdim\": false}, {\"alias\": \"warnings_failed\", \"type\": \"BIGINT\", \"name\": \"warnings_failed\", \"isdim\": false}, {\"alias\": \"near_misses\", \"type\": \"BIGINT\", \"name\": \"near_misses\", \"isdim\": false}, {\"alias\": \"table_count\", \"type\": \"BIGINT\", \"name\": \"table_count\", \"isdim\": false}, {\"alias\": \"rows_checked\", \"type\": \"BIGINT\", \"name\": \"rows_checked\", \"isdim\": false}]}]",
+    "dataset_tablenames": "[\"rsingh_mule_acct_report.v_dq_run\"]",
+    "uuid": "177c55e8-0c72-5051-a824-6414d130d5bc",
+    "imported_uuid": null,
+    "cache_sequence": 0,
+    "dataset_settings": "{}",
+    "search_enabled": false,
+    "dashboards": [
+     7001
+    ],
+    "version_id": 7107,
+    "version_group_id": 7107,
     "is_active_version": true,
     "version_name": "mule-command-centre",
     "is_named_version": false

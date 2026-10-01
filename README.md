@@ -25,6 +25,9 @@ flowchart LR
   F --> G[(gold: mule_alerts<br/>mule_rings, mule_holdout<br/>mule_model_run)]
   G --> H[CAI Application<br/>Investigator Console]
   G --> I[CDW Impala / Hue<br/>reports, time travel]
+  B -. checks after every layer .-> Q[(ref.dq_results)]
+  Q --> V[CAI Application<br/>Data Visualization<br/>Command Centre + Data Health]
+  G --> V
   H -. what-if .-> J[CAI Model endpoint<br/>predict.py]
   H -. decisions .-> K[(bronze:<br/>investigator_decisions)]
   K -. tomorrow's labels .-> C
@@ -136,18 +139,22 @@ MULE_STORAGE_BACKEND=parquet .venv/bin/streamlit run app/streamlit_app.py
 
 ## CDE
 
-Five Spark jobs, run in order (`scripts/run_cde_local.py all` runs all five
-locally): `generate_mule_bronze` → `validate_bronze` (the gate; fails the DAG
+Six Spark jobs (`scripts/run_cde_local.py all` runs them locally in order):
+`generate_mule_bronze` → `validate_bronze` (the bronze gate; fails the DAG
 on a hard data-quality problem, or on cue with `--inject-bad-data`) →
 `build_silver` (dedupe, key standardisation, salted SHA-256, identity edges)
 → `build_identity_graph` (point-in-time connected components, hub
 suppression above `--max-hub-cifs`) → `build_gold_features` (18 features,
-90-day label, MERGE).
+90-day label, MERGE). `dq_check` (`--layer silver|gold|publish`) gates the
+later layers the same way `validate_bronze` (= `--layer bronze`) gates
+bronze: every check, pass or fail, is appended to
+`rsingh_mule_acct_ref.dq_results`; a critical failure stops the DAG, a
+warning is recorded only.
 
 Deploy to the CDE vcluster:
 
 ```bash
-./cde/scripts/deploy_jobs.sh      # CDE Repository rsingh-mule-acct-pipeline + the five Spark jobs
+./cde/scripts/deploy_jobs.sh      # CDE Repository rsingh-mule-acct-pipeline + the six Spark jobs
 ```
 
 `deploy_jobs.sh` sizes each job for the vcluster's YuniKorn queue (a 4-core /
@@ -159,13 +166,14 @@ push`, then `cde repository sync --name rsingh-mule-acct-pipeline` (re-run
 `deploy_jobs.sh` only if resources changed).
 
 Orchestrated by `cde/dags/mule_dag.py`: `generate_mule_bronze` →
-`validate_bronze` → `build_silver` → `build_identity_graph` →
-`build_gold_features` → two `PythonOperator`s that trigger and poll CAI jobs
-over the API v2 (`rsingh-mule-acct-sync-code`, then
-`rsingh-mule-acct-daily-score`), scheduled daily at 20:30 UTC (02:00 IST).
-The DAG registers paused (`is_paused_upon_creation=True`). Only `generate_mule_bronze` takes `--as-of`; the other four
-derive it from what's already in the data, so it's the only task the DAG
-overrides. Register / update it:
+`validate_bronze` → `build_silver` → `build_identity_graph` → `dq_silver` →
+`build_gold_features` → `dq_gold` → two `PythonOperator`s that trigger and
+poll CAI jobs over the API v2 (`rsingh-mule-acct-sync-code`, then
+`rsingh-mule-acct-daily-score`) → `dq_publish`, scheduled daily at 20:30 UTC
+(02:00 IST). The DAG registers paused (`is_paused_upon_creation=True`).
+`generate_mule_bronze` and the check tasks take `--as-of`, and the check tasks
+`--pipeline-run {{ run_id }}`; silver, graph and gold derive the as-of date
+from what's already in the data. Register / update it:
 
 ```bash
 ./cde/scripts/deploy_dag.sh       # CDE job rsingh-mule-acct-orchestration (--type airflow)
@@ -279,19 +287,21 @@ and by pass-through band, the riskiest rings, UPI money forwarded through
 alerted accounts, the holdout capture curve against rules, the complaint
 trend, days from opening to first report, and Iceberg history.
 
-The **Mule Investigation Command Centre** is a five-sheet Cloudera Data
-Visualization dashboard (alert queue, rings and network, trends, model trust,
-data quality), built as code: flat views in `rsingh_mule_acct_report`
+Two Cloudera Data Visualization dashboards are built as code: the **Mule
+Investigation Command Centre** (five sheets: alert queue, rings and network,
+trends, model trust, data quality) and **Mule Data Health** (four sheets:
+health now, trends, pipeline runs, check details, over
+`rsingh_mule_acct_ref.dq_results`). Flat views in `rsingh_mule_acct_report`
 (`sql/dataviz_views.sql`), the CAI application from `ci/setup_cai.py
---dataviz`, and `dataviz/build_dashboard.py`, which writes and imports the
-export file. See [docs/DATAVIZ.md](docs/DATAVIZ.md).
+--dataviz`, and `dataviz/build_dashboard.py`, which writes and imports one
+export file for both. See [docs/DATAVIZ.md](docs/DATAVIZ.md).
 
 ## Layout
 
 ```
 mule/                shared logic: config, features, model wrappers, calibration,
                       holdout + gate, reasons + tiers, storage, pipeline, scoring, client
-cde/jobs/            Spark jobs (generate/validate/silver/graph/gold: PySpark + stdlib)
+cde/jobs/            Spark jobs (generate/validate/silver/graph/gold, dq_check: PySpark + stdlib)
 cde/dags/            mule_dag.py (daily Airflow DAG)
 cde/scripts/         deploy_jobs.sh, deploy_dag.sh, backfill_drill.sh
 cai/jobs/            daily_score.py, backfill_history.py
@@ -300,7 +310,7 @@ app/                 Streamlit Investigator Console + CAI launcher
 config/              mule.yaml (names, storage, model), policy.yaml (context, holdout gate, tiers, rules)
 scripts/             run_cde_local.py (CDE jobs on a laptop), run_impala_sql.py (a .sql file on CDW)
 sql/                 reports.sql (Hue), dataviz_views.sql (dashboard views)
-dataviz/             build_dashboard.py, mule_command_centre.json (Data Visualization export)
+dataviz/             build_dashboard.py, mule_dashboards.json (Data Visualization export, both dashboards)
 ci/                  CAI setup over the API v2 (project, jobs, model, apps), run_cai_job.py
 docs/                DEMO_RUNBOOK.md, PROJECT_LOG.md, DATAVIZ.md
 .github/workflows/   ci.yml (pytest + a small real pipeline run with the gate)

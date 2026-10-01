@@ -204,6 +204,48 @@ decisions and the phase checklist are in `PLAN.md`.
   rank 1 is ring `1581411711` with a risk of 11.011, as in the Impala ring
   report.
 
+### Data quality results and the Data Health dashboard (2026-10-01)
+
+- Local run of `cde/jobs/dq_check.py` (5,000 customers, as_of 2026-09-29,
+  scratch warehouse): bronze 46 checks, 0 failed; silver 54, 1 warning
+  failed (2.0% of complaints unresolved at that size); gold 47, 0 failed
+  after `accounts_on_same_device` was given a minimum of 0 (gold writes 0
+  before a customer's first device); publish with no CAI tables: 1 check,
+  failed critical, exit 1. Unresolved complaints were first a critical
+  check at 1% and became a warning, as in the earlier `v_dq`.
+- pytest: 102 passed (91 before).
+- `deploy_jobs.sh` (185 s, python-env rebuilt) recreated the six jobs,
+  including `rsingh-mule-acct-dq-check`; `deploy_dag.sh` updated
+  `rsingh-mule-acct-orchestration`. The DAG was not triggered.
+- The four layers by hand for as_of 2026-09-29, `pipeline_run`
+  `manual-2026-09-29`: bronze (CDE run 79, 4 min 15 s including the queue),
+  then silver, gold and publish (runs 80-82, 4 min 50 s for the three).
+  `dq_results`: bronze 46, silver 54, gold 47, publish 8 checks; 155, all
+  passed. The gates ran 2.7 (silver), 4.2 (gold) and 5.5 (publish) minutes
+  after the bronze gate.
+- Six near misses: re-sent duplicates in bronze (3,295 transactions, 798
+  sessions, 37 KYC rows; removed in silver), 37 transactions of unknown
+  accounts (rate 0.000002 against 0.001; counted by both tiers), and 19
+  complaints that silver cannot resolve (0.097% against 1%).
+- Rows under check: 66,981,440 (bronze 21,417,939, silver 31,356,755,
+  gold 14,206,746). Silver `txn` equals 17,202,107 distinct positive
+  bronze transactions of known accounts.
+- The first `v_dq` labelled the run by hand "triggered": in `LIKE`, `_`
+  matches any character, so `manual__%` matched `manual-2026-09-29`. The
+  view now tests `manual-%` first.
+- `build_dashboard.py` wrote `dataviz/mule_dashboards.json` (2 dashboards,
+  8 datasets, 53 visuals, 9 sheets) and imported it (HTTP 200). The Command
+  Centre kept dashboard 7000, visuals 7201-7234 and datasets 7100-7106
+  with the same UUIDs; Data Health is 7001 with visuals 7401-7419 and the
+  `DQ runs` dataset 7107.
+- `--verify` (86 s): all 53 visuals answer through the Data API (the two
+  failed-checks tables return 0 rows, as expected) and the 25 KPI tiles
+  equal Impala. Command Centre on the 2026-09-29 run: 6,053 alerts, 403
+  T1, 1,001 rings, 231 expected mules, 231 near a known mule; 1,611
+  alerted accounts in rings, largest ring 81; data quality 155 checks, 0
+  failed. Data Health: 155 checks, pass rate 100.0%, 0 critical, 0
+  warnings failed, 6 near misses, 66,981,440 rows under check.
+
 ### Step 7: GitHub secrets
 
 - Not needed: Mule's CI has no GitHub-to-CAI chain, so no workflow reads
