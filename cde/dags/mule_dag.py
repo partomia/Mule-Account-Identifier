@@ -102,6 +102,8 @@ default_args = {
     "depends_on_past": False,
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
+    # Spark stages take 2-6 min on a quiet vcluster and up to ~25 min when it is shared
+    "execution_timeout": timedelta(minutes=90),
 }
 
 with DAG(
@@ -109,6 +111,10 @@ with DAG(
     description="Bronze -> validate -> silver -> identity graph -> gold (CDE) -> mule scoring (CAI)",
     default_args=default_args,
     schedule_interval=DAILY,
+    # The vcluster quota is shared: one run at a time, and a stuck run ends instead of holding
+    # executors for days
+    max_active_runs=1,
+    dagrun_timeout=timedelta(hours=6),
     # the first interval closes 2026-09-29 20:30 UTC and scores as_of 2026-09-28
     start_date=datetime(2026, 9, 28, 20, 30),
     catchup=False,
@@ -140,12 +146,14 @@ with DAG(
         task_id="cai_sync_code",
         python_callable=trigger_cai_job,
         op_kwargs={"job_variable": "MULE_CAI_SYNC_JOB_ID", "env": {}, "deadline_min": 45},
+        execution_timeout=timedelta(minutes=60),
     )
     score = PythonOperator(
         task_id="cai_daily_score",
         python_callable=trigger_cai_job,
         op_kwargs={"job_variable": "MULE_CAI_JOB_ID",
                    "env": {"MULE_TRIGGERED_BY": "airflow", "MULE_RUN_DATE": AS_OF}, "deadline_min": 120},
+        execution_timeout=timedelta(minutes=135),
         retries=0,
     )
     dq_publish = dq_task("dq_publish", "publish")

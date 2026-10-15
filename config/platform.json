@@ -1,0 +1,21 @@
+{
+  "_comment": "scripts/platform_ctl.py: what 'stop' and 'start' touch. project = this demo's workloads only; platform = the shared CDP services of the environment as well (also used by sibling demos). No NiFi, Kafka, Flink or streaming jobs in this project; Data Visualization is the CAI application 'Mule Data Visualization', not a CDW instance. CDE stops before CAI: the DAG's cai_sync_code / cai_daily_score tasks start the CAI jobs; CDW starts first: the app, the endpoint and the scoring job read Impala. Names are resolved at run time.",
+  "environment": "federal-cdp-env",
+  "project": {
+    "cai_project": "rsingh-mule-acct",
+    "cai_job_prefixes": ["rsingh-mule-acct-"],
+    "cai_apps": ["Mule Investigator Console", "Mule Data Visualization"],
+    "cai_models": ["rsingh-mule-acct-scorer"],
+    "cai_scheduled_jobs": [],
+    "cde_job_prefix": "rsingh-mule-acct-",
+    "cde_dag_jobs": ["rsingh-mule-acct-orchestration"]
+  },
+  "platform": {
+    "cai_workspace": "federal-cml-ws",
+    "cde_service": "federal-cde",
+    "cde_vc": "federal-cde-vc",
+    "cdw_vws": ["federal-impala-1"]
+  },
+  "stop_order": ["cde", "cai", "cdw"],
+  "start_order": ["cdw", "cai", "cde"]
+}

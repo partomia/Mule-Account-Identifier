@@ -296,6 +296,25 @@ health now, trends, pipeline runs, check details, over
 --dataviz`, and `dataviz/build_dashboard.py`, which writes and imports one
 export file for both. See [docs/DATAVIZ.md](docs/DATAVIZ.md).
 
+## Stopping and starting the demo
+
+`scripts/platform_ctl.py` (what it touches: `config/platform.json`). The CAI
+key is read from `.env` (`MULE_CAI_HOST`, `MULE_CAI_API_KEY`) and never
+printed; `cde` and `cdp` use their own CLI profiles.
+
+| Command | Effect |
+|---------|--------|
+| `status [--scope platform]` | CDE runs and the `rsingh-mule-acct-orchestration` schedule; both CAI apps, the scorer deployment and active `rsingh-mule-acct-*` job runs; with platform scope also the CDE virtual cluster, CAI workspace and CDW `federal-impala-1` |
+| `stop` | pauses the DAG schedule (`cde job schedule pause`) and kills running or starting `rsingh-mule-acct-*` CDE runs (Spark before orchestration), then stops the two apps, the model deployment and active CAI job runs |
+| `start` | restarts the newest model deployment and both apps, then unpauses the DAG (which runs the latest closed interval at once) |
+| `stop/start --scope platform --yes-shared` | the above plus the CDE virtual cluster, CAI workspace and Impala warehouse, which sibling demos share |
+| `--only cai,cde` / `--dry-run` | limit layers / print without acting |
+
+Order: stop CDE, CAI, CDW (the DAG starts the CAI jobs); start in reverse.
+The DAG keeps one run at a time (`max_active_runs=1`), a 6 h `dagrun_timeout`
+and a per-task `execution_timeout`, so a stuck run cannot hold the shared
+vcluster for days. Redeploy it (`deploy_dag.sh`) only when no run is in flight.
+
 ## Layout
 
 ```
@@ -307,8 +326,10 @@ cde/scripts/         deploy_jobs.sh, deploy_dag.sh, backfill_drill.sh
 cai/jobs/            daily_score.py, backfill_history.py
 cai/model/           predict.py (endpoint), test_endpoint.py
 app/                 Streamlit Investigator Console + CAI launcher
-config/              mule.yaml (names, storage, model), policy.yaml (context, holdout gate, tiers, rules)
-scripts/             run_cde_local.py (CDE jobs on a laptop), run_impala_sql.py (a .sql file on CDW)
+config/              mule.yaml (names, storage, model), policy.yaml (context, holdout gate, tiers, rules),
+                      platform.json (what platform_ctl.py stops and starts)
+scripts/             run_cde_local.py (CDE jobs on a laptop), run_impala_sql.py (a .sql file on CDW),
+                      platform_ctl.py (status / stop / start of the live resources)
 sql/                 reports.sql (Hue), dataviz_views.sql (dashboard views)
 dataviz/             build_dashboard.py, mule_dashboards.json (Data Visualization export, both dashboards)
 ci/                  CAI setup over the API v2 (project, jobs, model, apps), run_cai_job.py
