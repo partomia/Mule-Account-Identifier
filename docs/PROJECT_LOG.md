@@ -250,3 +250,51 @@ decisions and the phase checklist are in `PLAN.md`.
 
 - Not needed: Mule's CI has no GitHub-to-CAI chain, so no workflow reads
   CAI secrets. `gh secret list` stays empty.
+
+## 2026-10-15: stop / start / status script
+
+### Inventory (read live, read-only)
+
+- CAI project `rsingh-mule-acct` (`fizl-vpsd-g4je-vch4`) on `federal-cml-ws`:
+  - Applications `Mule Investigator Console` (2 vCPU / 4 GB) APPLICATION_STOPPED and
+    `Mule Data Visualization` (2 / 8) APPLICATION_FAILED.
+  - Model `rsingh-mule-acct-scorer`: one build (`0062acd4`), one deployment (`8912ef2c`,
+    4 / 16, created 2026-09-29), stopped.
+  - Jobs `rsingh-mule-acct-sync-code` and `rsingh-mule-acct-daily-score`, neither scheduled in
+    CAI (the DAG starts them). Last runs: sync-code failed twice on 2026-10-12; daily-score
+    failed on 2026-10-05 and 2026-10-06 and succeeded on 2026-10-04.
+- CDE (`federal-cde` / `federal-cde-vc`, AppInstalled): prefix `rsingh-mule-acct-`, six Spark
+  jobs with no schedule, and the Airflow job `rsingh-mule-acct-orchestration` (`30 20 * * *`
+  UTC), found paused. No streaming jobs. No run running or starting: orchestration runs 614
+  and 629 and Spark runs 616 and 630 had been killed at 2026-10-15 03:24 UTC, before this work.
+  The Airflow API shows the scheduled runs of 2026-10-08 to 2026-10-13 all failed.
+- Not used by this project: NiFi, Kafka topics, Flink, Data Hubs. Data Visualization is the CAI
+  application above, not one of the CDW instances (`federal-data-viz`,
+  `IndianBank-Spend-analytics`).
+- CDW: `federal-impala-1` (Running) in cluster `env-jjwgzn`; `federal-hive-1` and
+  `federal-trino-1` are not used.
+
+### Script
+
+- `config/platform.json` and `scripts/platform_ctl.py`, ported from Chest-X-ray-Triage's
+  `platform_ctl.py` (itself from OGX's `platform.py`). The name is not `platform.py`: a
+  `scripts/platform.py` shadows the standard library's `platform` for `run_cde_local.py`,
+  which CI runs on Linux. Layers cai, cde, cdw; stop CDE, CAI, CDW, start in reverse.
+- `tests/test_platform.py` (10 tests): no `scripts/*.py` named after a stdlib module, config
+  names equal `ci/cai_jobs.py` and `deploy_dag.sh`, DAG guards, the `--yes-shared` guard, and
+  that stop/start act only on this project's apps, model, jobs and CDE runs. `pytest -q`:
+  112 passed.
+- `status`: as the inventory. `status --scope platform` adds `federal-cde-vc` AppInstalled,
+  `federal-cml-ws` modify:finished, `federal-impala-1` Running.
+- `stop --dry-run`: nothing to stop. `start --dry-run`: restart deployment `8912ef2c`, start
+  both applications, unpause the DAG. `--scope platform --dry-run` adds suspending (stop) or
+  nothing to resume (start) for the three shared services. No real stop or start was run.
+
+### DAG run guards
+
+- `mule_dag.py`: `max_active_runs=1`, `dagrun_timeout` 6 h, `execution_timeout` 90 min per
+  task (sync-code 60 min, daily-score 135 min, above their 45 / 120 min polling deadlines).
+- Pushed `4783882`; with no run in flight, `deploy_dag.sh` updated
+  `rsingh-mule-acct-orchestration`. The Airflow API (2.11.2) shows it parsed at 04:15:55 UTC:
+  `is_paused` true, `max_active_runs` 1, `dag_run_timeout` 21,600 s, each task's
+  `execution_timeout` as above, no import errors. The update left the DAG paused.
